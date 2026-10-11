@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+<video id="v" src="/animated-video.mp4" muted autoplay></video>
+<canvas id="c"></canvas>
+<pre id="out"></pre>
+<script>
+const v = document.getElementById('v');
+const c = document.getElementById('c');
+const out = document.getElementById('out');
+
+v.onloadeddata = () => {
+  v.currentTime = 0.5;
+};
+
+v.onseeked = () => {
+  c.width = v.videoWidth;
+  c.height = v.videoHeight;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(v, 0, 0);
+
+  const pTopLeft = ctx.getImageData(10, 10, 1, 1).data;
+  const pTopRight = ctx.getImageData(v.videoWidth - 10, 10, 1, 1).data;
+  const pBottomLeft = ctx.getImageData(10, v.videoHeight - 10, 1, 1).data;
+  const pCenter = ctx.getImageData(Math.floor(v.videoWidth / 2), Math.floor(v.videoHeight / 2), 1, 1).data;
+
+  const data = {
+    width: v.videoWidth,
+    height: v.videoHeight,
+    duration: v.duration,
+    topLeft: Array.from(pTopLeft),
+    topRight: Array.from(pTopRight),
+    bottomLeft: Array.from(pBottomLeft),
+    center: Array.from(pCenter)
+  };
+
+  out.textContent = JSON.stringify(data, null, 2);
+
+  // Send to node server or write to localStorage
+  window.__FRAME_DATA__ = data;
+  window.__FRAME_DATA_URL__ = c.toDataURL('image/png');
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { margin: 0; background-color: #F8F7F5; }
+  canvas { width: 600px; height: 600px; display: block; }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+<div id="container"></div>
+<script type="module">
+import * as THREE from 'three';
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 20);
+camera.position.set(0, -0.25, 5.8);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(600, 600);
+renderer.setPixelRatio(2);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.95;
+document.getElementById('container').appendChild(renderer.domElement);
+
+// Smooth Crown (Sphere topology with quad-like UV grid — ZERO facet seams!)
+function createSmoothCrown() {
+  const geo = new THREE.SphereGeometry(0.48, 128, 96);
+  const pos = geo.attributes.position;
+  const colors = [];
+
+  for (let i = 0; i < pos.count; i++) {
+    let x = pos.getX(i);
+    let y = pos.getY(i); // -0.48 to +0.48
+    let z = pos.getZ(i);
+
+    // Molar squarish rounded horizontal profile
+    const angle = Math.atan2(z, x);
+    const squarish = 1 + 0.08 * Math.cos(4 * angle) - 0.02 * Math.cos(2 * angle);
+
+    // Vertical shaping: crown height ~1.1
+    const normY = (y + 0.48) / 0.96; // 0 (neck) to 1 (cusps)
+    const belly = 0.92 + 0.16 * Math.sin(normY * Math.PI * 0.9);
+
+    x *= squarish * belly * 0.92;
+    z *= squarish * belly * 0.86;
+    y *= 1.22;
+
+    // Occlusal table cusps at top (normY > 0.65)
+    if (normY > 0.60) {
+      const cuspWeight = Math.min(1, (normY - 0.60) / 0.38);
+      const d1 = (x - 0.22)**2 + (z - 0.18)**2;
+      const d2 = (x + 0.22)**2 + (z - 0.18)**2;
+      const d3 = (x - 0.22)**2 + (z + 0.18)**2;
+      const d4 = (x + 0.22)**2 + (z + 0.18)**2;
+      const cDistSq = x**2 + z**2;
+
+      const cusp1 = Math.exp(-d1 / 0.055) * 0.22;
+      const cusp2 = Math.exp(-d2 / 0.055) * 0.20;
+      const cusp3 = Math.exp(-d3 / 0.055) * 0.19;
+      const cusp4 = Math.exp(-d4 / 0.055) * 0.19;
+      const fissure = -Math.exp(-cDistSq / 0.08) * 0.15;
+
+      y += (cusp1 + cusp2 + cusp3 + cusp4 + fissure) * cuspWeight;
+    }
+
+    pos.setXYZ(i, x, y + 0.22, z);
+
+    // Pure porcelain enamel with subtle warm pearl gradient
+    const h = (y + 0.22);
+    const t = Math.max(0, Math.min(1, (h - 0.05) / 0.75));
+    colors.push(
+      0.97 + 0.03 * t,
+      0.93 + 0.065 * t,
+      0.86 + 0.13 * t
+    );
+  }
+
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geo.computeVertexNormals();
+  return geo;
+}
+
+// Smooth Anatomical Curved Roots
+function createCurvedRoot(startX, startZ, midX, midZ, endX, endZ, len, rTop, rBot) {
+  const curve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(startX, -0.10, startZ),
+    new THREE.Vector3(midX, -len * 0.42, midZ),
+    new THREE.Vector3(endX * 0.9, -len * 0.78, endZ * 0.9),
+    new THREE.Vector3(endX, -len, endZ)
+  ]);
+
+  const geo = new THREE.TubeGeometry(curve, 54, rTop, 36, false);
+  const pos = geo.attributes.position;
+  const colors = [];
+
+  for (let i = 0; i < pos.count; i++) {
+    let x = pos.getX(i);
+    let y = pos.getY(i);
+    let z = pos.getZ(i);
+
+    const t = Math.max(0, Math.min(1, (-0.10 - y) / (len - 0.10)));
+    const pt = curve.getPointAt(t);
+
+    const taper = (1 - t) + (rBot / rTop) * t;
+    x = pt.x + (x - pt.x) * taper * 0.88;
+    z = pt.z + (z - pt.z) * taper * 1.04;
+
+    pos.setXYZ(i, x, y, z);
+
+    // Warm natural dentin/cementum root tone
+    colors.push(
+      0.95 - 0.06 * t,
+      0.90 - 0.07 * t,
+      0.82 - 0.09 * t
+    );
+  }
+
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geo.computeVertexNormals();
+  return { geo, endPt: new THREE.Vector3(endX, -len, endZ), rBot };
+}
+
+const toothGroup = new THREE.Group();
+
+const mat = new THREE.MeshPhysicalMaterial({
+  vertexColors: true,
+  roughness: 0.18,
+  metalness: 0.01,
+  clearcoat: 0.95,
+  clearcoatRoughness: 0.07,
+  reflectivity: 0.7,
+  ior: 1.62,
+  specularIntensity: 0.95
+});
+
+const crown = new THREE.Mesh(createSmoothCrown(), mat);
+toothGroup.add(crown);
+
+const r1 = createCurvedRoot(-0.18, 0.02, -0.26, 0.01, -0.16, -0.01, 1.35, 0.18, 0.045);
+const r2 = createCurvedRoot(0.18, 0.02, 0.26, 0.01, 0.16, -0.01, 1.35, 0.18, 0.045);
+const r3 = createCurvedRoot(0.0, -0.14, 0.0, -0.19, 0.0, -0.14, 1.25, 0.16, 0.04);
+
+toothGroup.add(new THREE.Mesh(r1.geo, mat));
+toothGroup.add(new THREE.Mesh(r2.geo, mat));
+toothGroup.add(new THREE.Mesh(r3.geo, mat));
+
+// Rounded hemispherical apices at root tips
+[r1, r2, r3].forEach(r => {
+  const tipGeo = new THREE.SphereGeometry(r.rBot * 0.98, 20, 16);
+  const tipColors = [];
+  for (let i = 0; i < tipGeo.attributes.position.count; i++) {
+    tipColors.push(0.89, 0.83, 0.73);
+  }
+  tipGeo.setAttribute('color', new THREE.Float32BufferAttribute(tipColors, 3));
+  const tip = new THREE.Mesh(tipGeo, mat);
+  tip.position.copy(r.endPt);
+  toothGroup.add(tip);
+});
+
+// Soft contact shadow circle
+const shadowGeo = new THREE.PlaneGeometry(2.6, 2.6);
+const shadowCanvas = document.createElement('canvas');
+shadowCanvas.width = 128;
+shadowCanvas.height = 128;
+const sctx = shadowCanvas.getContext('2d');
+const grad = sctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+grad.addColorStop(0, 'rgba(42, 56, 74, 0.32)');
+grad.addColorStop(0.38, 'rgba(42, 56, 74, 0.12)');
+grad.addColorStop(1, 'rgba(42, 56, 74, 0)');
+sctx.fillStyle = grad;
+sctx.fillRect(0, 0, 128, 128);
+
+const shadowTex = new THREE.CanvasTexture(shadowCanvas);
+const shadowMat = new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false });
+const shadow = new THREE.Mesh(shadowGeo, shadowMat);
+shadow.rotation.x = -Math.PI / 2;
+shadow.position.y = -1.48;
+toothGroup.add(shadow);
+
+toothGroup.rotation.y = -0.22;
+toothGroup.rotation.x = 0.06;
+scene.add(toothGroup);
+
+// Lights
+const ambLight = new THREE.AmbientLight(0xffffff, 0.65);
+scene.add(ambLight);
+
+const keyLight = new THREE.DirectionalLight(0xffffff, 1.7);
+keyLight.position.set(3.5, 5, 3.5);
+scene.add(keyLight);
+
+const fillLight = new THREE.DirectionalLight(0xedf4ff, 0.9);
+fillLight.position.set(-3.5, 2, 2);
+scene.add(fillLight);
+
+const rimLight = new THREE.DirectionalLight(0xffffff, 1.1);
+rimLight.position.set(0, 3.5, -3.5);
+scene.add(rimLight);
+
+const warmLight = new THREE.PointLight(0xfff5e6, 0.5);
+warmLight.position.set(0, -1.5, 1.5);
+scene.add(warmLight);
+
+renderer.render(scene, camera);
+window.__RENDER_DONE__ = true;
+</script>
+</body>
+</html>

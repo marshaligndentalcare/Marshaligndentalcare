@@ -1,0 +1,313 @@
+/* ═══════════════════════════════════════════════════════════════════
+   Hero Section — Marshalign Dental Care
+   Enhanced, spacious hero section with scroll-driven tooth animation
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Full hero section */
+.heroSection,
+.heroTrack {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #F8F7F5;
+  z-index: 1;
+}
+
+/* Subtle, thin-lined square grid across entire hero */
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(60, 89, 128, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(60, 89, 128, 0.055) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, black 50%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, black 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Soft ambient diffused glow behind the right column */
+.bgGlow {
+  position: absolute;
+  width: 580px;
+  height: 580px;
+  border-radius: 50%;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(168, 184, 194, 0.35) 40%,
+    rgba(60, 89, 128, 0.06) 65%,
+    transparent 80%
+  );
+  filter: blur(56px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Two-column layout (~46% left, ~54% right) ─────────────────────── */
+.inner {
+  max-width: 1360px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 80px 48px;
+  display: grid;
+  grid-template-columns: 46fr 54fr;
+  gap: 48px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Left column: copy ───────────────────────────────────────────── */
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  max-width: 600px;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Clinic Label */
+.label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: #3C5980;
+  text-transform: uppercase;
+  animation: heroFadeIn 0.6s var(--transition-smooth) both;
+  animation-delay: 0.1s;
+}
+
+.labelDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3C5980;
+  box-shadow: 0 0 10px rgba(60, 89, 128, 0.5);
+  animation: pulseDot 2.2s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* Main Headline */
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5.2vw, 5.2rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  animation: heroFadeIn 0.7s var(--transition-smooth) both;
+  animation-delay: 0.25s;
+}
+
+.headlineDark {
+  color: #22242A;
+}
+
+.headlineGradient {
+  background: linear-gradient(135deg, #3C5980 0%, #526377 45%, #6B5B53 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Supporting description */
+.subtext {
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 1.45vw, 1.22rem);
+  line-height: 1.65;
+  color: #6B625D;
+  max-width: 580px;
+  animation: heroFadeIn 0.7s var(--transition-smooth) both;
+  animation-delay: 0.4s;
+}
+
+/* Calls to Action */
+.ctas {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+  animation: heroFadeIn 0.7s var(--transition-smooth) both;
+  animation-delay: 0.55s;
+}
+
+.secondaryCta {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6B625D;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 0;
+  border-bottom: 1.5px solid #CCD0D4;
+  transition: all 0.3s var(--transition-smooth);
+  letter-spacing: 0.02em;
+}
+
+.secondaryCta::after {
+  content: '→';
+  transition: transform 0.3s ease;
+}
+
+.secondaryCta:hover {
+  color: #3C5980;
+  border-color: #3C5980;
+}
+
+.secondaryCta:hover::after {
+  transform: translateX(5px);
+}
+
+/* ── Right column: Tooth Visual ─────────────────────────────────── */
+.visualColumn {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.visualWrap {
+  position: relative;
+  width: 100%;
+  height: clamp(460px, 64vh, 620px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Video & DPR-scaled canvas rendering */
+.toothVideo,
+.toothCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  mix-blend-mode: multiply;
+  mask-image: radial-gradient(ellipse 55% 65% at 50% 50%, black 40%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 55% 65% at 50% 50%, black 40%, transparent 70%);
+}
+
+/* ── Scroll indicator ────────────────────────────────────────────── */
+.scrollIndicator {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #8C847E;
+  font-size: 0.68rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  z-index: 10;
+  animation: scrollBounce 2.2s ease-in-out infinite;
+}
+
+.scrollIndicator:hover {
+  color: #3C5980;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(5px); }
+}
+
+/* ── Responsive: Tablet ──────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .heroSection,
+  .heroTrack {
+    height: auto !important;
+    min-height: auto;
+    padding: 100px 0 60px;
+  }
+  .inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 40px 28px 40px;
+    gap: 36px;
+  }
+  .copy {
+    align-items: center;
+    max-width: 100%;
+  }
+  .ctas {
+    justify-content: center;
+  }
+  .visualWrap {
+    height: 380px;
+  }
+  .bgGlow {
+    right: 50%;
+    transform: translate(50%, -50%);
+    width: 420px;
+    height: 420px;
+  }
+}
+
+/* ── Responsive: Mobile ──────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .headline {
+    font-size: 2.5rem;
+  }
+  .inner {
+    padding: 20px 20px 40px;
+    gap: 28px;
+  }
+  .visualWrap {
+    height: 280px;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .label, .headline, .subtext, .ctas, .visualWrap {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
+  .labelDot {
+    animation: none;
+  }
+  .scrollIndicator {
+    animation: none;
+  }
+}

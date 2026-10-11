@@ -1,0 +1,206 @@
+.section {
+  padding: 120px 0;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--transition-smooth), transform 0.6s var(--transition-smooth);
+}
+
+.inView [data-animate] {
+  opacity: 1;
+  transform: none;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--color-deep-ocean);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.tagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-deep-ocean);
+  box-shadow: 0 0 8px rgba(60, 89, 128, 0.4);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin-bottom: 16px;
+}
+
+.headingAccent {
+  background: linear-gradient(135deg, var(--color-deep-ocean), var(--color-noyer));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.note {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 240px;
+  gap: 16px;
+}
+
+.grid > *:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  cursor: pointer;
+  border: 1px solid var(--color-clouds);
+  background: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(60, 89, 128, 0.05);
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--transition-smooth);
+}
+
+.item:hover .img { transform: scale(1.06); }
+
+.itemOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(42, 36, 32, 0.75) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.item:hover .itemOverlay { opacity: 1; }
+.item:focus-visible .itemOverlay { opacity: 1; }
+
+.zoomIcon {
+  color: #FFFFFF;
+  filter: drop-shadow(0 0 8px rgba(60, 89, 128, 0.8));
+}
+
+.itemLabel {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  background: rgba(250, 248, 246, 0.92);
+  border-radius: 6px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(42, 36, 32, 0.95);
+  backdrop-filter: blur(20px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: rgba(255,255,255,0.85);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.lightboxClose:hover { background: rgba(255,255,255,0.25); color: #FFFFFF; }
+
+.lightboxImg {
+  max-width: 85vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+}
+
+.lightboxLabel {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.08em;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 200px;
+  }
+  .grid > *:first-child { grid-column: span 2; }
+}
+
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 200px;
+  }
+  .grid > *:first-child { grid-column: span 1; grid-row: span 1; }
+  .section { padding: 80px 0; }
+  .container { padding: 0 20px; }
+}

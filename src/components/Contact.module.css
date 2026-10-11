@@ -1,0 +1,214 @@
+.section {
+  padding: 120px 0;
+  background: rgba(208, 204, 200, 0.2);
+  border-top: 1px solid var(--color-clouds);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--transition-smooth), transform 0.6s var(--transition-smooth);
+}
+
+.inView [data-animate] { opacity: 1; transform: none; }
+.inView [data-animate]:nth-child(2) { transition-delay: 0.1s; }
+
+.header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--color-deep-ocean);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.tagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-deep-ocean);
+  box-shadow: 0 0 8px rgba(60, 89, 128, 0.4);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.headingAccent {
+  background: linear-gradient(135deg, var(--color-deep-ocean), var(--color-noyer));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Info Card */
+.infoCard {
+  background: #FFFFFF;
+  border: 1px solid var(--color-clouds);
+  border-radius: 24px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  box-shadow: 0 8px 30px rgba(60, 89, 128, 0.06);
+}
+
+.clinicName {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-style: normal;
+}
+
+.detailRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  transition: all 0.25s;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+}
+
+.detailRow:hover {
+  color: var(--color-text);
+  border-color: var(--color-clouds);
+  background: rgba(60, 89, 128, 0.04);
+}
+
+.detailIcon {
+  color: var(--color-deep-ocean);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.extIcon {
+  margin-left: auto;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.detailRow:hover .extIcon { opacity: 0.7; }
+
+.hoursNote {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(60, 89, 128, 0.05);
+  border: 1px solid rgba(60, 89, 128, 0.15);
+  border-radius: 10px;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  font-family: var(--font-body);
+}
+
+.ctaGroup {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.callBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 50px;
+  border: 1.5px solid var(--color-deep-ocean);
+  color: var(--color-deep-ocean);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.callBtn:hover {
+  background: var(--color-deep-ocean);
+  color: #FFFFFF;
+}
+
+/* Map */
+.mapCard {
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--color-clouds);
+  box-shadow: 0 8px 30px rgba(60, 89, 128, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.mapFrame {
+  height: 380px;
+  background: var(--color-surface);
+}
+
+.mapFrame iframe { display: block; }
+
+.mapsLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  background: #FFFFFF;
+  color: var(--color-deep-ocean);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--color-clouds);
+  transition: background 0.25s, color 0.25s;
+}
+
+.mapsLink:hover { background: rgba(60, 89, 128, 0.06); }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .section { padding: 80px 0; }
+  .container { padding: 0 20px; }
+  .infoCard { padding: 24px; }
+}
