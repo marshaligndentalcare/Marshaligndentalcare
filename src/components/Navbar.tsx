@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`} role="banner">
         <nav className={styles.nav} aria-label="Main navigation">
           <a href="#hero" className={styles.logo} onClick={(e) => handleNavClick(e, '#hero')} aria-label="Marshalign Dental Care — Home">
-            <img src="/logo.jpg" alt="Marshalign Dental Care logo" className={styles.logoImg} />
+            <img src="/logo.png" alt="Marshalign Dental Care logo" className={styles.logoImg} />
             <div className={styles.logoText}>
               <span className={styles.logoName}>MARSHALIGN</span>
               <span className={styles.logoClaim}>Dental Care</span>

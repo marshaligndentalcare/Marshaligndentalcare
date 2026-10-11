@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
           {/* Brand */}
           <div className={styles.brand}>
             <a href="#hero" className={styles.brandLogo} onClick={(e) => { e.preventDefault(); scrollTo('#hero'); }} aria-label="Back to top">
-              <img src="/logo.jpg" alt="Marshalign Dental Care logo" className={styles.logoImg} />
+              <img src="/logo.png" alt="Marshalign Dental Care logo" className={styles.logoImg} />
             </a>
             <p className={styles.brandName}>{CLINIC_NAME}</p>
             <p className={styles.tagline}>"{CLINIC_TAGLINE}"</p>

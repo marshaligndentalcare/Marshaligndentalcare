@@ -10,8 +10,8 @@ const treatments = [
     description:
       'Straighten misaligned teeth and achieve a balanced bite with evidence-based orthodontic treatment. Braces and modern orthodontic appliances tailored to your smile goals.',
     icon: '⟳',
-    image: '/treatment-room.jpg',
-    alt: 'Orthodontics and dental braces treatment',
+    image: '/orthodontics-treatment.webp',
+    alt: 'Orthodontist examining and adjusting braces on patient in dental clinic',
   },
   {
     id: 'dentofacial',
@@ -20,18 +20,8 @@ const treatments = [
     description:
       'Specialist guidance of facial growth and development in younger patients. Corrective appliances and interceptive treatment for lasting facial balance.',
     icon: '◈',
-    image: '/treatment-room.jpg',
-    alt: 'Dentofacial orthopedics treatment',
-  },
-  {
-    id: 'prosthodontics',
-    name: 'Prosthodontics',
-    specialty: 'Dr. Jose Olive A.',
-    description:
-      'Restore the function and aesthetics of your smile with expertly crafted crowns, bridges, dentures, and full-mouth rehabilitation by a specialist prosthodontist.',
-    icon: '◇',
-    image: '/treatment-room.jpg',
-    alt: 'Prosthodontic restoration treatment',
+    image: '/dentofacial-orthopedics.webp',
+    alt: 'Dentofacial orthopedics consultation and facial growth guidance',
   },
   {
     id: 'implants',
@@ -40,13 +30,53 @@ const treatments = [
     description:
       'Replace missing teeth permanently with precision-placed dental implants. A long-term solution that looks, feels, and functions like your natural teeth.',
     icon: '⬡',
-    image: '/treatment-room.jpg',
-    alt: 'Dental implant treatment',
+    image: '/dental-implant-treatment.webp',
+    alt: 'Precision dental implant restoration planning in modern operatory',
+  },
+  {
+    id: 'prosthodontics',
+    name: 'Prosthodontics',
+    specialty: 'Dr. Jose Olive A.',
+    description:
+      'Restore the function and aesthetics of your smile with expertly crafted crowns, bridges, dentures, and full-mouth rehabilitation by a specialist prosthodontist.',
+    icon: '◇',
+    image: '/prosthodontics-treatment.webp',
+    alt: 'Prosthodontist assessing custom ceramic dental restoration and crown',
+  },
+  {
+    id: 'examination',
+    name: 'General Dental Examination',
+    specialty: 'Comprehensive Diagnostics',
+    description:
+      'Detailed clinical assessment of oral health, periodontal screening, and digital diagnostics to detect dental concerns early and maintain long-term smile wellness.',
+    icon: '◎',
+    image: '/dental-examination.webp',
+    alt: 'Dentist conducting comprehensive oral examination with mouth mirror',
+  },
+  {
+    id: 'cleaning',
+    name: 'Professional Teeth Cleaning',
+    specialty: 'Preventive Oral Care',
+    description:
+      'Gentle ultrasonic scaling and dental prophylaxis to remove plaque, tartar, and surface stains, protecting gums and refreshing oral freshness.',
+    icon: '✦',
+    image: '/teeth-cleaning.webp',
+    alt: 'Dental professional performing ultrasonic scaling and teeth cleaning',
+  },
+  {
+    id: 'restorative',
+    name: 'Restorative Dentistry',
+    specialty: 'Conservative Dental Care',
+    description:
+      'Tooth-colored composite fillings and conservative restorations that blend seamlessly with natural enamel while restoring strength and chewing function.',
+    icon: '❋',
+    image: '/restorative-dentistry.webp',
+    alt: 'Dentist placing and light-curing tooth-colored composite restoration',
   },
 ];
 
 const TreatmentCard: React.FC<(typeof treatments)[0] & { index: number }> = ({
-  id, name, specialty, description, icon, alt, index,
+  id, name, specialty, description, icon, image, alt, index,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -69,7 +99,7 @@ const TreatmentCard: React.FC<(typeof treatments)[0] & { index: number }> = ({
       style={{ transitionDelay: `${index * 0.1}s` }}
     >
       <div className={styles.cardImage}>
-        <img src="/treatment-room.jpg" alt={alt} loading="lazy" className={styles.img} />
+        <img src={image} alt={alt} loading="lazy" className={styles.img} />
         <div className={styles.imgOverlay} />
         <div className={styles.imgIcon} aria-hidden="true">{icon}</div>
       </div>

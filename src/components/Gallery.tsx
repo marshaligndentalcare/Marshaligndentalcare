@@ -3,12 +3,12 @@ import styles from './Gallery.module.css';
 import { X, ZoomIn } from 'lucide-react';
 
 const galleryItems = [
-  { id: 'reception', src: '/clinic-reception.jpg', alt: 'Marshalign Dental Care reception area — placeholder', label: 'Reception' },
-  { id: 'treatment-1', src: '/treatment-room.jpg', alt: 'Marshalign treatment room — placeholder', label: 'Treatment Room' },
-  { id: 'treatment-2', src: '/treatment-room.jpg', alt: 'Dental chair and equipment — placeholder', label: 'Dental Suite' },
-  { id: 'doctor-1', src: '/dr-marshal-antony.jpg', alt: 'Dr. Marshal Antony M., Orthodontist — placeholder', label: 'Dr. Marshal Antony M.' },
-  { id: 'doctor-2', src: '/dr-jose-olive.jpg', alt: 'Dr. Jose Olive A., Prosthodontist — placeholder', label: 'Dr. Jose Olive A.' },
-  { id: 'clinic-env', src: '/clinic-reception.jpg', alt: 'Clinic environment — placeholder', label: 'Clinic Environment' },
+  { id: 'reception', src: '/clinic-reception.jpg', alt: 'Marshalign Dental Care reception area', label: 'Reception' },
+  { id: 'treatment-1', src: '/orthodontics-treatment.webp', alt: 'Orthodontics operatory at Marshalign Dental Care', label: 'Orthodontics Suite' },
+  { id: 'treatment-2', src: '/prosthodontics-treatment.webp', alt: 'Prosthodontics treatment at Marshalign Dental Care', label: 'Prosthodontics Suite' },
+  { id: 'doctor-1', src: '/dr-marshal-antony.jpg', alt: 'Dr. Marshal Antony M., Orthodontist', label: 'Dr. Marshal Antony M.' },
+  { id: 'doctor-2', src: '/dr-jose-olive.jpg', alt: 'Dr. Jose Olive A., Prosthodontist', label: 'Dr. Jose Olive A.' },
+  { id: 'clinic-env', src: '/dental-implant-treatment.webp', alt: 'Dental implant clinical operatory at Marshalign Dental Care', label: 'Implantology Suite' },
 ];
 
 const Gallery: React.FC = () => {
@@ -42,7 +42,7 @@ const Gallery: React.FC = () => {
             <span className={styles.headingAccent}>Marshalign.</span>
           </h2>
           <p className={styles.note}>
-            📷 Placeholder images shown below. Real clinic photographs to be added upon supply.
+            A tour of our modern clinical operatories, specialist doctors, and patient care environments.
           </p>
         </div>
 
