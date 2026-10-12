@@ -106,3 +106,31 @@ input, textarea {
     scroll-behavior: auto !important;
   }
 }
+
+/* Core Tailwind-compatible utility classes for shadcn components */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.inset-0 { inset: 0; }
+.top-0 { top: 0; }
+.overflow-hidden { overflow: hidden; }
+.pointer-events-none { pointer-events: none; }
+.pointer-events-auto { pointer-events: auto; }
+.cursor-pointer { cursor: pointer; }
+.select-none { user-select: none; }
+.object-cover { object-fit: cover; }
+.max-w-none { max-width: none; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.text-center { text-align: center; }
+.rounded-lg { border-radius: 0.5rem; }
+.rounded-l-lg { border-top-left-radius: 0.5rem; border-bottom-left-radius: 0.5rem; }
+.rounded-r-lg { border-top-right-radius: 0.5rem; border-bottom-right-radius: 0.5rem; }
+.transition-opacity { transition-property: opacity; }
+.duration-500 { transition-duration: 500ms; }
+.bg-muted { background-color: var(--color-surface, #EDEAE7); }
+.border-border { border-color: rgba(255, 255, 255, 0.1); }
+

@@ -1,86 +1,139 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './FAQ.module.css';
-import { ChevronDown } from 'lucide-react';
+import { FaPlus, FaMinus } from 'react-icons/fa';
 
 const faqs = [
   {
-    q: 'How can I enquire about treatments?',
-    a: 'The easiest way is to send a WhatsApp message to our clinic. Simply click any "Enquire on WhatsApp" button on this page and a pre-filled message will open for you to review and send. You can also call us directly at +91 90256 55627.',
+    id: 'faq-1',
+    question: 'How can I enquire about treatments?',
+    answer:
+      'The easiest way is to send a WhatsApp message to our clinic. Simply click any "Enquire on WhatsApp" button on this page and a pre-filled message will open for you to review and send. You can also call us directly at +91 90256 55627.',
   },
   {
-    q: 'Which treatments are available at Marshalign?',
-    a: 'Marshalign Dental Care currently offers Orthodontics & Braces, Dentofacial Orthopedics, Prosthodontics, and Dental Implants. Please enquire via WhatsApp or phone for the most up-to-date list of services.',
+    id: 'faq-2',
+    question: 'Which treatments are available at Marshalign?',
+    answer:
+      'Marshalign Dental Care offers Orthodontics & Braces, Dentofacial Orthopedics, Prosthodontics, Dental Implants, professional teeth cleaning, and restorative dentistry. Please enquire via WhatsApp or phone for the most up-to-date list of services.',
   },
   {
-    q: 'How do I contact the clinic?',
-    a: 'You can reach us via WhatsApp or phone at +91 90256 55627. You can also visit us directly at 345, Rajaram Road, near KK Nagar Bus Terminal, Trichy – 21, Tamil Nadu.',
+    id: 'faq-3',
+    question: 'Who are the doctors at Marshalign?',
+    answer:
+      'Marshalign is led by Dr. Marshal Antony M. (Specialist in Orthodontics & Dentofacial Orthopedics) and Dr. Jose Olive A. (Specialist in Prosthodontics & Implantology).',
   },
   {
-    q: 'Where is Marshalign Dental Care located?',
-    a: 'We are located at 345, Rajaram Road, near KK Nagar Bus Terminal, Trichy – 21, Tamil Nadu, India. Use the Google Maps link in our contact section for directions.',
+    id: 'faq-4',
+    question: 'Can I book an appointment online?',
+    answer:
+      'We currently handle all enquiries and appointment requests through WhatsApp and phone. Click any WhatsApp button on this website to send us a message and our team will get back to you promptly.',
   },
   {
-    q: 'Can I book an appointment online?',
-    a: 'We currently handle all enquiries and appointment requests through WhatsApp and phone. Click any WhatsApp button on this website to send us a message and our team will get back to you.',
+    id: 'faq-5',
+    question: 'Where is Marshalign Dental Care located?',
+    answer:
+      'We are located at 345, Rajaram Road, near KK Nagar Bus Terminal, Trichy – 21, Tamil Nadu, India. Use the Google Maps link in our contact section for directions.',
   },
   {
-    q: 'Who are the doctors at Marshalign?',
-    a: 'Marshalign is led by Dr. Marshal Antony M. (Specialist in Orthodontics & Dentofacial Orthopedics) and Dr. Jose Olive A. (Specialist in Prosthodontics & Implantology).',
+    id: 'faq-6',
+    question: 'How do I contact the clinic?',
+    answer:
+      'You can reach us via WhatsApp or phone at +91 90256 55627. You can also visit us at 345, Rajaram Road, near KK Nagar Bus Terminal, Trichy – 21, Tamil Nadu.',
   },
 ];
 
-const FAQItem: React.FC<{ q: string; a: string; index: number }> = ({ q, a, index }) => {
-  const [open, setOpen] = useState(false);
+interface FAQItemProps {
+  item: typeof faqs[0];
+  index: number;
+  isOpen: boolean;
+  onToggle: (index: number) => void;
+}
+
+const FAQItem: React.FC<FAQItemProps> = ({ item, index, isOpen, onToggle }) => {
   return (
-    <div className={`${styles.item} ${open ? styles.itemOpen : ''}`} id={`faq-${index}`}>
+    <div
+      className={`${styles.item} ${isOpen ? styles.itemOpen : ''}`}
+      id={item.id}
+    >
       <button
-        className={styles.question}
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        aria-controls={`faq-answer-${index}`}
+        type="button"
+        className={styles.trigger}
+        onClick={() => onToggle(index)}
+        aria-expanded={isOpen}
+        aria-controls={`${item.id}-answer`}
+        id={`${item.id}-button`}
       >
-        <span>{q}</span>
-        <ChevronDown size={20} className={styles.chevron} aria-hidden="true" />
+        <span className={styles.question}>{item.question}</span>
+        <span className={styles.iconWrap} aria-hidden="true">
+          <span className={`${styles.iconInner} ${isOpen ? styles.iconInnerRotated : ''}`}>
+            {isOpen ? <FaMinus /> : <FaPlus />}
+          </span>
+        </span>
       </button>
+
       <div
-        id={`faq-answer-${index}`}
-        className={styles.answer}
+        id={`${item.id}-answer`}
         role="region"
-        aria-hidden={!open}
+        aria-labelledby={`${item.id}-button`}
+        className={styles.answer}
+        aria-hidden={!isOpen}
       >
-        <p className={styles.answerText}>{a}</p>
+        <div className={styles.answerInner}>
+          <p className={styles.answerText}>{item.answer}</p>
+        </div>
       </div>
     </div>
   );
 };
 
 const FAQ: React.FC = () => {
+  const [activeFaqIndex, setActiveFaqIndex] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) entry.target.classList.add(styles.inView); },
-      { threshold: 0.1 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(styles.inView);
+        }
+      },
+      { threshold: 0.08 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
+  const handleToggle = (index: number) => {
+    setActiveFaqIndex((prev) => (prev === index ? null : index));
+  };
+
   return (
-    <section id="faq" className={styles.section} ref={sectionRef} aria-labelledby="faq-heading">
+    <section
+      id="faq"
+      className={styles.section}
+      ref={sectionRef}
+      aria-labelledby="faq-heading"
+    >
       <div className={styles.container}>
+        {/* Header */}
         <div className={styles.header} data-animate>
-          <div className={styles.tag}>
-            <span className={styles.tagDot} aria-hidden="true" /> FAQ
-          </div>
+          <span className={styles.badge}>Frequently asked questions</span>
           <h2 id="faq-heading" className={styles.heading}>
-            Common questions<br />
-            <span className={styles.headingAccent}>answered.</span>
+            Got questions about Marshalign?<br className={styles.headingBreak} />
+            We&rsquo;ve got answers.
           </h2>
         </div>
 
-        <div className={styles.list} data-animate>
-          {faqs.map((f, i) => <FAQItem key={i} q={f.q} a={f.a} index={i} />)}
+        {/* Accordion */}
+        <div className={styles.accordion} data-animate>
+          {faqs.map((item, index) => (
+            <FAQItem
+              key={item.id}
+              item={item}
+              index={index}
+              isOpen={activeFaqIndex === index}
+              onToggle={handleToggle}
+            />
+          ))}
         </div>
       </div>
     </section>

@@ -9,14 +9,21 @@ const Hero: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Ensure video plays continuously on mount
+    // Ensure video plays continuously on mount at 0.75x speed
     const video = videoRef.current;
     if (video) {
+      video.playbackRate = 0.75;
       video.play().catch(() => {
         // Autoplay policy fallback: user interaction will trigger playback
       });
     }
   }, []);
+
+  const handleVideoReady = () => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.75;
+    }
+  };
 
   const scrollToNext = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -30,11 +37,9 @@ const Hero: React.FC = () => {
     >
       {/* Background square grid */}
       <div className={styles.bgGrid} aria-hidden="true" />
-      <div className={styles.bgGlow} aria-hidden="true" />
 
       {/* Two-column layout */}
       <div className={styles.inner}>
-
         {/* Left column: brand copy */}
         <div className={styles.copy}>
           <div className={styles.label}>
@@ -49,7 +54,8 @@ const Hero: React.FC = () => {
           </h1>
 
           <p className={styles.subtext}>
-            Thoughtful dental care, specialist expertise, and a personal approach to every smile.
+            Thoughtful dental care, specialist expertise,<br className={styles.subtextBreak} />
+            and a personal approach to every smile.
           </p>
 
           <div className={styles.ctas}>
@@ -78,6 +84,8 @@ const Hero: React.FC = () => {
               muted
               loop
               playsInline
+              onLoadedMetadata={handleVideoReady}
+              onPlay={handleVideoReady}
               className={styles.toothVideo}
               aria-label="Marshalign Dental Care — 3D Tooth Animation"
             />
@@ -87,6 +95,7 @@ const Hero: React.FC = () => {
 
       {/* Scroll indicator */}
       <button
+        type="button"
         className={styles.scrollIndicator}
         onClick={scrollToNext}
         aria-label="Scroll to About section"

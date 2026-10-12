@@ -9,7 +9,7 @@ const specialists = [
     specialty: 'Orthodontics & Dentofacial Orthopedics',
     bio: 'Dr. Marshal Antony M. is a specialist in Orthodontics and Dentofacial Orthopedics. His practice focuses on diagnosing and correcting misaligned teeth and jaws, providing patients of all ages with personalised treatment plans for lasting, healthy smiles.',
     image: '/dr-marshal-antony.jpg',
-    note: '⚠ Portrait placeholder — please supply the official clinic photograph.',
+    //note: '⚠ Portrait placeholder — please supply the official clinic photograph.',
     initials: 'MA',
   },
   {
@@ -18,7 +18,7 @@ const specialists = [
     specialty: 'Prosthodontics & Implantology',
     bio: 'Dr. Jose Olive A. specialises in Prosthodontics and Implantology. He focuses on the restoration and replacement of teeth using crowns, bridges, dentures, and dental implants, helping patients regain function and confidence in their smiles.',
     image: '/dr-jose-olive.jpg',
-    note: '⚠ Portrait placeholder — please supply the official clinic photograph.',
+    //note: '⚠ Portrait placeholder — please supply the official clinic photograph.',
     initials: 'JO',
   },
 ];
@@ -79,10 +79,6 @@ const Specialists: React.FC = () => {
                 <p className={styles.specTitle}>{doc.specialty}</p>
                 <p className={styles.bio}>{doc.bio}</p>
 
-                <div className={styles.assetNote}>
-                  <span className={styles.noteIcon} aria-hidden="true">📷</span>
-                  <small>{doc.note}</small>
-                </div>
 
                 <WhatsAppCTA
                   label={`Enquire with ${doc.name.split(' ')[1]}`}

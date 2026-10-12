@@ -1,3 +1,8 @@
+/* ═══════════════════════════════════════════════════════════════
+   About / Hospital Imagery Section — Marshalign Dental Care
+   Refined editorial composition, authentic photography, crisp motion
+   ═══════════════════════════════════════════════════════════════ */
+
 .section {
   padding: 120px 0;
   position: relative;
@@ -5,31 +10,19 @@
   background: var(--color-bg);
 }
 
-.section::before {
-  content: '';
-  position: absolute;
-  left: -200px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(168, 184, 194, 0.25) 0%, transparent 70%);
-  pointer-events: none;
-  filter: blur(60px);
-}
-
 .container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 40px;
+  position: relative;
+  z-index: 1;
 }
 
-/* Animate-in */
+/* ── Animate-in ───────────────────────────────────────────────────────── */
 [data-animate] {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s var(--transition-smooth), transform 0.6s var(--transition-smooth);
+  transform: translateY(18px);
+  transition: opacity 0.48s var(--transition-smooth), transform 0.48s var(--transition-smooth);
 }
 
 .inView [data-animate] {
@@ -37,17 +30,22 @@
   transform: translateY(0);
 }
 
+.inView [data-animate]:nth-child(2) { transition-delay: 0.06s; }
+.inView [data-animate]:nth-child(3) { transition-delay: 0.12s; }
+.inView [data-animate]:nth-child(4) { transition-delay: 0.18s; }
+
+/* ── Tag ──────────────────────────────────────────────────────────────── */
 .tag {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   color: var(--color-deep-ocean);
   text-transform: uppercase;
-  margin-bottom: 56px;
+  margin-bottom: 48px;
 }
 
 .tagDot {
@@ -55,9 +53,10 @@
   height: 6px;
   border-radius: 50%;
   background: var(--color-deep-ocean);
-  box-shadow: 0 0 8px rgba(60, 89, 128, 0.4);
+  box-shadow: 0 0 8px rgba(60, 89, 128, 0.45);
 }
 
+/* ── Layout grid ──────────────────────────────────────────────────────── */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -65,62 +64,84 @@
   align-items: center;
 }
 
-/* Image */
+/* ── Image Column: Editorial Stack ───────────────────────────────────── */
 .imageCol {}
 
+.imageStack {
+  position: relative;
+}
+
+/* Main grounded clinic image frame */
 .imageFrame {
   position: relative;
-  border-radius: 20px;
+  border-radius: 22px;
   overflow: hidden;
   aspect-ratio: 4/5;
-  box-shadow: 0 20px 50px rgba(60, 89, 128, 0.1);
-  border: 1px solid var(--color-clouds);
+  box-shadow:
+    0 20px 48px rgba(60, 89, 128, 0.11),
+    0 4px 16px rgba(60, 89, 128, 0.05);
+  border: 1px solid rgba(180, 165, 158, 0.35);
+  background: #EAE6E1;
+}
+
+.imageInner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--transition-smooth);
+  transform: scale(1.0);
+  transition: transform 3.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.imageFrame:hover .image { transform: scale(1.03); }
+.inView .image {
+  transform: scale(1.035);
+}
 
 .imageOverlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    180deg,
-    transparent 60%,
-    rgba(42, 36, 32, 0.45) 100%
+    170deg,
+    transparent 50%,
+    rgba(34, 36, 42, 0.35) 100%
   );
+  pointer-events: none;
 }
 
+/* Grounded badge */
 .badge {
   position: absolute;
-  bottom: 24px;
-  left: 24px;
-  background: rgba(250, 248, 246, 0.92);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--color-clouds);
+  bottom: 20px;
+  left: 20px;
+  background: rgba(250, 248, 246, 0.96);
+  border: 1px solid rgba(180, 165, 158, 0.45);
   border-radius: 12px;
-  padding: 14px 18px;
+  padding: 12px 18px;
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: 0 8px 30px rgba(60, 89, 128, 0.12);
+  box-shadow: 0 6px 24px rgba(60, 89, 128, 0.12);
 }
 
-.badgeIcon {
-  font-size: 1.2rem;
-  color: var(--color-deep-ocean);
+.badgeIndicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-deep-ocean);
+  box-shadow: 0 0 8px rgba(60, 89, 128, 0.4);
 }
 
 .badgeTitle {
   font-family: var(--font-display);
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text);
+  letter-spacing: 0.01em;
 }
 
 .badgeSub {
@@ -130,7 +151,50 @@
   font-family: var(--font-body);
 }
 
-/* Copy */
+/* Secondary overlapping clinical suite frame */
+.accentFrame {
+  position: absolute;
+  bottom: -24px;
+  right: -28px;
+  width: 44%;
+  aspect-ratio: 4/3;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 3px solid var(--color-bg);
+  box-shadow:
+    0 16px 40px rgba(60, 89, 128, 0.15),
+    0 2px 8px rgba(60, 89, 128, 0.06);
+  background: #EAE6E1;
+  transition: transform 0.4s var(--transition-smooth);
+}
+
+.accentFrame:hover {
+  transform: translateY(-4px);
+}
+
+.accentImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.accentCaption {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(34, 36, 42, 0.78);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* ── Copy column ──────────────────────────────────────────────────────── */
 .copyCol {
   display: flex;
   flex-direction: column;
@@ -139,10 +203,10 @@
 
 .heading {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-size: clamp(2.2rem, 3.4vw, 3.1rem);
   font-weight: 700;
   line-height: 1.15;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: var(--color-text);
 }
 
@@ -156,75 +220,130 @@
 .body {
   font-family: var(--font-body);
   font-size: 1rem;
-  line-height: 1.75;
+  line-height: 1.76;
   color: var(--color-text-muted);
+  max-width: 520px;
 }
 
-/* Stats */
-.stats {
+/* ── Verified Facts Row ───────────────────────────────────────────────── */
+.factsRow {
   display: flex;
-  align-items: center;
-  gap: 32px;
-  padding: 28px 0;
-  border-top: 1px solid var(--color-clouds);
-  border-bottom: 1px solid var(--color-clouds);
+  align-items: stretch;
+  gap: 0;
+  padding: 28px 0 24px;
+  border-top: 1px solid rgba(180, 165, 158, 0.35);
+  border-bottom: 1px solid rgba(180, 165, 158, 0.35);
+  margin-top: 6px;
 }
 
-.stat {
+.fact {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  padding: 0 28px 0 0;
 }
 
-.statNum {
+.fact:not(:first-child) {
+  padding: 0 28px;
+}
+
+.factValue {
   font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-size: 1.85rem;
+  font-weight: 800;
   color: var(--color-deep-ocean);
   line-height: 1;
+  letter-spacing: -0.02em;
 }
 
-.statLabel {
-  font-size: 0.75rem;
+.factLabel {
+  display: flex;
+  flex-direction: column;
+}
+
+.factLabelLine {
+  font-size: 0.72rem;
   color: var(--color-text-muted);
   font-family: var(--font-body);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
 }
 
-.statDivider {
+.factDivider {
   width: 1px;
-  height: 40px;
-  background: var(--color-clouds);
+  background: rgba(180, 165, 158, 0.35);
+  align-self: stretch;
+  flex-shrink: 0;
 }
 
-/* Asset note */
-.assetNote {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  background: rgba(60, 89, 128, 0.06);
-  border: 1px solid rgba(60, 89, 128, 0.15);
-  border-radius: 8px;
-  color: var(--color-text-muted);
-  font-size: 0.78rem;
-  line-height: 1.5;
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 1060px) {
+  .grid {
+    gap: 56px;
+  }
+  .accentFrame {
+    right: -16px;
+    width: 40%;
+  }
 }
 
-.noteIcon { font-size: 1rem; color: var(--color-deep-ocean); }
-
-/* Responsive */
 @media (max-width: 960px) {
+  .section {
+    padding: 90px 0;
+  }
   .grid {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 50px;
   }
-  .imageFrame { aspect-ratio: 16/9; }
+  .imageFrame {
+    aspect-ratio: 16/10;
+  }
+  .accentFrame {
+    bottom: -16px;
+    right: -10px;
+    width: 36%;
+  }
 }
 
-@media (max-width: 480px) {
-  .section { padding: 80px 0; }
-  .container { padding: 0 20px; }
-  .stats { flex-direction: column; align-items: flex-start; gap: 20px; }
-  .statDivider { display: none; }
+@media (max-width: 560px) {
+  .section {
+    padding: 70px 0;
+  }
+  .container {
+    padding: 0 20px;
+  }
+  .factsRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 20px 0;
+  }
+  .fact,
+  .fact:not(:first-child) {
+    padding: 0;
+  }
+  .factDivider {
+    display: none;
+  }
+  .accentFrame {
+    display: none;
+  }
+  .body {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .image {
+    transition: none !important;
+    transform: none !important;
+  }
+  .accentFrame {
+    transition: none !important;
+  }
 }
