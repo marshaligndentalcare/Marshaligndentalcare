@@ -1,121 +1,110 @@
 /* ═══════════════════════════════════════════════════════════════
-   Clinic Gallery — TiltedGridHero Curved Cinematic Showcase
+   Clinic Gallery — Native Full-Width Integration
    Marshalign Dental Care — Trichy
    ═══════════════════════════════════════════════════════════════ */
 
+/* ── Outer section ── */
 .section {
-  padding: 100px 0;
+  padding: 96px 0 80px;
   background: var(--color-bg);
   position: relative;
   overflow: hidden;
 }
 
+/* ── Centred content container (matches site-wide container width) ── */
 .container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 32px;
-  position: relative;
-  z-index: 1;
 }
 
-/* ── Header & Content ─────────────────────────────────────────────────── */
-
-/* ── Hero Box (Dark Cinematic Canvas from Demo) ───────────────────────── */
-.heroBox {
-  width: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-  background-color: #0A0B0E;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.32),
-    0 4px 16px rgba(0, 0, 0, 0.16);
-  position: relative;
-  opacity: 1 !important;
-  display: block;
+/* ── Animate-in helpers ── */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.5s var(--transition-smooth),
+    transform 0.5s var(--transition-smooth);
 }
 
-.tiltedHero {
-  width: 100%;
-  height: clamp(520px, 65vh, 600px);
-  position: relative;
+.inView [data-animate] {
+  opacity: 1;
+  transform: none;
 }
 
-/* ── Overlay Content (Headline at top, caption at bottom) ─────────────── */
-.overlayContent {
-  position: relative;
-  z-index: 10;
+.inView [data-animate]:nth-child(2) { transition-delay: 0.1s; }
+.inView [data-animate]:nth-child(3) { transition-delay: 0.18s; }
+
+/* ── Header block — sits above the image strip ── */
+.header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  height: 100%;
-  padding: 48px 24px;
   text-align: center;
-  pointer-events: none;
+  margin-bottom: 52px;
+  gap: 0;
 }
 
-/* Top Header Area */
-.headerArea {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
+/* Eyebrow / badge */
 .tag {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.18em;
-  color: #A8B8C2;
+  color: var(--color-accent);
   text-transform: uppercase;
+  margin-bottom: 16px;
 }
 
 .tagDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #3C5980;
-  box-shadow: 0 0 8px rgba(60, 89, 128, 0.6);
+  background: var(--color-accent);
+  box-shadow: 0 0 8px rgba(60, 89, 128, 0.45);
 }
 
+/* Main heading */
 .heading {
   font-family: var(--font-display);
-  font-size: clamp(2.3rem, 4.4vw, 3.4rem);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  color: #FFFFFF;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  color: var(--color-text);
+  max-width: 640px;
+  margin-bottom: 20px;
 }
 
-/* Bottom Area */
-.bottomArea {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  max-width: 520px;
-}
-
-.caption {
+/* Supporting description */
+.description {
   font-family: var(--font-body);
-  font-size: clamp(0.85rem, 1.4vw, 0.95rem);
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.65);
+  font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  max-width: 480px;
 }
 
-.subHint {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.4);
-  letter-spacing: 0.02em;
+/* ── Full-width image strip wrapper ── */
+/*
+ * The image strip breaks out of the centred container to use the full
+ * page width. It has no background of its own — it reveals the section
+ * background through the animated fade masks on each edge.
+ */
+.stripWrap {
+  width: 100%;
+  /* Intentionally no background — inherits section bg */
 }
 
-/* ── Lightbox for click inspection ────────────────────────────────────── */
+.tiltedHero {
+  width: 100%;
+  height: clamp(280px, 40vw, 440px);
+}
+
+/* ── Lightbox ── */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -131,19 +120,15 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .lightboxClose {
   position: absolute;
   top: 24px;
   right: 24px;
-  color: #FFFFFF;
+  color: #fff;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -172,14 +157,8 @@
 }
 
 @keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 .lightboxImg {
@@ -198,40 +177,34 @@
   letter-spacing: 0.04em;
 }
 
-/* ── Responsive ───────────────────────────────────────────────────────── */
+/* ── Responsive ── */
 @media (max-width: 960px) {
   .section {
-    padding: 70px 0;
+    padding: 72px 0 64px;
+  }
+  .header {
+    margin-bottom: 40px;
   }
   .tiltedHero {
-    height: 480px;
-  }
-  .overlayContent {
-    padding: 36px 20px;
+    height: clamp(240px, 45vw, 360px);
   }
 }
 
 @media (max-width: 640px) {
+  .section {
+    padding: 56px 0 48px;
+  }
   .container {
-    padding: 0 16px;
+    padding: 0 20px;
   }
-  .heroBox {
-    border-radius: 16px;
-  }
-  .tiltedHero {
-    height: 420px;
-  }
-  .overlayContent {
-    padding: 28px 16px;
+  .header {
+    margin-bottom: 32px;
   }
   .heading {
     font-size: 2rem;
   }
-  .caption {
-    font-size: 0.825rem;
-  }
-  .subHint {
-    display: none;
+  .tiltedHero {
+    height: 260px;
   }
 }
 

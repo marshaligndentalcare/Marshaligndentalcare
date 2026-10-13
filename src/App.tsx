@@ -7,6 +7,7 @@ import Specialists from './components/Specialists';
 import WhyUs from './components/WhyUs';
 import Gallery from './components/Gallery';
 import FAQ from './components/FAQ';
+import TestimonialsMarquee from './components/TestimonialsMarquee';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import WhatsAppCTA from './components/WhatsAppCTA';
@@ -28,6 +29,7 @@ const App: React.FC = () => {
         <WhyUs />
         <Gallery />
         <FAQ />
+        <TestimonialsMarquee />
         <Contact />
       </main>
 

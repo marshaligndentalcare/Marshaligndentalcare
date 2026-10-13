@@ -60,6 +60,7 @@ const Gallery: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [lightboxImg, setLightboxImg] = useState<(typeof CLINIC_IMAGES)[0] | null>(null);
 
+  /* Scroll-in animation observer */
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -71,6 +72,7 @@ const Gallery: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
+  /* Keyboard: close lightbox on Escape */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setLightboxImg(null);
@@ -87,50 +89,46 @@ const Gallery: React.FC = () => {
   }));
 
   return (
-    <section id="gallery" className={styles.section} ref={sectionRef} aria-labelledby="gallery-heading">
+    <section
+      id="gallery"
+      className={styles.section}
+      ref={sectionRef}
+      aria-labelledby="gallery-heading"
+    >
+      {/* ── Centred text header ── */}
       <div className={styles.container}>
-        {/* Dark Editorial Curved Hero Showcase — matching TiltedGridHero Demo style */}
-        <div className={styles.heroBox}>
-          <TiltedGridHero
-            images={imagesWithHandlers}
-            speed={4.2}
-            tileHeight={32}
-            aspectRatio={16 / 9}
-            gap={6}
-            axis={54}
-            curve={80}
-            fade={12}
-            className={styles.tiltedHero}
-          >
-            <div className={styles.overlayContent}>
-              {/* Top headline area */}
-              <div className={styles.headerArea}>
-                <div className={styles.tag}>
-                  <span className={styles.tagDot} aria-hidden="true" />
-                  Clinic Gallery
-                </div>
-                <h2 id="gallery-heading" className={styles.heading}>
-                  Every frame,
-                  <br />
-                  brought into focus.
-                </h2>
-              </div>
+        <header className={styles.header}>
+          <div className={styles.tag} data-animate>
+            <span className={styles.tagDot} aria-hidden="true" />
+            Clinic Gallery
+          </div>
 
-              {/* Bottom explanatory copy */}
-              <div className={styles.bottomArea}>
-                <p className={styles.caption}>
-                  Images curve in from one edge, flatten out at the centre, then fade away round the other.
-                </p>
-                <span className={styles.subHint}>
-                  A glimpse inside Marshalign Dental Care operatories &amp; specialist suites
-                </span>
-              </div>
-            </div>
-          </TiltedGridHero>
-        </div>
+          <h2 id="gallery-heading" className={styles.heading} data-animate>
+            Every frame,<br />brought into focus.
+          </h2>
+
+          <p className={styles.description} data-animate>
+            A glimpse inside Marshalign Dental Care operatories &amp; specialist suites.
+          </p>
+        </header>
       </div>
 
-      {/* Lightbox for high-resolution inspection */}
+      {/* ── Full-width curved image strip ── */}
+      <div className={styles.stripWrap}>
+        <TiltedGridHero
+          images={imagesWithHandlers}
+          speed={5}
+          tileHeight={40}
+          aspectRatio={16 / 9}
+          gap={6}
+          axis={54}
+          curve={80}
+          fade={12}
+          className={styles.tiltedHero}
+        />
+      </div>
+
+      {/* ── Lightbox for high-resolution inspection ── */}
       {lightboxImg && (
         <div
           className={styles.lightbox}
