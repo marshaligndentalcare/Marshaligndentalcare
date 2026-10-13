@@ -6,19 +6,21 @@ const specialists = [
   {
     id: 'dr-marshal',
     name: 'Dr. Marshal Antony M.',
+    degrees: 'BDS, MDS (Orthodontics & Dentofacial Orthopedics)',
+    doctorEnquiryName: 'Dr. Marshal',
     specialty: 'Orthodontics & Dentofacial Orthopedics',
     bio: 'Dr. Marshal Antony M. is a specialist in Orthodontics and Dentofacial Orthopedics. His practice focuses on diagnosing and correcting misaligned teeth and jaws, providing patients of all ages with personalised treatment plans for lasting, healthy smiles.',
     image: '/dr-marshal-antony.jpg',
-    //note: '⚠ Portrait placeholder — please supply the official clinic photograph.',
     initials: 'MA',
   },
   {
     id: 'dr-jose',
     name: 'Dr. Jose Olive A.',
+    degrees: 'BDS, MDS (Prosthodontics & Implantology)',
+    doctorEnquiryName: 'Dr. Jose Olive',
     specialty: 'Prosthodontics & Implantology',
     bio: 'Dr. Jose Olive A. specialises in Prosthodontics and Implantology. He focuses on the restoration and replacement of teeth using crowns, bridges, dentures, and dental implants, helping patients regain function and confidence in their smiles.',
     image: '/dr-jose-olive.jpg',
-    //note: '⚠ Portrait placeholder — please supply the official clinic photograph.',
     initials: 'JO',
   },
 ];
@@ -64,9 +66,10 @@ const Specialists: React.FC = () => {
               <div className={styles.imageWrap}>
                 <img
                   src={doc.image}
-                  alt={`${doc.name} — ${doc.specialty} — portrait placeholder`}
+                  alt={`${doc.name} — Specialist in ${doc.specialty} at Marshalign Dental Care, Trichy`}
                   className={styles.image}
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className={styles.imageGlow} aria-hidden="true" />
                 <div className={styles.specLabel}>
@@ -76,14 +79,15 @@ const Specialists: React.FC = () => {
 
               <div className={styles.info}>
                 <h3 className={styles.name}>{doc.name}</h3>
-                <p className={styles.specTitle}>{doc.specialty}</p>
+                <p className={styles.specTitle}>{doc.degrees}</p>
                 <p className={styles.bio}>{doc.bio}</p>
 
 
                 <WhatsAppCTA
-                  label={`Enquire with ${doc.name.split(' ')[1]}`}
+                  label={`Enquire with ${doc.doctorEnquiryName}`}
                   size="sm"
                   variant="ghost"
+                  context={{ type: 'doctor', doctorName: doc.doctorEnquiryName }}
                 />
               </div>
             </article>

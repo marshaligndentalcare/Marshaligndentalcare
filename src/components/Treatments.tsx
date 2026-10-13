@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import WhatsAppCTA from './WhatsAppCTA';
 import styles from './Treatments.module.css';
 
@@ -99,7 +100,7 @@ const TreatmentCard: React.FC<(typeof treatments)[0] & { index: number }> = ({
       style={{ transitionDelay: `${index * 0.1}s` }}
     >
       <div className={styles.cardImage}>
-        <img src={image} alt={alt} loading="lazy" className={styles.img} />
+        <img src={image} alt={alt} loading="lazy" decoding="async" className={styles.img} />
         <div className={styles.imgOverlay} />
         <div className={styles.imgIcon} aria-hidden="true">{icon}</div>
       </div>
@@ -109,10 +110,18 @@ const TreatmentCard: React.FC<(typeof treatments)[0] & { index: number }> = ({
         <h3 className={styles.cardName}>{name}</h3>
         <p className={styles.cardDesc}>{description}</p>
         <div className={styles.cardActions}>
+          <Link
+            to={`/treatments/${id}`}
+            className={styles.cardDetailBtn}
+            aria-label={`View full details for ${name}`}
+          >
+            Learn More →
+          </Link>
           <WhatsAppCTA
             label={`Enquire about ${name}`}
             size="sm"
             variant="outline"
+            context={{ type: 'service', serviceName: name }}
           />
         </div>
       </div>

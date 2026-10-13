@@ -7,18 +7,61 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+
+# Environment variables & secrets (CRITICAL GUARDRAIL)
+.env
+.env.*
+!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 *.local
 
-# Editor directories and files
+# Private keys, certificates, and credentials
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+*.cer
+id_rsa*
+id_ed25519*
+credentials.json
+client_secret*.json
+service-account*.json
+firebase-adminsdk*.json
+*.secrets
+
+# Security audit scratch & private evidence files
+scratch/
+*.private.json
+*.private.md
+
+# Internal audit reports, threat models & development plans (kept local, excluded from production)
+SEO_AUDIT_*.md
+SECURITY_AUDIT_*.md
+THREAT_MODEL.md
+SECURITY_REMEDIATION_PLAN.md
+SECURITY_SETUP.md
+*_AUDIT_*.md
+*_PLAN.md
+
+# Editor & IDE directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+Thumbs.db
+ehthumbs.db

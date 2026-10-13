@@ -173,7 +173,37 @@
   color: var(--color-text-muted);
 }
 
-.cardActions { margin-top: 8px; }
+.cardActions {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.cardDetailBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border);
+  color: var(--color-deep-ocean);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s var(--transition-smooth);
+}
+
+.cardDetailBtn:hover {
+  background: var(--color-deep-ocean);
+  color: #fff;
+  border-color: var(--color-deep-ocean);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(60, 89, 128, 0.15);
+}
 
 /* Responsive */
 @media (max-width: 960px) {

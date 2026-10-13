@@ -1,13 +1,16 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
-import { WA_LINK } from '../config';
+import { getWhatsAppLink, type WhatsAppEnquiryContext } from '../lib/whatsapp';
 import styles from './WhatsAppCTA.module.css';
 
-interface WhatsAppCTAProps {
+export interface WhatsAppCTAProps {
   label?: string;
   variant?: 'primary' | 'outline' | 'ghost' | 'floating';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
+  id?: string;
+  context?: WhatsAppEnquiryContext;
+  customMessage?: string;
 }
 
 const WhatsAppCTA: React.FC<WhatsAppCTAProps> = ({
@@ -15,17 +18,21 @@ const WhatsAppCTA: React.FC<WhatsAppCTAProps> = ({
   variant = 'primary',
   size = 'md',
   className = '',
+  id,
+  context,
+  customMessage,
 }) => {
   const handleClick = () => {
-    window.open(WA_LINK, '_blank', 'noopener,noreferrer');
+    const link = getWhatsAppLink(customMessage ? { type: 'custom', message: customMessage } : context);
+    window.open(link, '_blank', 'noopener,noreferrer');
   };
 
   return (
     <button
       onClick={handleClick}
-      aria-label={`Open WhatsApp to enquire at Marshalign Dental Care — ${label}`}
+      aria-label={`Open WhatsApp to enquire — ${label}`}
       className={`${styles.btn} ${styles[variant]} ${styles[size]} ${className}`}
-      id="whatsapp-cta"
+      id={id}
     >
       <MessageCircle size={size === 'sm' ? 14 : size === 'lg' ? 22 : 18} aria-hidden="true" />
       <span>{label}</span>

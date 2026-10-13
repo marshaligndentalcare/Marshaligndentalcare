@@ -75,12 +75,21 @@ const Contact: React.FC = () => {
             </address>
 
             <div className={styles.hoursNote}>
+              <span className={styles.hoursIcon} aria-hidden="true">📍</span>
+              <small><strong>Landmark:</strong> 2 mins walk from KK Nagar Bus Terminal, Rajaram Road, Trichy</small>
+            </div>
+
+            <div className={styles.hoursNote}>
               <span className={styles.hoursIcon} aria-hidden="true">🕐</span>
-              <small>Opening hours — contact the clinic directly to confirm current timings.</small>
+              <small><strong>Mon – Sat:</strong> 9:00 AM – 2:00 PM &amp; 5:00 PM – 8:30 PM &middot; <strong>Sun:</strong> Closed</small>
             </div>
 
             <div className={styles.ctaGroup}>
-              <WhatsAppCTA label="Enquire on WhatsApp" size="md" />
+              <WhatsAppCTA
+                label="Enquire on WhatsApp"
+                size="md"
+                context={{ type: 'section', sectionName: 'Contact' }}
+              />
               <a
                 href={`tel:${CLINIC_PHONE_RAW}`}
                 className={styles.callBtn}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Phone, MapPin } from 'lucide-react';
 import WhatsAppCTA from './WhatsAppCTA';
 import {
@@ -8,25 +9,26 @@ import {
 import styles from './Footer.module.css';
 
 const NAV_LINKS = [
-  { href: '#about', label: 'About' },
-  { href: '#treatments', label: 'Treatments' },
-  { href: '#specialists', label: 'Specialists' },
-  { href: '#gallery', label: 'Gallery' },
-  { href: '#contact', label: 'Contact' },
-  { href: '#faq', label: 'FAQ' },
+  { to: '/about', label: 'About' },
+  { to: '/treatments', label: 'Treatments' },
+  { to: '/doctors', label: 'Specialists' },
+  { to: '/gallery', label: 'Gallery' },
+  { to: '/faq', label: 'FAQ' },
+  { to: '/reviews', label: 'Reviews' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 const TREATMENT_LINKS = [
-  { href: '#treatment-orthodontics', label: 'Orthodontics & Braces' },
-  { href: '#treatment-dentofacial', label: 'Dentofacial Orthopedics' },
-  { href: '#treatment-prosthodontics', label: 'Prosthodontics' },
-  { href: '#treatment-implants', label: 'Dental Implants' },
+  { to: '/treatments/orthodontics', label: 'Orthodontics & Braces' },
+  { to: '/treatments/dentofacial', label: 'Dentofacial Orthopedics' },
+  { to: '/treatments/implants', label: 'Dental Implants' },
+  { to: '/treatments/prosthodontics', label: 'Prosthodontics' },
+  { to: '/treatments/examination', label: 'General Dental Examination' },
+  { to: '/treatments/cleaning', label: 'Professional Teeth Cleaning' },
+  { to: '/treatments/restorative', label: 'Restorative Dentistry' },
 ];
 
-const scrollTo = (href: string) => {
-  const el = document.querySelector(href);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
+const CURRENT_YEAR = new Date().getFullYear();
 
 const Footer: React.FC = () => {
   return (
@@ -36,14 +38,18 @@ const Footer: React.FC = () => {
         <div className={styles.grid}>
           {/* Brand */}
           <div className={styles.brand}>
-            <a href="#hero" className={styles.brandLogo} onClick={(e) => { e.preventDefault(); scrollTo('#hero'); }} aria-label="Back to top">
+            <Link to="/" className={styles.brandLogo} aria-label="Marshalign Dental Care — Home">
               <img src="/logo.png" alt="Marshalign Dental Care logo" className={styles.logoImg} />
-            </a>
+            </Link>
             <p className={styles.brandName}>{CLINIC_NAME}</p>
             <p className={styles.tagline}>"{CLINIC_TAGLINE}"</p>
             <p className={styles.brandAddr}>{CLINIC_ADDRESS}</p>
             <div className={styles.brandCta}>
-              <WhatsAppCTA label="Enquire on WhatsApp" size="sm" />
+              <WhatsAppCTA
+                label="Enquire on WhatsApp"
+                size="sm"
+                context={{ type: 'section', sectionName: 'Footer' }}
+              />
             </div>
           </div>
 
@@ -51,16 +57,15 @@ const Footer: React.FC = () => {
           <div className={styles.col}>
             <h3 className={styles.colTitle}>Navigation</h3>
             <ul className={styles.linkList} role="list">
-              {NAV_LINKS.map(({ href, label }) => (
-                <li key={href}>
-                  <a
-                    href={href}
+              {NAV_LINKS.map(({ to, label }) => (
+                <li key={to}>
+                  <Link
+                    to={to}
                     className={styles.footLink}
-                    onClick={(e) => { e.preventDefault(); scrollTo(href); }}
-                    aria-label={`Go to ${label}`}
+                    aria-label={`Go to ${label} page`}
                   >
                     {label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -70,16 +75,15 @@ const Footer: React.FC = () => {
           <div className={styles.col}>
             <h3 className={styles.colTitle}>Treatments</h3>
             <ul className={styles.linkList} role="list">
-              {TREATMENT_LINKS.map(({ href, label }) => (
-                <li key={href}>
-                  <a
-                    href={href}
+              {TREATMENT_LINKS.map(({ to, label }) => (
+                <li key={to}>
+                  <Link
+                    to={to}
                     className={styles.footLink}
-                    onClick={(e) => { e.preventDefault(); scrollTo(href); }}
-                    aria-label={`View ${label} treatment`}
+                    aria-label={`View ${label} treatment page`}
                   >
                     {label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -113,12 +117,18 @@ const Footer: React.FC = () => {
 
         <div className={styles.bottom}>
           <p className={styles.copyright}>
-            © {new Date().getFullYear()} {CLINIC_NAME}. All rights reserved.
+            © {CURRENT_YEAR} {CLINIC_NAME}. All rights reserved.
           </p>
           <div className={styles.legal}>
-            <a href="#privacy" className={styles.legalLink} aria-label="Privacy Policy">Privacy Policy</a>
+            <Link
+              to="/privacy-policy"
+              className={styles.legalLink}
+              aria-label="View Privacy Policy and medical disclaimer"
+            >
+              Privacy Policy
+            </Link>
             <span className={styles.legalSep} aria-hidden="true">·</span>
-            <a href="#contact" className={styles.legalLink} onClick={(e) => { e.preventDefault(); scrollTo('#contact'); }} aria-label="Contact us">Contact</a>
+            <Link to="/contact" className={styles.legalLink} aria-label="Contact us">Contact</Link>
           </div>
         </div>
       </div>

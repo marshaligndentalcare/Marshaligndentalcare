@@ -44,7 +44,7 @@ const Hero: React.FC = () => {
         <div className={styles.copy}>
           <div className={styles.label}>
             <span className={styles.labelDot} aria-hidden="true" />
-            MARSHALIGN DENTAL CARE · TRICHY
+            MARSHALIGN DENTAL CARE · SPECIALIST DENTAL CLINIC, TRICHY
           </div>
 
           <h1 className={styles.headline}>
@@ -54,12 +54,16 @@ const Hero: React.FC = () => {
           </h1>
 
           <p className={styles.subtext}>
-            Thoughtful dental care, specialist expertise,<br className={styles.subtextBreak} />
-            and a personal approach to every smile.
+            Specialist dental care, advanced orthodontics &amp; implants,<br className={styles.subtextBreak} />
+            and a personal, unhurried approach to every patient in Trichy.
           </p>
 
           <div className={styles.ctas}>
-            <WhatsAppCTA label="Enquire on WhatsApp" size="lg" />
+            <WhatsAppCTA
+              label="Enquire on WhatsApp"
+              size="lg"
+              context={{ type: 'section', sectionName: 'Hero' }}
+            />
             <a
               href="#treatments"
               className={styles.secondaryCta}
@@ -84,6 +88,7 @@ const Hero: React.FC = () => {
               muted
               loop
               playsInline
+              preload="metadata"
               onLoadedMetadata={handleVideoReady}
               onPlay={handleVideoReady}
               className={styles.toothVideo}

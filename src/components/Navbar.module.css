@@ -99,8 +99,14 @@
   color: var(--color-text);
 }
 
-.link:hover::after {
+.link:hover::after,
+.linkActive::after {
   transform: scaleX(1);
+}
+
+.linkActive {
+  color: var(--color-deep-ocean);
+  font-weight: 600;
 }
 
 .actions {

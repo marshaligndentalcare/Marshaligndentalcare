@@ -46,6 +46,7 @@ const About: React.FC = () => {
                     alt="Marshalign Dental Care reception and waiting lounge — specialist clinic in Trichy"
                     className={styles.image}
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <div className={styles.imageOverlay} aria-hidden="true" />
@@ -64,9 +65,10 @@ const About: React.FC = () => {
               <div className={styles.accentFrame} aria-hidden="true">
                 <img
                   src="/treatment-room.jpg"
-                  alt=""
+                  alt="Marshalign modern clinical treatment suite in Trichy"
                   className={styles.accentImage}
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className={styles.accentCaption}>Clinical Suite</div>
               </div>
