@@ -25,13 +25,13 @@ const CLINIC_IMAGES = [
     label: 'Prosthodontics & Rehabilitation',
   },
   {
-    src: '/dr-marshal-antony.jpg',
-    alt: 'Dr. Marshal Antony M., Specialist in Orthodontics',
+    src: '/dr-marshal-antony.webp',
+    alt: 'Dr. Marshal Antony M., Orthodontist & Dentofacial Orthopedics specialist at Marshalign Dental Care, Trichy',
     label: 'Dr. Marshal Antony M.',
   },
   {
-    src: '/dr-jose-olive.jpg',
-    alt: 'Dr. Jose Olive A., Specialist in Prosthodontics',
+    src: '/dr-jose-olive.webp',
+    alt: 'Dr. Jose Olive A., Prosthodontist & Implantology specialist at Marshalign Dental Care, Trichy',
     label: 'Dr. Jose Olive A.',
   },
   {

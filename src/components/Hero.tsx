@@ -1,29 +1,13 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import WhatsAppCTA from './WhatsAppCTA';
 import styles from './Hero.module.css';
 import { ChevronDown } from 'lucide-react';
-
-const VIDEO_SRC = '/animated-video.mp4';
+import { ToothErrorBoundary } from './ToothErrorBoundary';
+import { Suspense } from 'react';
+import InteractiveTooth from './InteractiveTooth';
 
 const Hero: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    // Ensure video plays continuously on mount at 0.75x speed
-    const video = videoRef.current;
-    if (video) {
-      video.playbackRate = 0.75;
-      video.play().catch(() => {
-        // Autoplay policy fallback: user interaction will trigger playback
-      });
-    }
-  }, []);
-
-  const handleVideoReady = () => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.75;
-    }
-  };
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   const scrollToNext = () => {
     document.getElementById('about')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -54,12 +38,12 @@ const Hero: React.FC = () => {
           </h1>
 
           <p className={styles.subtext}>
-            Specialist dental care, advanced orthodontics &amp; implants,<br className={styles.subtextBreak} />
-            and a personal, unhurried approach to every patient in Trichy.
+            Specialist dental care, advanced orthodontics &amp; implants, and a personal, unhurried approach to every patient in Trichy.
           </p>
 
           <div className={styles.ctas}>
             <WhatsAppCTA
+              id="hero-whatsapp-btn"
               label="Enquire on WhatsApp"
               size="lg"
               context={{ type: 'section', sectionName: 'Hero' }}
@@ -78,22 +62,23 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        {/* Right column: prominent tooth video animation */}
+        {/* Right column: 3D interactive tooth — no lazy/dynamic, loaded immediately */}
         <div className={styles.visualColumn}>
-          <div className={styles.visualWrap}>
-            <video
-              ref={videoRef}
-              src={VIDEO_SRC}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              onLoadedMetadata={handleVideoReady}
-              onPlay={handleVideoReady}
-              className={styles.toothVideo}
-              aria-label="Marshalign Dental Care — 3D Tooth Animation"
-            />
+          <div className={styles.visualWrap} ref={wrapRef}>
+            <ToothErrorBoundary
+              fallback={
+                /* Static placeholder — same size, no video, no layout shift */
+                <div className={styles.toothPlaceholder} aria-hidden="true" />
+              }
+            >
+              <Suspense
+                fallback={
+                  <div className={styles.toothPlaceholder} aria-hidden="true" />
+                }
+              >
+                <InteractiveTooth className={styles.toothCanvas} />
+              </Suspense>
+            </ToothErrorBoundary>
           </div>
         </div>
       </div>

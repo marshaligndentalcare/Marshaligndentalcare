@@ -126,12 +126,9 @@
   line-height: 1.65;
   color: #6B625D;
   max-width: 520px;
+  text-wrap: balance;
   animation: heroFadeIn 0.5s var(--transition-smooth) both;
   animation-delay: 0.2s;
-}
-
-.subtextBreak {
-  display: block;
 }
 
 /* Calls to Action */
@@ -192,19 +189,33 @@
   justify-content: center;
 }
 
-/* Video rendering */
-.toothVideo,
+/* Lightweight placeholder skeleton — prevents layout shift while GLB loads */
+.toothPlaceholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse 55% 65% at 50% 50%,
+    rgba(60, 89, 128, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* R3F canvas wrapper — needs pointer events for hover rotation */
 .toothCanvas {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  pointer-events: none;
   user-select: none;
-  mix-blend-mode: multiply;
-  mask-image: radial-gradient(ellipse 55% 65% at 50% 50%, black 40%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse 55% 65% at 50% 50%, black 40%, transparent 70%);
+  /* transparent so page background shows through the Canvas alpha:true */
+  background: transparent;
+  animation: canvasFadeIn 0.6s ease both;
 }
+
+@keyframes canvasFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 
 /* ── Scroll indicator ────────────────────────────────────────────── */
 .scrollIndicator {
@@ -254,9 +265,6 @@
     align-items: center;
     max-width: 100%;
   }
-  .subtextBreak {
-    display: inline;
-  }
   .ctas {
     justify-content: center;
   }
@@ -265,7 +273,28 @@
   }
 }
 
-/* ── Responsive: Mobile ──────────────────────────────────────────── */
+/* ── Responsive: Mobile (<= 640px) ───────────────────────────────── */
+@media (max-width: 640px) {
+  .labelDot {
+    display: none;
+  }
+  .label {
+    justify-content: center;
+    text-align: center;
+  }
+  .subtext {
+    max-width: 34ch;
+    margin-left: auto;
+    margin-right: auto;
+    text-wrap: balance;
+  }
+  .visualWrap {
+    height: clamp(340px, 70vw, 380px);
+    width: 100%;
+  }
+}
+
+/* ── Responsive: Small Mobile ────────────────────────────────────── */
 @media (max-width: 480px) {
   .headline {
     font-size: 2.5rem;
@@ -275,7 +304,7 @@
     gap: 28px;
   }
   .visualWrap {
-    height: 280px;
+    height: clamp(340px, 70vw, 380px);
   }
 }
 

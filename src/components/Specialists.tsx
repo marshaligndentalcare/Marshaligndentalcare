@@ -10,8 +10,10 @@ const specialists = [
     doctorEnquiryName: 'Dr. Marshal',
     specialty: 'Orthodontics & Dentofacial Orthopedics',
     bio: 'Dr. Marshal Antony M. is a specialist in Orthodontics and Dentofacial Orthopedics. His practice focuses on diagnosing and correcting misaligned teeth and jaws, providing patients of all ages with personalised treatment plans for lasting, healthy smiles.',
-    image: '/dr-marshal-antony.jpg',
+    imageWebp: '/dr-marshal-antony.webp',
+    imageJpg: '/dr-marshal-antony.jpg',
     initials: 'MA',
+    alt: 'Dr. Marshal Antony M, Orthodontist & Dentofacial Orthopedics specialist at Marshalign Dental Care, Trichy',
   },
   {
     id: 'dr-jose',
@@ -20,8 +22,10 @@ const specialists = [
     doctorEnquiryName: 'Dr. Jose Olive',
     specialty: 'Prosthodontics & Implantology',
     bio: 'Dr. Jose Olive A. specialises in Prosthodontics and Implantology. He focuses on the restoration and replacement of teeth using crowns, bridges, dentures, and dental implants, helping patients regain function and confidence in their smiles.',
-    image: '/dr-jose-olive.jpg',
+    imageWebp: '/dr-jose-olive.webp',
+    imageJpg: '/dr-jose-olive.jpg',
     initials: 'JO',
+    alt: 'Dr. Jose Olive A., Prosthodontist & Implantology specialist at Marshalign Dental Care, Trichy',
   },
 ];
 
@@ -64,13 +68,22 @@ const Specialists: React.FC = () => {
               aria-label={`${doc.name}, ${doc.specialty}`}
             >
               <div className={styles.imageWrap}>
-                <img
-                  src={doc.image}
-                  alt={`${doc.name} — Specialist in ${doc.specialty} at Marshalign Dental Care, Trichy`}
-                  className={styles.image}
-                  loading="lazy"
-                  decoding="async"
-                />
+                <picture>
+                  <source
+                    srcSet={`${doc.imageWebp} 900w, ${doc.imageWebp.replace('.webp', '-450.webp')} 450w`}
+                    sizes="(max-width: 480px) 450px, 900px"
+                    type="image/webp"
+                  />
+                  <img
+                    src={doc.imageJpg}
+                    alt={doc.alt}
+                    width={900}
+                    height={1200}
+                    className={styles.image}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
                 <div className={styles.imageGlow} aria-hidden="true" />
                 <div className={styles.specLabel}>
                   <span className={styles.specLabelText}>{doc.specialty}</span>

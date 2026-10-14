@@ -44,6 +44,10 @@ scratch/
 *.private.json
 *.private.md
 
+# Original high-resolution doctor photo source files (not served, not bundled)
+originals/
+reference/
+
 # Internal audit reports, threat models & development plans (kept local, excluded from production)
 SEO_AUDIT_*.md
 SECURITY_AUDIT_*.md

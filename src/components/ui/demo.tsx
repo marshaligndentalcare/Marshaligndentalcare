@@ -23,12 +23,12 @@ const MARSHALIGN_IMAGES = [
     alt: "Dental implant operatory and clinical technology",
   },
   {
-    src: "/dr-marshal-antony.jpg",
-    alt: "Dr. Marshal Antony M., Specialist Orthodontist",
+    src: "/dr-marshal-antony.webp",
+    alt: "Dr. Marshal Antony M., Orthodontist & Dentofacial Orthopedics specialist at Marshalign Dental Care, Trichy",
   },
   {
-    src: "/dr-jose-olive.jpg",
-    alt: "Dr. Jose Olive A., Specialist Prosthodontist",
+    src: "/dr-jose-olive.webp",
+    alt: "Dr. Jose Olive A., Prosthodontist & Implantology specialist at Marshalign Dental Care, Trichy",
   },
   {
     src: "/dentofacial-orthopedics.webp",

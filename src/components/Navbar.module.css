@@ -218,6 +218,29 @@
   .nav { padding: 0 24px; }
 }
 
-@media (max-width: 480px) {
-  .logoText { display: none; }
+@media (max-width: 600px) {
+  .nav {
+    padding: 0 16px;
+    gap: 12px;
+  }
+  .logo {
+    gap: 8px;
+  }
+  .logoImg {
+    width: 34px;
+    height: 34px;
+  }
+  .logoName {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+  .logoClaim {
+    font-size: 0.55rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .logoText {
+    display: none;
+  }
 }
