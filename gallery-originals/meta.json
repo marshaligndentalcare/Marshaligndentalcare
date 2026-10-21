@@ -1,0 +1,61 @@
+{
+  "categoryLabels": {
+    "clinic":     "Clinic & Spaces",
+    "team":       "Our Specialists",
+    "treatments": "Treatments",
+    "equipment":  "Equipment"
+  },
+  "items": {
+    "clinic/001-reception": {
+      "caption": "Reception & Waiting Lounge",
+      "alt":     "Marshalign Dental Care reception area and patient waiting lounge, KK Nagar Trichy",
+      "featured": true
+    },
+    "clinic/002-treatment-room": {
+      "caption": "Specialist Treatment Suite",
+      "alt":     "Modern clinical treatment suite at Marshalign Dental Care with advanced dental chair",
+      "featured": true
+    },
+    "team/001-dr-marshal-antony": {
+      "caption": "Dr. Marshal Antony M. — Orthodontist",
+      "alt":     "Dr. Marshal Antony M., MDS Orthodontics & Dentofacial Orthopedics, Marshalign Dental Care Trichy",
+      "focus":   "50% 18%",
+      "featured": true
+    },
+    "team/002-dr-jose-olive": {
+      "caption": "Dr. Jose Olive A. — Prosthodontist",
+      "alt":     "Dr. Jose Olive A., MDS Prosthodontics & Implantology, Marshalign Dental Care Trichy",
+      "focus":   "50% 18%",
+      "featured": true
+    },
+    "treatments/001-orthodontics-and-braces": {
+      "caption": "Orthodontics & Braces",
+      "alt":     "Orthodontist examining and adjusting braces on patient at Marshalign Dental Care",
+      "featured": true
+    },
+    "treatments/002-dentofacial-orthopedics": {
+      "caption": "Dentofacial Orthopedics",
+      "alt":     "Dentofacial orthopedics consultation and facial growth guidance at Marshalign Dental Care"
+    },
+    "treatments/003-dental-implants": {
+      "caption": "Dental Implants",
+      "alt":     "Precision dental implant restoration planning in modern operatory at Marshalign Dental Care"
+    },
+    "treatments/004-prosthodontics": {
+      "caption": "Prosthodontics & Smile Restoration",
+      "alt":     "Prosthodontist assessing custom ceramic dental restoration and crown at Marshalign Dental Care"
+    },
+    "treatments/005-dental-examination": {
+      "caption": "General Dental Examination",
+      "alt":     "Dentist conducting comprehensive oral examination with mouth mirror at Marshalign Dental Care"
+    },
+    "treatments/006-teeth-cleaning": {
+      "caption": "Professional Teeth Cleaning",
+      "alt":     "Dental professional performing ultrasonic scaling and teeth cleaning at Marshalign Dental Care"
+    },
+    "treatments/007-restorative-dentistry": {
+      "caption": "Restorative Dentistry",
+      "alt":     "Dentist placing and light-curing tooth-colored composite restoration at Marshalign Dental Care"
+    }
+  }
+}

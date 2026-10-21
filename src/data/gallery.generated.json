@@ -1,0 +1,175 @@
+{
+  "categories": [
+    {
+      "slug": "clinic",
+      "label": "Clinic & Spaces",
+      "count": 2
+    },
+    {
+      "slug": "team",
+      "label": "Our Specialists",
+      "count": 2
+    },
+    {
+      "slug": "treatments",
+      "label": "Treatments",
+      "count": 7
+    }
+  ],
+  "items": [
+    {
+      "id": "clinic-001-reception",
+      "type": "image",
+      "category": "clinic",
+      "caption": "Reception & Waiting Lounge",
+      "alt": "Marshalign Dental Care reception area and patient waiting lounge, KK Nagar Trichy",
+      "src": "/gallery/clinic-001-reception-960.webp",
+      "srcset": "/gallery/clinic-001-reception-480.webp 480w, /gallery/clinic-001-reception-960.webp 960w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 960,
+      "height": 720,
+      "focus": "50% 50%",
+      "featured": true
+    },
+    {
+      "id": "clinic-002-treatment-room",
+      "type": "image",
+      "category": "clinic",
+      "caption": "Specialist Treatment Suite",
+      "alt": "Modern clinical treatment suite at Marshalign Dental Care with advanced dental chair",
+      "src": "/gallery/clinic-002-treatment-room-1600.webp",
+      "srcset": "/gallery/clinic-002-treatment-room-480.webp 480w, /gallery/clinic-002-treatment-room-960.webp 960w, /gallery/clinic-002-treatment-room-1600.webp 1600w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 1600,
+      "height": 1195,
+      "focus": "50% 50%",
+      "featured": true
+    },
+    {
+      "id": "team-001-dr-marshal-antony",
+      "type": "image",
+      "category": "team",
+      "caption": "Dr. Marshal Antony M. — Orthodontist",
+      "alt": "Dr. Marshal Antony M., MDS Orthodontics & Dentofacial Orthopedics, Marshalign Dental Care Trichy",
+      "src": "/gallery/team-001-dr-marshal-antony-960.webp",
+      "srcset": "/gallery/team-001-dr-marshal-antony-480.webp 480w, /gallery/team-001-dr-marshal-antony-960.webp 960w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 960,
+      "height": 1280,
+      "focus": "50% 18%",
+      "featured": true
+    },
+    {
+      "id": "team-002-dr-jose-olive",
+      "type": "image",
+      "category": "team",
+      "caption": "Dr. Jose Olive A. — Prosthodontist",
+      "alt": "Dr. Jose Olive A., MDS Prosthodontics & Implantology, Marshalign Dental Care Trichy",
+      "src": "/gallery/team-002-dr-jose-olive-960.webp",
+      "srcset": "/gallery/team-002-dr-jose-olive-480.webp 480w, /gallery/team-002-dr-jose-olive-960.webp 960w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 960,
+      "height": 1280,
+      "focus": "50% 18%",
+      "featured": true
+    },
+    {
+      "id": "treatments-001-orthodontics-and-braces",
+      "type": "image",
+      "category": "treatments",
+      "caption": "Orthodontics & Braces",
+      "alt": "Orthodontist examining and adjusting braces on patient at Marshalign Dental Care",
+      "src": "/gallery/treatments-001-orthodontics-and-braces-1600.webp",
+      "srcset": "/gallery/treatments-001-orthodontics-and-braces-480.webp 480w, /gallery/treatments-001-orthodontics-and-braces-960.webp 960w, /gallery/treatments-001-orthodontics-and-braces-1600.webp 1600w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 1600,
+      "height": 1195,
+      "focus": "50% 50%",
+      "featured": true
+    },
+    {
+      "id": "treatments-002-dentofacial-orthopedics",
+      "type": "image",
+      "category": "treatments",
+      "caption": "Dentofacial Orthopedics",
+      "alt": "Dentofacial orthopedics consultation and facial growth guidance at Marshalign Dental Care",
+      "src": "/gallery/treatments-002-dentofacial-orthopedics-1600.webp",
+      "srcset": "/gallery/treatments-002-dentofacial-orthopedics-480.webp 480w, /gallery/treatments-002-dentofacial-orthopedics-960.webp 960w, /gallery/treatments-002-dentofacial-orthopedics-1600.webp 1600w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 1600,
+      "height": 1195,
+      "focus": "50% 50%",
+      "featured": false
+    },
+    {
+      "id": "treatments-003-dental-implants",
+      "type": "image",
+      "category": "treatments",
+      "caption": "Dental Implants",
+      "alt": "Precision dental implant restoration planning in modern operatory at Marshalign Dental Care",
+      "src": "/gallery/treatments-003-dental-implants-1600.webp",
+      "srcset": "/gallery/treatments-003-dental-implants-480.webp 480w, /gallery/treatments-003-dental-implants-960.webp 960w, /gallery/treatments-003-dental-implants-1600.webp 1600w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 1600,
+      "height": 1195,
+      "focus": "50% 50%",
+      "featured": false
+    },
+    {
+      "id": "treatments-004-prosthodontics",
+      "type": "image",
+      "category": "treatments",
+      "caption": "Prosthodontics & Smile Restoration",
+      "alt": "Prosthodontist assessing custom ceramic dental restoration and crown at Marshalign Dental Care",
+      "src": "/gallery/treatments-004-prosthodontics-1600.webp",
+      "srcset": "/gallery/treatments-004-prosthodontics-480.webp 480w, /gallery/treatments-004-prosthodontics-960.webp 960w, /gallery/treatments-004-prosthodontics-1600.webp 1600w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 1600,
+      "height": 1195,
+      "focus": "50% 50%",
+      "featured": false
+    },
+    {
+      "id": "treatments-005-dental-examination",
+      "type": "image",
+      "category": "treatments",
+      "caption": "General Dental Examination",
+      "alt": "Dentist conducting comprehensive oral examination with mouth mirror at Marshalign Dental Care",
+      "src": "/gallery/treatments-005-dental-examination-1600.webp",
+      "srcset": "/gallery/treatments-005-dental-examination-480.webp 480w, /gallery/treatments-005-dental-examination-960.webp 960w, /gallery/treatments-005-dental-examination-1600.webp 1600w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 1600,
+      "height": 1195,
+      "focus": "50% 50%",
+      "featured": false
+    },
+    {
+      "id": "treatments-006-teeth-cleaning",
+      "type": "image",
+      "category": "treatments",
+      "caption": "Professional Teeth Cleaning",
+      "alt": "Dental professional performing ultrasonic scaling and teeth cleaning at Marshalign Dental Care",
+      "src": "/gallery/treatments-006-teeth-cleaning-1600.webp",
+      "srcset": "/gallery/treatments-006-teeth-cleaning-480.webp 480w, /gallery/treatments-006-teeth-cleaning-960.webp 960w, /gallery/treatments-006-teeth-cleaning-1600.webp 1600w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 1600,
+      "height": 1195,
+      "focus": "50% 50%",
+      "featured": false
+    },
+    {
+      "id": "treatments-007-restorative-dentistry",
+      "type": "image",
+      "category": "treatments",
+      "caption": "Restorative Dentistry",
+      "alt": "Dentist placing and light-curing tooth-colored composite restoration at Marshalign Dental Care",
+      "src": "/gallery/treatments-007-restorative-dentistry-1600.webp",
+      "srcset": "/gallery/treatments-007-restorative-dentistry-480.webp 480w, /gallery/treatments-007-restorative-dentistry-960.webp 960w, /gallery/treatments-007-restorative-dentistry-1600.webp 1600w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 1600,
+      "height": 1195,
+      "focus": "50% 50%",
+      "featured": false
+    }
+  ]
+}

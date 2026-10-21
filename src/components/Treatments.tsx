@@ -1,84 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import WhatsAppCTA from './WhatsAppCTA';
+import { TREATMENTS, type TreatmentPageData } from '../data/treatmentsData';
 import styles from './Treatments.module.css';
 
-const treatments = [
-  {
-    id: 'orthodontics',
-    name: 'Orthodontics & Braces',
-    specialty: 'Dr. Marshal Antony M.',
-    description:
-      'Straighten misaligned teeth and achieve a balanced bite with evidence-based orthodontic treatment. Braces and modern orthodontic appliances tailored to your smile goals.',
-    icon: '⟳',
-    image: '/orthodontics-treatment.webp',
-    alt: 'Orthodontist examining and adjusting braces on patient in dental clinic',
-  },
-  {
-    id: 'dentofacial',
-    name: 'Dentofacial Orthopedics',
-    specialty: 'Dr. Marshal Antony M.',
-    description:
-      'Specialist guidance of facial growth and development in younger patients. Corrective appliances and interceptive treatment for lasting facial balance.',
-    icon: '◈',
-    image: '/dentofacial-orthopedics.webp',
-    alt: 'Dentofacial orthopedics consultation and facial growth guidance',
-  },
-  {
-    id: 'implants',
-    name: 'Dental Implants',
-    specialty: 'Dr. Jose Olive A.',
-    description:
-      'Replace missing teeth permanently with precision-placed dental implants. A long-term solution that looks, feels, and functions like your natural teeth.',
-    icon: '⬡',
-    image: '/dental-implant-treatment.webp',
-    alt: 'Precision dental implant restoration planning in modern operatory',
-  },
-  {
-    id: 'prosthodontics',
-    name: 'Prosthodontics',
-    specialty: 'Dr. Jose Olive A.',
-    description:
-      'Restore the function and aesthetics of your smile with expertly crafted crowns, bridges, dentures, and full-mouth rehabilitation by a specialist prosthodontist.',
-    icon: '◇',
-    image: '/prosthodontics-treatment.webp',
-    alt: 'Prosthodontist assessing custom ceramic dental restoration and crown',
-  },
-  {
-    id: 'examination',
-    name: 'General Dental Examination',
-    specialty: 'Comprehensive Diagnostics',
-    description:
-      'Detailed clinical assessment of oral health, periodontal screening, and digital diagnostics to detect dental concerns early and maintain long-term smile wellness.',
-    icon: '◎',
-    image: '/dental-examination.webp',
-    alt: 'Dentist conducting comprehensive oral examination with mouth mirror',
-  },
-  {
-    id: 'cleaning',
-    name: 'Professional Teeth Cleaning',
-    specialty: 'Preventive Oral Care',
-    description:
-      'Gentle ultrasonic scaling and dental prophylaxis to remove plaque, tartar, and surface stains, protecting gums and refreshing oral freshness.',
-    icon: '✦',
-    image: '/teeth-cleaning.webp',
-    alt: 'Dental professional performing ultrasonic scaling and teeth cleaning',
-  },
-  {
-    id: 'restorative',
-    name: 'Restorative Dentistry',
-    specialty: 'Conservative Dental Care',
-    description:
-      'Tooth-colored composite fillings and conservative restorations that blend seamlessly with natural enamel while restoring strength and chewing function.',
-    icon: '❋',
-    image: '/restorative-dentistry.webp',
-    alt: 'Dentist placing and light-curing tooth-colored composite restoration',
-  },
-];
+interface TreatmentCardProps {
+  treatment: TreatmentPageData;
+  index: number;
+}
 
-const TreatmentCard: React.FC<(typeof treatments)[0] & { index: number }> = ({
-  id, name, specialty, description, icon, image, alt, index,
-}) => {
+const TreatmentCard: React.FC<TreatmentCardProps> = ({ treatment, index }) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -96,32 +27,38 @@ const TreatmentCard: React.FC<(typeof treatments)[0] & { index: number }> = ({
     <div
       ref={cardRef}
       className={`${styles.card} ${isEven ? styles.cardNormal : styles.cardReverse}`}
-      id={`treatment-${id}`}
+      id={`treatment-${treatment.id}`}
       style={{ transitionDelay: `${index * 0.1}s` }}
     >
       <div className={styles.cardImage}>
-        <img src={image} alt={alt} loading="lazy" decoding="async" className={styles.img} />
+        <img
+          src={treatment.image}
+          alt={treatment.alt}
+          loading="lazy"
+          decoding="async"
+          className={styles.img}
+        />
         <div className={styles.imgOverlay} />
-        <div className={styles.imgIcon} aria-hidden="true">{icon}</div>
+        <div className={styles.imgIcon} aria-hidden="true">{treatment.icon}</div>
       </div>
 
       <div className={styles.cardContent}>
-        <div className={styles.cardTag}>{specialty}</div>
-        <h3 className={styles.cardName}>{name}</h3>
-        <p className={styles.cardDesc}>{description}</p>
+        <div className={styles.cardTag}>{treatment.attribution}</div>
+        <h3 className={styles.cardName}>{treatment.name}</h3>
+        <p className={styles.cardDesc}>{treatment.shortDescription}</p>
         <div className={styles.cardActions}>
           <Link
-            to={`/treatments/${id}`}
+            to={`/treatments/${treatment.slug}`}
             className={styles.cardDetailBtn}
-            aria-label={`View full details for ${name}`}
+            aria-label={`View full details for ${treatment.name}`}
           >
             Learn More →
           </Link>
           <WhatsAppCTA
-            label={`Enquire about ${name}`}
+            label={`Enquire about ${treatment.name}`}
             size="sm"
             variant="outline"
-            context={{ type: 'service', serviceName: name }}
+            context={{ type: 'service', serviceName: treatment.name }}
           />
         </div>
       </div>
@@ -158,8 +95,8 @@ const Treatments: React.FC = () => {
         </div>
 
         <div className={styles.cards}>
-          {treatments.map((t, i) => (
-            <TreatmentCard key={t.id} {...t} index={i} />
+          {TREATMENTS.map((treatment, i) => (
+            <TreatmentCard key={treatment.id} treatment={treatment} index={i} />
           ))}
         </div>
       </div>

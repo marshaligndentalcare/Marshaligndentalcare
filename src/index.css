@@ -1,35 +1,58 @@
 :root {
-  /* Palette Couleurs */
-  --color-deep-ocean: #3C5980;      /* Deep Ocean — primary accent */
-  --color-sky: #A8B8C2;             /* Sky — secondary / muted */
-  --color-clouds: #BCC1C4;          /* Clouds — borders, dividers */
-  --color-ivoire: #FAF8F6;          /* Ivoire — page background */
-  --color-gris: #B4A59E;            /* Gris — muted text / subtle bg */
-  --color-douche: #D0CCC8;          /* Douche — surface/cards */
-  --color-noyer: #6B4C3B;           /* Noyer Naturel — warm dark / footer */
+  /* ═══════════════════════════════════════════════════════════════════
+     BRAND COLOUR SYSTEM — Marshalign Dental Care
+     Logo colours sampled from /public/logo.png:
+       Highlight (top) : #18BFFF  (sky-cyan accent)
+       Primary body    : #2563F0  (dominant brand blue → --brand-600)
+       Mid-shield      : #2B5BD4  (royal blue → --brand-700)
+       Dark navy (base): #1A2F6A  (footer/dark → --brand-900)
+     Contrast: white on #2563F0 = 5.1:1  ✓ WCAG AA
+  ═══════════════════════════════════════════════════════════════════ */
 
-  /* Semantic aliases */
-  --color-bg: #FAF8F6;              /* Ivoire */
-  --color-surface: #EDEAE7;         /* Slightly darker ivory */
-  --color-surface-alt: #E5E1DD;     /* Cards / elevated surfaces */
-  --color-accent: #3C5980;          /* Deep Ocean */
-  --color-accent-light: rgba(60, 89, 128, 0.12);
-  --color-accent-dim: rgba(60, 89, 128, 0.06);
-  --color-text: #2A2420;            /* Rich dark text on light bg */
-  --color-text-muted: #7A6E6A;      /* Gris-toned muted text */
-  --color-border: rgba(180, 165, 158, 0.35);  /* Soft Gris border */
-  --color-white: #FFFFFF;
+  /* Brand scale */
+  --brand-50:  #EFF6FF;   /* very light tint — section washes, pill bg    */
+  --brand-100: #DBEAFE;   /* light tint — badge / pill borders             */
+  --brand-500: #3B82F6;   /* lighter primary (icons, hover accents)        */
+  --brand-600: #2563F0;   /* PRIMARY = logo dominant blue                  */
+  --brand-700: #1D4ED8;   /* hover / pressed states                        */
+  --brand-900: #1A2F6A;   /* footer dark navy                              */
+
+  /* WhatsApp — EXACT green values; never change these */
+  --whatsapp-start: #25D366;
+  --whatsapp-end:   #128C7E;
+  --whatsapp-glow:  37, 211, 102; /* raw R G B for rgba() usage */
+
+  /* Neutral / surface palette — unchanged */
+  --color-clouds:      #BFCFE8;   /* blue-tinted light border              */
+  --color-ivoire:      #FAF8F6;   /* page background                       */
+  --color-gris:        #B4A59E;   /* muted text / subtle bg                */
+  --color-douche:      #D0CCC8;   /* surface / cards                       */
+
+  /* Semantic aliases — all brand-blue */
+  --color-deep-ocean:  var(--brand-600);
+  --color-sky:         #93C5FD;                     /* blue-300 tint       */
+  --color-noyer:       var(--brand-700);             /* was warm brown      */
+  --color-bg:          #FAF8F6;
+  --color-surface:     #EDEAE7;
+  --color-surface-alt: #E5E1DD;
+  --color-accent:      var(--brand-600);
+  --color-accent-light: rgba(37, 99, 240, 0.10);
+  --color-accent-dim:   rgba(37, 99, 240, 0.06);
+  --color-text:         #2A2420;
+  --color-text-muted:   #7A6E6A;
+  --color-border:       rgba(37, 99, 240, 0.15);
+  --color-white:        #FFFFFF;
 
   /* Legacy aliases for smooth migration */
-  --color-cyan: #3C5980;            /* Maps to Deep Ocean */
-  --color-cyan-dim: rgba(60, 89, 128, 0.12);
-  --color-slate: #9A8F8A;
-  --color-deep-purple: #3C5980;
-  --color-royal-purple: #3C5980;
-  --color-ice: #FAF8F6;
+  --color-cyan:         var(--brand-600);
+  --color-cyan-dim:     rgba(37, 99, 240, 0.12);
+  --color-slate:        #9A8F8A;
+  --color-deep-purple:  var(--brand-600);
+  --color-royal-purple: var(--brand-600);
+  --color-ice:          #FAF8F6;
 
   --font-display: 'Space Grotesk', sans-serif;
-  --font-body: 'Inter', 'Manrope', sans-serif;
+  --font-body:    'Inter', 'Manrope', sans-serif;
   --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -94,8 +117,8 @@ input, textarea {
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--color-douche); }
-::-webkit-scrollbar-thumb { background: var(--color-sky); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-deep-ocean); }
+::-webkit-scrollbar-thumb { background: var(--brand-500); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand-600); }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {

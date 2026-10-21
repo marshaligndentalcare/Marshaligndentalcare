@@ -1,6 +1,7 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
-import { getWhatsAppLink, type WhatsAppEnquiryContext } from '../lib/whatsapp';
+import { useEnquiry } from '../context/EnquiryContext';
+import type { WhatsAppEnquiryContext } from '../lib/whatsapp';
 import styles from './WhatsAppCTA.module.css';
 
 export interface WhatsAppCTAProps {
@@ -10,6 +11,8 @@ export interface WhatsAppCTAProps {
   className?: string;
   id?: string;
   context?: WhatsAppEnquiryContext;
+  /** Pre-select this treatment name in the modal (for treatment-specific CTAs) */
+  treatmentName?: string;
   customMessage?: string;
 }
 
@@ -20,19 +23,29 @@ const WhatsAppCTA: React.FC<WhatsAppCTAProps> = ({
   className = '',
   id,
   context,
-  customMessage,
+  treatmentName,
 }) => {
+  const { openEnquiry } = useEnquiry();
+
   const handleClick = () => {
-    const link = getWhatsAppLink(customMessage ? { type: 'custom', message: customMessage } : context);
-    window.open(link, '_blank', 'noopener,noreferrer');
+    // Derive a pre-selected treatment from explicit prop or context
+    let preselected: string | undefined = treatmentName;
+
+    if (!preselected && context) {
+      if (context.type === 'service') preselected = context.serviceName;
+      if (context.type === 'treatment') preselected = context.treatmentName;
+    }
+
+    openEnquiry({ treatmentName: preselected });
   };
 
   return (
     <button
       onClick={handleClick}
-      aria-label={`Open WhatsApp to enquire — ${label}`}
+      aria-label={`Open appointment enquiry form — ${label}`}
       className={`${styles.btn} ${styles[variant]} ${styles[size]} ${className}`}
       id={id}
+      type="button"
     >
       <MessageCircle size={size === 'sm' ? 14 : size === 'lg' ? 22 : 18} aria-hidden="true" />
       <span>{label}</span>

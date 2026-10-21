@@ -1,5 +1,17 @@
 .section {
-  padding: 40px 0 80px;
+  padding-top: calc(84px + 24px);
+  padding-bottom: 80px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding-top: calc(76px + 24px);
+    padding-bottom: 60px;
+  }
+}
+
+.breadcrumbWrap {
+  margin-bottom: 24px;
 }
 
 .container {

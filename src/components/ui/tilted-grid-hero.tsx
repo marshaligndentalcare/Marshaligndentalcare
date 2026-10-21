@@ -73,6 +73,8 @@ export type TiltedGridImage = {
   alt?: string;
   label?: string;
   id?: string;
+  focus?: string;
+  objectPosition?: string;
   onClick?: () => void;
 };
 
@@ -303,6 +305,7 @@ export function TiltedGridHero({
                           top: 0,
                           maxWidth: "none",
                           objectFit: "cover",
+                          objectPosition: img.focus || img.objectPosition || "50% 50%",
                           left: u(-k * share),
                           width: u(aspectRatio),
                           height: u(1),

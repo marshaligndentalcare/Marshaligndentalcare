@@ -108,7 +108,7 @@
 }
 
 .primaryBtn:hover {
-  background-color: #2F4768;
+  background-color: var(--brand-700);
 }
 
 @keyframes fadeIn {

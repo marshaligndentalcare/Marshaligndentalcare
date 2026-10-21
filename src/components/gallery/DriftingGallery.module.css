@@ -1,0 +1,231 @@
+/* DriftingGallery.module.css
+   Two-row infinite-drift gallery strip.
+   Uses existing design tokens only — no new colours or fonts. */
+
+/* ── Section wrapper ──────────────────────────────────────────────────────── */
+.driftSection {
+  margin-top: 40px;
+  padding-bottom: 16px;
+  overflow: hidden;
+  /* Full bleed beyond container */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ── Single row ───────────────────────────────────────────────────────────── */
+.row {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+  /* Soft left/right edge fade using the page background token */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--color-bg) 6%,
+    var(--color-bg) 94%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--color-bg) 6%,
+    var(--color-bg) 94%,
+    transparent 100%
+  );
+}
+
+/* ── Drifting track ───────────────────────────────────────────────────────── */
+.track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* Only the track translates — tiles just float vertically */
+  will-change: transform;
+}
+
+/* RTL animation: translate from 0 → -50% so the duplicated second half loops */
+@keyframes driftRtl {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* LTR animation: translate from -50% → 0 */
+@keyframes driftLtr {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+.rowRtl .track {
+  animation: driftRtl 52s linear infinite;
+}
+
+.rowLtr .track {
+  animation: driftLtr 58s linear infinite;
+}
+
+/* ── Tile float keyframes ─────────────────────────────────────────────────── */
+@keyframes tileFloat {
+  0%,  100% { transform: translateY(0px); }
+  50%        { transform: translateY(-8px); }
+}
+
+/* ── Individual tile ──────────────────────────────────────────────────────── */
+.tile {
+  /* Height comes from inline style set per breakpoint */
+  flex-shrink: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.12),
+    0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s var(--transition-smooth), box-shadow 0.25s ease;
+  /* Float animation stagger via animationDelay on inline style */
+  animation: tileFloat 6s ease-in-out infinite;
+  background: var(--color-surface);
+  /* Prevent focus outline being clipped */
+  outline-offset: 3px;
+}
+
+.tile:hover,
+.tile:focus-visible {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow:
+    0 12px 32px rgba(37, 99, 240, 0.18),
+    0 3px 10px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.tile:focus-visible {
+  outline: 3px solid var(--brand-600);
+}
+
+/* Aria-hidden tiles: no interaction */
+.tile[aria-hidden="true"] {
+  pointer-events: none;
+}
+
+/* ── Tile inner (landscape / video) ──────────────────────────────────────── */
+.tileInner {
+  position: relative;
+  width: 100%;
+  /* height set via inline style */
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+/* ── Landscape image ──────────────────────────────────────────────────────── */
+.tileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--focus, 50% 50%);
+  display: block;
+}
+
+/* ── Portrait tile ────────────────────────────────────────────────────────── */
+.tilePortrait {
+  position: relative;
+  width: 100%;
+  /* height set via inline style */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Blurred real-image backdrop — not a flat colour */
+.tileBgBlur {
+  position: absolute;
+  inset: -12%;
+  width: 124%;
+  height: 124%;
+  object-fit: cover;
+  object-position: var(--focus, 50% 50%);
+  filter: blur(24px) brightness(0.65) saturate(1.2);
+  transform: scale(1.2);
+  pointer-events: none;
+}
+
+/* Contained foreground image */
+.tileImgContain {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* ── Video tile ───────────────────────────────────────────────────────────── */
+.tileNoPoster {
+  width: 100%;
+  background: var(--brand-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playBadge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(10, 11, 14, 0.68);
+  color: #fff;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .driftSection {
+    margin-top: 28px;
+  }
+  .row {
+    margin-bottom: 12px;
+  }
+  .tile {
+    border-radius: 10px;
+  }
+  .track {
+    gap: 8px;
+  }
+}
+
+/* ── Reduced motion: no drift, no float — scroll-snap strip ──────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .rowRtl .track,
+  .rowLtr .track {
+    animation: none !important;
+    transform: none !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--brand-500) var(--color-surface);
+  }
+  .tile {
+    animation: none !important;
+    transform: none !important;
+    scroll-snap-align: start;
+  }
+  .tile:hover,
+  .tile:focus-visible {
+    transform: none;
+  }
+  /* Remove edge fade so scroll indicators are visible */
+  .row {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}

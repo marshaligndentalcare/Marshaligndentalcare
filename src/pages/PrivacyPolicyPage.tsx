@@ -13,12 +13,12 @@ const PrivacyPolicyPage: React.FC = () => {
   });
 
   return (
-    <>
-      <Breadcrumbs items={[{ label: 'Privacy Policy' }]} />
-
-      <section className={styles.section}>
-        <div className={styles.container}>
-          <h1 className={styles.heading}>Privacy Policy & Medical Disclaimer</h1>
+    <section className={styles.section}>
+      <div className={styles.container}>
+        <div className={styles.breadcrumbWrap}>
+          <Breadcrumbs items={[{ label: 'Privacy Policy' }]} />
+        </div>
+        <h1 className={styles.heading}>Privacy Policy & Medical Disclaimer</h1>
 
           <div className={styles.content}>
             <h2>1. Introduction & Patient Privacy</h2>
@@ -68,7 +68,6 @@ const PrivacyPolicyPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </>
   );
 };
 

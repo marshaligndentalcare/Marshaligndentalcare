@@ -1,6 +1,6 @@
 .footer {
-  background: linear-gradient(180deg, #2D4360 0%, #1E2D40 100%);
-  border-top: 1px solid rgba(168, 184, 194, 0.2);
+  background: linear-gradient(180deg, var(--brand-900) 0%, #101E45 100%);
+  border-top: 1px solid rgba(37, 99, 240, 0.2);
   padding: 80px 0 0;
   position: relative;
   overflow: hidden;
@@ -14,7 +14,7 @@
   transform: translateX(-50%);
   width: 600px;
   height: 200px;
-  background: radial-gradient(ellipse, rgba(168, 184, 194, 0.2) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(37, 99, 240, 0.2) 0%, transparent 70%);
   pointer-events: none;
   filter: blur(40px);
 }

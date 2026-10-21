@@ -1,15 +1,16 @@
 /**
- * Treatment data for individual treatment pages.
- * All 7 treatments are verified from the clinic's actual service offerings.
- * No unconfirmed treatments are listed.
+ * Treatment data for all clinic treatments.
+ * Single source of truth for treatment cards, detail pages, footer links, and sitemaps.
  */
 
 export interface TreatmentPageData {
   id: string;
   slug: string;
+  aliases?: string[];
   name: string;
   specialty: string;
   doctorName: string;
+  attribution: string;
   icon: string;
   image: string;
   alt: string;
@@ -18,7 +19,7 @@ export interface TreatmentPageData {
   metaDescription: string;
   heroSubtitle: string;
   overview: string;
-  benefits: string[];
+  benefits?: string[];
   procedure: string[];
   whoIsItFor: string;
   faq: { question: string; answer: string }[];
@@ -28,9 +29,11 @@ export const TREATMENTS: TreatmentPageData[] = [
   {
     id: 'orthodontics',
     slug: 'orthodontics',
+    aliases: ['orthodontics-braces'],
     name: 'Orthodontics & Braces',
     specialty: 'Orthodontics & Dentofacial Orthopedics',
     doctorName: 'Dr. Marshal Antony M.',
+    attribution: 'Dr. Marshal Antony M.',
     icon: '⟳',
     image: '/orthodontics-treatment.webp',
     alt: 'Orthodontist examining and adjusting braces on patient in dental clinic',
@@ -39,7 +42,7 @@ export const TREATMENTS: TreatmentPageData[] = [
     pageTitle: 'Orthodontics & Braces Treatment in Trichy | Marshalign Dental Care',
     metaDescription:
       'Expert orthodontic treatment and braces by Dr. Marshal Antony M., MDS Orthodontics, at Marshalign Dental Care, Trichy. Personalised treatment plans for all ages.',
-    heroSubtitle: 'Specialist orthodontic care by Dr. Marshal Antony M., MDS',
+    heroSubtitle: 'Specialist orthodontic care by Dr. Marshal Antony M.',
     overview:
       'Orthodontics is the dental specialty focused on diagnosing, preventing, and treating misaligned teeth and jaws. At Marshalign Dental Care, orthodontic treatment is planned and delivered by Dr. Marshal Antony M., a specialist with an MDS in Orthodontics & Dentofacial Orthopedics. Treatment options include traditional metal braces, ceramic braces, and modern self-ligating bracket systems, each selected based on the clinical complexity of the case and the patient\'s individual goals.',
     benefits: [
@@ -72,9 +75,11 @@ export const TREATMENTS: TreatmentPageData[] = [
   {
     id: 'dentofacial',
     slug: 'dentofacial-orthopedics',
+    aliases: ['dentofacial'],
     name: 'Dentofacial Orthopedics',
     specialty: 'Orthodontics & Dentofacial Orthopedics',
     doctorName: 'Dr. Marshal Antony M.',
+    attribution: 'Dr. Marshal Antony M.',
     icon: '◈',
     image: '/dentofacial-orthopedics.webp',
     alt: 'Dentofacial orthopedics consultation and facial growth guidance',
@@ -83,42 +88,48 @@ export const TREATMENTS: TreatmentPageData[] = [
     pageTitle: 'Dentofacial Orthopedics in Trichy | Marshalign Dental Care',
     metaDescription:
       'Dentofacial orthopedics for children and growing patients by Dr. Marshal Antony M. at Marshalign Dental Care, Trichy. Interceptive jaw growth guidance.',
-    heroSubtitle: 'Guided jaw and facial growth management by Dr. Marshal Antony M., MDS',
+    heroSubtitle: 'Specialist care by Dr. Marshal Antony M.',
     overview:
-      'Dentofacial orthopedics focuses on guiding the growth and development of the facial bones and jaws, particularly in children and adolescents. At Marshalign Dental Care, Dr. Marshal Antony M. uses functional appliances and interceptive treatment strategies to correct jaw imbalances during the critical growth years, reducing the need for more invasive procedures later in life.',
+      'Dentofacial orthopedics guides the growth of the jaws in growing children and teenagers to correct differences in jaw size or position, often together with braces. It is assessed and planned by an orthodontist.',
     benefits: [
-      'Addresses jaw growth discrepancies during the optimal developmental window',
-      'Reduces the likelihood of needing surgical correction in adulthood',
-      'Improves facial symmetry, breathing, and overall oral function',
-      'Uses removable and fixed functional appliances tailored to the patient\'s growth stage',
-      'Performed by a specialist with dedicated training in dentofacial orthopedics',
+      'Guidance of jaw growth during active developmental years',
+      'Helps correct skeletal imbalances between upper and lower jaws',
+      'Can reduce the complexity of subsequent orthodontic treatment',
+      'Uses tailored functional appliances or expanders based on individual assessment',
     ],
     procedure: [
-      'Comprehensive evaluation including clinical examination and growth assessment imaging',
-      'Diagnosis of skeletal growth patterns and identification of any jaw imbalances',
-      'Custom selection and fitting of functional orthopedic appliances',
-      'Periodic follow-up visits to monitor growth progress and adjust treatment',
-      'Transition to orthodontic phase if needed once growth guidance is completed',
+      'Assessment with records (photos, X-rays, scans or impressions)',
+      'Diagnosis and plan explained',
+      'Appliance fitting (for example a functional appliance or expander, as advised)',
+      'Regular review visits',
+      'Braces if needed afterwards',
+      'Retention',
     ],
     whoIsItFor:
-      'Dentofacial orthopedics is primarily for children and adolescents with jaw growth imbalances, such as a receding lower jaw, protruding upper jaw, or facial asymmetry. Early intervention during the growth period produces the most effective outcomes.',
+      'children with a protruding upper jaw or underbite, crossbite, a narrow upper jaw, or crowding linked to jaw size; an orthodontic check-up from around age 7 is often suggested.',
     faq: [
       {
-        question: 'At what age should a child see a dentofacial orthopedics specialist?',
-        answer: 'The ideal time for evaluation is between ages 7 and 10, when the jaw is still growing and interceptive treatment can be most effective. However, the specialist can assess suitability at any age during active growth.',
+        question: 'What age is best?',
+        answer: 'Timing depends on growth, so an early assessment helps.',
       },
       {
-        question: 'Is dentofacial orthopedics the same as orthodontics?',
-        answer: 'They are related but distinct. Orthodontics focuses on aligning teeth, while dentofacial orthopedics specifically guides the growth and position of the jaw bones. Dr. Marshal Antony holds specialist training in both disciplines.',
+        question: 'Is it only for children?',
+        answer: 'Jaw growth is mostly complete in adults, so planning differs; the orthodontist will advise options.',
+      },
+      {
+        question: 'Will braces still be needed?',
+        answer: 'Often, but not always.',
       },
     ],
   },
   {
     id: 'implants',
     slug: 'dental-implants',
+    aliases: ['implants'],
     name: 'Dental Implants',
     specialty: 'Prosthodontics & Implantology',
     doctorName: 'Dr. Jose Olive A.',
+    attribution: 'Dr. Jose Olive A.',
     icon: '⬡',
     image: '/dental-implant-treatment.webp',
     alt: 'Precision dental implant restoration planning in modern operatory',
@@ -127,42 +138,48 @@ export const TREATMENTS: TreatmentPageData[] = [
     pageTitle: 'Dental Implants in Trichy | Marshalign Dental Care',
     metaDescription:
       'Dental implant treatment by Dr. Jose Olive A., MDS Prosthodontics & Implantology, at Marshalign Dental Care, Trichy. Permanent tooth replacement solutions.',
-    heroSubtitle: 'Precision implantology by Dr. Jose Olive A., MDS',
+    heroSubtitle: 'Specialist care by Dr. Jose Olive A.',
     overview:
-      'Dental implants are titanium posts surgically placed into the jawbone to serve as artificial tooth roots. Once integrated with the bone, they support permanent crowns, bridges, or dentures that look and function like natural teeth. At Marshalign Dental Care, implant treatment is planned and delivered by Dr. Jose Olive A., a specialist with an MDS in Prosthodontics & Implantology, ensuring precise surgical placement and high-quality prosthetic restoration.',
+      'A dental implant replaces the root of a missing tooth with a small titanium post placed in the jawbone, topped with a crown, so the replacement tooth is fixed in place and works like a natural tooth. Whether it suits you depends on your bone, gum health and general health, and is decided after an examination.',
     benefits: [
-      'Permanent replacement for one or more missing teeth',
-      'Preserves jawbone density by stimulating the bone, preventing resorption',
-      'Looks, feels, and functions like natural teeth — no removable dentures needed',
-      'Does not require grinding down adjacent healthy teeth (unlike traditional bridges)',
-      'Long-lasting solution with excellent success rates when properly maintained',
+      'Replaces missing tooth root with a biocompatible titanium post',
+      'Fixed restoration topped with a natural-looking crown',
+      'Preserves jawbone structure and adjacent natural teeth',
+      'Functions and feels like a natural tooth',
     ],
     procedure: [
-      'Initial consultation with clinical examination, 3D imaging, and bone assessment',
-      'Treatment planning to determine implant position, type, and prosthetic design',
-      'Surgical placement of the titanium implant fixture into the jawbone',
-      'Healing period (osseointegration) — typically 3 to 6 months for the implant to fuse with bone',
-      'Placement of the final custom crown, bridge, or denture on the integrated implant',
+      'Consultation and examination with X-rays/scan',
+      'Treatment planning',
+      'Implant placement under local anaesthesia',
+      'Healing while the bone integrates with the implant (varies per person)',
+      'Crown or bridge fitting',
+      'Regular check-ups and care',
     ],
     whoIsItFor:
-      'Dental implants are suitable for adults who have lost one or more teeth due to injury, decay, or periodontal disease, and who have adequate jawbone density to support an implant. A clinical and radiographic assessment by Dr. Jose Olive will determine candidacy.',
+      'one or more missing teeth; loose dentures; healthy gums and enough jawbone (or bone support planned first); patients who can maintain good oral hygiene.',
     faq: [
       {
-        question: 'How long do dental implants last?',
-        answer: 'With proper oral hygiene and regular dental check-ups, dental implants can last many years and often a lifetime. The prosthetic crown on top may need replacement after 10–15 years depending on wear.',
+        question: 'Is it painful?',
+        answer: 'It is done under local anaesthesia; mild soreness afterwards is common and your dentist will advise.',
       },
       {
-        question: 'Is dental implant surgery painful?',
-        answer: 'Implant placement is performed under local anaesthesia and is generally well-tolerated. Most patients report mild discomfort for a few days after surgery, manageable with prescribed medication.',
+        question: 'Am I suitable?',
+        answer: 'Only an examination can tell.',
+      },
+      {
+        question: 'How long do implants last?',
+        answer: 'With good hygiene, healthy gums and regular check-ups many last for years; smoking and poor hygiene can reduce success.',
       },
     ],
   },
   {
     id: 'prosthodontics',
     slug: 'prosthodontics',
+    aliases: [],
     name: 'Prosthodontics',
     specialty: 'Prosthodontics & Implantology',
     doctorName: 'Dr. Jose Olive A.',
+    attribution: 'Dr. Jose Olive A.',
     icon: '◇',
     image: '/prosthodontics-treatment.webp',
     alt: 'Prosthodontist assessing custom ceramic dental restoration and crown',
@@ -171,7 +188,7 @@ export const TREATMENTS: TreatmentPageData[] = [
     pageTitle: 'Prosthodontics & Smile Restoration in Trichy | Marshalign Dental Care',
     metaDescription:
       'Prosthodontic treatment including crowns, bridges, dentures, and full-mouth rehabilitation by Dr. Jose Olive A. at Marshalign Dental Care, Trichy.',
-    heroSubtitle: 'Specialist prosthetic rehabilitation by Dr. Jose Olive A., MDS',
+    heroSubtitle: 'Specialist prosthetic rehabilitation by Dr. Jose Olive A.',
     overview:
       'Prosthodontics is the dental specialty dedicated to restoring and replacing teeth through crowns, bridges, dentures, and comprehensive full-mouth rehabilitation. At Marshalign Dental Care, Dr. Jose Olive A. combines specialist MDS training in Prosthodontics & Implantology with modern restorative materials to provide durable, natural-looking results that restore both function and confidence.',
     benefits: [
@@ -204,9 +221,11 @@ export const TREATMENTS: TreatmentPageData[] = [
   {
     id: 'examination',
     slug: 'general-examination',
+    aliases: ['examination'],
     name: 'General Dental Examination',
     specialty: 'Comprehensive Diagnostics',
-    doctorName: 'Our dental specialists',
+    doctorName: 'Marshalign Dental Care',
+    attribution: 'Marshalign Dental Care',
     icon: '◎',
     image: '/dental-examination.webp',
     alt: 'Dentist conducting comprehensive oral examination with mouth mirror',
@@ -215,42 +234,47 @@ export const TREATMENTS: TreatmentPageData[] = [
     pageTitle: 'General Dental Examination in Trichy | Marshalign Dental Care',
     metaDescription:
       'Comprehensive dental check-up and examination at Marshalign Dental Care, Trichy. Thorough assessment, periodontal screening, and personalised care recommendations.',
-    heroSubtitle: 'Thorough clinical assessment for complete peace of mind',
+    heroSubtitle: 'Care provided by Marshalign Dental Care',
     overview:
-      'A comprehensive general dental examination is the foundation of preventive oral healthcare. At Marshalign Dental Care, every examination includes a thorough clinical inspection of your teeth, gums, tongue, and oral tissues, along with diagnostic imaging where indicated. The goal is to identify any dental concerns early — before they require complex or costly treatment — and to develop a personalised care plan that supports your long-term oral health.',
+      'A thorough check of your teeth, gums, bite and the soft tissues of the mouth to find problems early and plan any care, with advice to keep your mouth healthy.',
     benefits: [
-      'Early detection of tooth decay, gum disease, and other oral health conditions',
-      'Comprehensive assessment including soft tissue and periodontal screening',
-      'Diagnostic imaging to identify issues not visible to the naked eye',
-      'Personalised oral health recommendations and preventive care guidance',
-      'Establishes a baseline record for tracking your dental health over time',
+      'Early detection of decay, gum issues, and oral health concerns',
+      'Full examination of teeth, gums, bite, and soft oral tissues',
+      'Targeted imaging only when clinically indicated',
+      'Clear findings and preventive advice tailored to your needs',
     ],
     procedure: [
-      'Discussion of your dental history, current concerns, and overall health',
-      'Visual clinical examination of teeth, gums, tongue, and oral mucosa',
-      'Diagnostic X-rays if clinically indicated',
-      'Periodontal assessment to check gum health and attachment levels',
-      'Summary of findings, personalised advice, and treatment recommendations if needed',
+      'Medical and dental history',
+      'Examination of teeth, gums and bite',
+      'Check of the tongue, cheeks and soft tissues',
+      'X-rays only if needed',
+      'Findings explained and a clear plan',
     ],
     whoIsItFor:
-      'A general dental examination is recommended for everyone — adults, children, and elderly patients — at regular intervals. Even if you are not experiencing pain or obvious dental problems, routine examinations help prevent issues and maintain oral wellness.',
+      'everyone, including first-time visitors; anyone with pain, bleeding gums, sensitivity or bad breath; before starting braces or other treatment; regular check-ups, commonly around every six months or as advised.',
     faq: [
       {
-        question: 'How often should I have a dental examination?',
-        answer: 'Most dental professionals recommend a check-up every 6 to 12 months, depending on your individual oral health needs. Your dentist will advise on the right interval for you.',
+        question: 'How often should I come?',
+        answer: 'Often every six months, but your dentist may advise differently.',
       },
       {
-        question: 'Do I need a dental examination if I have no pain?',
-        answer: 'Yes. Many dental conditions, including early-stage decay and gum disease, can develop without causing noticeable pain. Regular examinations allow early detection and simpler treatment.',
+        question: 'Are X-rays always needed?',
+        answer: 'No, only when they help diagnosis.',
+      },
+      {
+        question: 'Will I need treatment?',
+        answer: 'Not always; the exam shows what is needed.',
       },
     ],
   },
   {
     id: 'cleaning',
     slug: 'teeth-cleaning',
+    aliases: ['cleaning'],
     name: 'Professional Teeth Cleaning',
     specialty: 'Preventive Oral Care',
-    doctorName: 'Our dental specialists',
+    doctorName: 'Marshalign Dental Care',
+    attribution: 'Marshalign Dental Care',
     icon: '✦',
     image: '/teeth-cleaning.webp',
     alt: 'Dental professional performing ultrasonic scaling and teeth cleaning',
@@ -259,42 +283,46 @@ export const TREATMENTS: TreatmentPageData[] = [
     pageTitle: 'Professional Teeth Cleaning & Scaling in Trichy | Marshalign Dental Care',
     metaDescription:
       'Professional teeth cleaning and ultrasonic scaling at Marshalign Dental Care, Trichy. Remove plaque, tartar, and stains for healthier gums and fresher breath.',
-    heroSubtitle: 'Preventive cleaning for lasting gum health and oral freshness',
+    heroSubtitle: 'Care provided by Marshalign Dental Care',
     overview:
-      'Professional teeth cleaning (dental prophylaxis) is a preventive procedure that removes plaque, calculus (tartar), and surface stains that cannot be adequately addressed by brushing and flossing alone. At Marshalign Dental Care, cleaning is performed using gentle ultrasonic scaling instruments followed by polishing, ensuring thorough removal of deposits above and below the gumline while maintaining patient comfort.',
+      'Scaling and polishing removes plaque, tartar and surface stains that brushing cannot, helping keep gums healthy and breath fresher.',
     benefits: [
-      'Removes hardened plaque (tartar) that regular brushing cannot eliminate',
-      'Reduces the risk of gum disease (gingivitis and periodontitis)',
-      'Eliminates surface stains for a cleaner, brighter appearance',
-      'Freshens breath by removing bacteria-harbouring deposits',
-      'Supports overall oral health and complements home hygiene routines',
+      'Removes stubborn calculus and bacterial plaque deposits',
+      'Helps prevent and manage gum inflammation and bleeding',
+      'Polishes tooth surfaces and removes external stains',
+      'Personalised home oral hygiene recommendations',
     ],
     procedure: [
-      'Clinical assessment of gum health and identification of calculus deposits',
-      'Ultrasonic scaling to gently break down and remove tartar above and below the gumline',
-      'Manual hand scaling for any remaining fine deposits',
-      'Polishing to smooth tooth surfaces and remove superficial stains',
-      'Oral hygiene guidance and recommended cleaning interval advice',
+      'Quick check of teeth and gums',
+      'Scaling to remove tartar',
+      'Polishing',
+      'Home-care advice and a recall interval',
     ],
     whoIsItFor:
-      'Professional teeth cleaning is recommended for all patients as part of routine preventive dental care. It is especially important for individuals with a tendency toward tartar build-up, early signs of gum inflammation, or those who have not had a professional cleaning in over 6 months.',
+      'bleeding or puffy gums, visible tartar, bad breath, surface stains, before braces, and as regular maintenance as advised.',
     faq: [
       {
-        question: 'Does teeth cleaning hurt?',
-        answer: 'Professional teeth cleaning is generally comfortable. You may feel mild vibration from the ultrasonic scaler and slight sensitivity in areas with heavy deposits, but the procedure is designed to be gentle.',
+        question: 'Does it damage enamel?',
+        answer: 'When done properly, no; some temporary sensitivity can occur.',
       },
       {
-        question: 'How often should I get my teeth professionally cleaned?',
-        answer: 'Most patients benefit from professional cleaning every 6 months. Patients with gum disease or heavy tartar build-up may need more frequent cleanings as recommended by their dentist.',
+        question: 'Does it whiten teeth?',
+        answer: 'It removes surface stains but does not change natural tooth shade.',
+      },
+      {
+        question: 'Why do gaps look bigger afterwards?',
+        answer: 'Removing tartar reveals spaces that were already there.',
       },
     ],
   },
   {
     id: 'restorative',
     slug: 'restorative-dentistry',
+    aliases: ['restorative'],
     name: 'Restorative Dentistry',
     specialty: 'Conservative Dental Care',
-    doctorName: 'Our dental specialists',
+    doctorName: 'Marshalign Dental Care',
+    attribution: 'Marshalign Dental Care',
     icon: '❋',
     image: '/restorative-dentistry.webp',
     alt: 'Dentist placing and light-curing tooth-colored composite restoration',
@@ -303,39 +331,44 @@ export const TREATMENTS: TreatmentPageData[] = [
     pageTitle: 'Restorative Dentistry & Fillings in Trichy | Marshalign Dental Care',
     metaDescription:
       'Tooth-colored composite fillings and restorative dentistry at Marshalign Dental Care, Trichy. Conservative restorations that match your natural enamel.',
-    heroSubtitle: 'Conservative restorations that preserve your natural tooth structure',
+    heroSubtitle: 'Care provided by Marshalign Dental Care',
     overview:
-      'Restorative dentistry at Marshalign Dental Care focuses on repairing teeth damaged by decay, fracture, or wear using modern tooth-colored composite materials. These restorations are designed to blend seamlessly with your natural enamel while restoring the tooth\'s structural integrity and chewing function. The approach is conservative — preserving as much healthy tooth structure as possible while ensuring a durable, aesthetic repair.',
+      'Restorative dentistry repairs teeth that are decayed, cracked, chipped or worn, and replaces missing tooth structure, using options such as tooth-coloured fillings, inlays/onlays, crowns and bridges as appropriate.',
     benefits: [
-      'Tooth-colored composite materials that match your natural enamel shade',
-      'Conservative approach that preserves maximum healthy tooth structure',
-      'Restores chewing function and prevents further decay progression',
-      'Durable repairs using modern bonding techniques and light-cured composites',
-      'Aesthetically superior to traditional metal (amalgam) fillings',
+      'Tooth-coloured materials shade-matched to your natural teeth',
+      'Conservative preparation preserving healthy tooth structure',
+      'Restores chewing function and oral comfort',
+      'Durable repair for chipped, cracked, or decayed teeth',
     ],
     procedure: [
-      'Clinical examination and assessment of the damaged tooth',
-      'Local anaesthesia to ensure a comfortable procedure (if needed)',
-      'Removal of decayed or damaged tooth structure',
-      'Application and shaping of tooth-colored composite material in layers',
-      'Light-curing to harden the restoration, followed by bite adjustment and polishing',
+      'Examination and X-ray',
+      'Options and materials discussed',
+      'Local anaesthesia if needed',
+      'Preparing and restoring the tooth',
+      'Bite check and polish',
+      'Care instructions and review',
     ],
     whoIsItFor:
-      'Restorative dentistry is appropriate for patients with tooth decay (cavities), chipped or fractured teeth, worn fillings that need replacement, or minor cosmetic imperfections. The treatment is suitable for both adults and children.',
+      'cavities, broken or chipped teeth, worn teeth, failing old fillings, teeth weakened after previous treatment.',
     faq: [
       {
-        question: 'How long do composite fillings last?',
-        answer: 'Modern composite fillings typically last 5 to 10 years or more, depending on the size and location of the filling, your bite forces, and your oral hygiene. Regular check-ups help monitor filling integrity.',
+        question: 'Filling or crown?',
+        answer: 'It depends on how much healthy tooth remains.',
       },
       {
-        question: 'Are tooth-colored fillings as strong as metal fillings?',
-        answer: 'Modern composite materials have improved significantly and are suitable for most restorations. For very large restorations under heavy biting forces, your dentist may recommend alternative materials and will discuss options with you.',
+        question: 'Do restorations last forever?',
+        answer: 'No, they need care and periodic checks.',
+      },
+      {
+        question: 'Will the filling match my teeth?',
+        answer: 'Tooth-coloured materials can be shade-matched.',
       },
     ],
   },
 ];
 
-/** Look up a treatment by its URL slug */
+/** Look up a treatment by its URL slug or alias */
 export function getTreatmentBySlug(slug: string): TreatmentPageData | undefined {
-  return TREATMENTS.find((t) => t.slug === slug);
+  const normalized = slug.toLowerCase().trim();
+  return TREATMENTS.find((t) => t.slug === normalized || t.aliases?.includes(normalized));
 }

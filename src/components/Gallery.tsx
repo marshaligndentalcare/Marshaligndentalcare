@@ -1,92 +1,74 @@
-import React, { useEffect, useRef, useState } from 'react';
+/**
+ * Gallery.tsx — Orchestrates the full gallery experience.
+ * - Category filter chips (URL ?cat= state)
+ * - Coverflow stage for active category
+ * - Drifting gallery (two auto-drifting rows)
+ * - Full-screen lightbox
+ *
+ * Heading and section patterns unchanged from original.
+ * Uses only existing design tokens.
+ */
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styles from './Gallery.module.css';
-import { X } from 'lucide-react';
-import { TiltedGridHero, type TiltedGridImage } from '@/components/ui/tilted-grid-hero';
+import CategoryChips from './gallery/CategoryChips';
+import CoverflowStage from './gallery/CoverflowStage';
+import DriftingGallery from './gallery/DriftingGallery';
+import GalleryLightbox from './gallery/GalleryLightbox';
+import type { GalleryItem, GalleryManifest } from '../data/galleryTypes';
+import manifestData from '../data/gallery.generated.json';
 
-const CLINIC_IMAGES = [
-  {
-    src: '/clinic-reception.jpg',
-    alt: 'Marshalign Dental Care reception and patient waiting lounge',
-    label: 'Reception & Waiting Lounge',
-  },
-  {
-    src: '/treatment-room.jpg',
-    alt: 'Marshalign modern clinical treatment suite',
-    label: 'Specialist Treatment Suite',
-  },
-  {
-    src: '/orthodontics-treatment.webp',
-    alt: 'Orthodontics and braces operatory',
-    label: 'Orthodontics & Braces Operatory',
-  },
-  {
-    src: '/prosthodontics-treatment.webp',
-    alt: 'Prosthodontics and smile restoration operatory',
-    label: 'Prosthodontics & Rehabilitation',
-  },
-  {
-    src: '/dr-marshal-antony.webp',
-    alt: 'Dr. Marshal Antony M., Orthodontist & Dentofacial Orthopedics specialist at Marshalign Dental Care, Trichy',
-    label: 'Dr. Marshal Antony M.',
-  },
-  {
-    src: '/dr-jose-olive.webp',
-    alt: 'Dr. Jose Olive A., Prosthodontist & Implantology specialist at Marshalign Dental Care, Trichy',
-    label: 'Dr. Jose Olive A.',
-  },
-  {
-    src: '/dental-implant-treatment.webp',
-    alt: 'Dental implant operatory and clinical technology',
-    label: 'Precision Implantology Suite',
-  },
-  {
-    src: '/dentofacial-orthopedics.webp',
-    alt: 'Dentofacial orthopedics consultation and diagnostic care',
-    label: 'Dentofacial Diagnostics',
-  },
-  {
-    src: '/teeth-cleaning.webp',
-    alt: 'Preventive dental prophylaxis operatory',
-    label: 'Preventive Care Suite',
-  },
-  {
-    src: '/restorative-dentistry.webp',
-    alt: 'Restorative dentistry and aesthetic restorations',
-    label: 'Restorative Dentistry',
-  },
-];
+const manifest = manifestData as GalleryManifest;
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 const Gallery: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [lightboxImg, setLightboxImg] = useState<(typeof CLINIC_IMAGES)[0] | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  /* Scroll-in animation observer */
+  // ── Active category from ?cat= URL param ─────────────────────────────────
+  const activeCat = searchParams.get('cat') ?? '';
+
+  const setActiveCat = useCallback((slug: string) => {
+    setSearchParams(slug ? { cat: slug } : {}, { replace: true });
+    // Reset stage to first item on category change
+    setStageIndex(0);
+  }, [setSearchParams]);
+
+  // ── Filter items ─────────────────────────────────────────────────────────
+  const filteredItems: GalleryItem[] = activeCat
+    ? manifest.items.filter((i) => i.category === activeCat)
+    : manifest.items;
+
+  // ── Coverflow stage index ─────────────────────────────────────────────────
+  const [stageIndex, setStageIndex] = useState(0);
+
+  // Clamp stage index when filtered list changes
+  useEffect(() => {
+    setStageIndex((i) => Math.min(i, Math.max(0, filteredItems.length - 1)));
+  }, [filteredItems.length]);
+
+  // ── Lightbox ──────────────────────────────────────────────────────────────
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const openLightbox  = useCallback((i: number) => setLightboxIndex(i), []);
+  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
+  const navigateLb    = useCallback((i: number) => setLightboxIndex(i), []);
+
+  // ── Scroll-in animation observer ──────────────────────────────────────────
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) entry.target.classList.add(styles.inView);
-      },
-      { threshold: 0.08 }
+      ([entry]) => { if (entry.isIntersecting) entry.target.classList.add(styles.inView); },
+      { threshold: 0.06 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  /* Keyboard: close lightbox on Escape */
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setLightboxImg(null);
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, []);
-
-  const imagesWithHandlers: TiltedGridImage[] = CLINIC_IMAGES.map((img) => ({
-    src: img.src,
-    alt: img.alt,
-    label: img.label,
-    onClick: () => setLightboxImg(img),
-  }));
+  // ── Category label for current filter ────────────────────────────────────
+  const activeCatLabel = activeCat
+    ? manifest.categories.find((c) => c.slug === activeCat)?.label
+    : 'All';
 
   return (
     <section
@@ -95,8 +77,8 @@ const Gallery: React.FC = () => {
       ref={sectionRef}
       aria-labelledby="gallery-heading"
     >
-      {/* ── Centred text header ── */}
       <div className={styles.container}>
+        {/* ── Section header (unchanged from original) ── */}
         <header className={styles.header}>
           <div className={styles.tag} data-animate>
             <span className={styles.tagDot} aria-hidden="true" />
@@ -111,45 +93,40 @@ const Gallery: React.FC = () => {
             A glimpse inside Marshalign Dental Care operatories &amp; specialist suites.
           </p>
         </header>
-      </div>
 
-      {/* ── Full-width curved image strip ── */}
-      <div className={styles.stripWrap}>
-        <TiltedGridHero
-          images={imagesWithHandlers}
-          speed={5}
-          tileHeight={40}
-          aspectRatio={16 / 9}
-          gap={6}
-          axis={54}
-          curve={80}
-          fade={12}
-          className={styles.tiltedHero}
+        {/* ── Category filter chips ── */}
+        <CategoryChips
+          categories={manifest.categories}
+          activeSlug={activeCat}
+          totalCount={manifest.items.length}
+          onChange={setActiveCat}
+        />
+
+        {/* ── Coverflow stage ── */}
+        <CoverflowStage
+          items={filteredItems}
+          activeIndex={stageIndex}
+          onIndexChange={setStageIndex}
+          onOpenLightbox={openLightbox}
+          categoryLabel={activeCatLabel}
+          categories={manifest.categories}
         />
       </div>
 
-      {/* ── Lightbox for high-resolution inspection ── */}
-      {lightboxImg && (
-        <div
-          className={styles.lightbox}
-          onClick={() => setLightboxImg(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Gallery photo: ${lightboxImg.label}`}
-        >
-          <button
-            type="button"
-            className={styles.lightboxClose}
-            onClick={() => setLightboxImg(null)}
-            aria-label="Close lightbox"
-          >
-            <X size={24} />
-          </button>
-          <div className={styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
-            <img src={lightboxImg.src} alt={lightboxImg.alt} className={styles.lightboxImg} />
-            <p className={styles.lightboxLabel}>{lightboxImg.label}</p>
-          </div>
-        </div>
+      {/* ── Drifting gallery (full-bleed below container) ── */}
+      <DriftingGallery
+        items={filteredItems}
+        onOpenLightbox={openLightbox}
+      />
+
+      {/* ── Lightbox ── */}
+      {lightboxIndex !== null && (
+        <GalleryLightbox
+          items={filteredItems}
+          activeIndex={lightboxIndex}
+          onClose={closeLightbox}
+          onNavigate={navigateLb}
+        />
       )}
     </section>
   );

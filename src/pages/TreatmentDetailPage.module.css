@@ -1,8 +1,11 @@
-/* ── Treatment Detail Page ── */
-
 .hero {
-  padding: 40px 0 60px;
+  padding-top: calc(84px + 24px);
+  padding-bottom: 60px;
   background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-surface) 100%);
+}
+
+.heroBreadcrumb {
+  margin-bottom: 4px;
 }
 
 .heroContainer {
@@ -328,16 +331,45 @@
   color: var(--color-text-muted);
 }
 
+/* ── Disclaimer ── */
+
+.disclaimerSection {
+  padding: 24px 0;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.disclaimerText {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  line-height: 1.6;
+  font-style: italic;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
 /* ── Responsive ── */
 
 @media (max-width: 768px) {
+  .hero {
+    padding-top: calc(76px + 24px);
+    padding-bottom: 44px;
+  }
+
   .heroContainer {
     grid-template-columns: 1fr;
     gap: 32px;
   }
 
+  .heroContent {
+    order: 1;
+  }
+
   .heroImage {
-    order: -1;
+    order: 2;
     aspect-ratio: 16 / 9;
   }
 

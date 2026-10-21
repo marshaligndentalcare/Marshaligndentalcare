@@ -40,9 +40,9 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background-color: #10B981; /* verified emerald dot */
+  background-color: var(--brand-600); /* brand blue — live/verified indicator */
   display: inline-block;
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 0 2px rgba(37, 99, 240, 0.25);
 }
 
 .heading {
@@ -404,9 +404,9 @@
 }
 
 .primaryAction:hover {
-  background-color: #2F4768;
+  background-color: var(--brand-700);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(60, 89, 128, 0.35);
+  box-shadow: 0 6px 18px rgba(37, 99, 240, 0.35);
 }
 
 .secondaryAction {

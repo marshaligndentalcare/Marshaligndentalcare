@@ -6,6 +6,7 @@ import {
   CLINIC_NAME, CLINIC_TAGLINE, CLINIC_ADDRESS, CLINIC_PHONE,
   CLINIC_PHONE_RAW, CLINIC_MAPS, CLINIC_INSTAGRAM
 } from '../config';
+import { TREATMENTS } from '../data/treatmentsData';
 import styles from './Footer.module.css';
 
 const NAV_LINKS = [
@@ -16,16 +17,6 @@ const NAV_LINKS = [
   { to: '/faq', label: 'FAQ' },
   { to: '/reviews', label: 'Reviews' },
   { to: '/contact', label: 'Contact' },
-];
-
-const TREATMENT_LINKS = [
-  { to: '/treatments/orthodontics', label: 'Orthodontics & Braces' },
-  { to: '/treatments/dentofacial', label: 'Dentofacial Orthopedics' },
-  { to: '/treatments/implants', label: 'Dental Implants' },
-  { to: '/treatments/prosthodontics', label: 'Prosthodontics' },
-  { to: '/treatments/examination', label: 'General Dental Examination' },
-  { to: '/treatments/cleaning', label: 'Professional Teeth Cleaning' },
-  { to: '/treatments/restorative', label: 'Restorative Dentistry' },
 ];
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -75,14 +66,14 @@ const Footer: React.FC = () => {
           <div className={styles.col}>
             <h3 className={styles.colTitle}>Treatments</h3>
             <ul className={styles.linkList} role="list">
-              {TREATMENT_LINKS.map(({ to, label }) => (
-                <li key={to}>
+              {TREATMENTS.map((t) => (
+                <li key={t.slug}>
                   <Link
-                    to={to}
+                    to={`/treatments/${t.slug}`}
                     className={styles.footLink}
-                    aria-label={`View ${label} treatment page`}
+                    aria-label={`View ${t.name} treatment page`}
                   >
-                    {label}
+                    {t.name}
                   </Link>
                 </li>
               ))}

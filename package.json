@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/check-treatment-links.mjs && node scripts/check-colors.mjs && tsc -b && vite build",
+    "gallery": "node scripts/build-gallery.mjs",
+    "check:treatments": "node scripts/check-treatment-links.mjs",
+    "check:colors": "node scripts/check-colors.mjs",
+    "test:enquiry": "node scripts/run-enquiry-tests.mjs",
     "lint": "oxlint",
     "check:secrets": "node scripts/check-secrets.cjs",
     "preview": "vite preview"

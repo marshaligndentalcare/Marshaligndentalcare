@@ -1,24 +1,21 @@
-/* ═══════════════════════════════════════════════════════════════
-   Clinic Gallery — Native Full-Width Integration
-   Marshalign Dental Care — Trichy
-   ═══════════════════════════════════════════════════════════════ */
+/* Gallery.module.css — New gallery section styles */
 
-/* ── Outer section ── */
+/* ── Section ─────────────────────────────────────────────────────── */
 .section {
-  padding: 96px 0 80px;
+  padding: 96px 0 0;
   background: var(--color-bg);
   position: relative;
   overflow: hidden;
 }
 
-/* ── Centred content container (matches site-wide container width) ── */
+/* ── Container ───────────────────────────────────────────────────── */
 .container {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 32px;
 }
 
-/* ── Animate-in helpers ── */
+/* ── Animate-in helpers ───────────────────────────────────────────── */
 [data-animate] {
   opacity: 0;
   transform: translateY(18px);
@@ -26,26 +23,19 @@
     opacity 0.5s var(--transition-smooth),
     transform 0.5s var(--transition-smooth);
 }
-
-.inView [data-animate] {
-  opacity: 1;
-  transform: none;
-}
-
+.inView [data-animate] { opacity: 1; transform: none; }
 .inView [data-animate]:nth-child(2) { transition-delay: 0.1s; }
 .inView [data-animate]:nth-child(3) { transition-delay: 0.18s; }
 
-/* ── Header block — sits above the image strip ── */
+/* ── Header ───────────────────────────────────────────────────────── */
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 52px;
-  gap: 0;
+  margin-bottom: 40px;
 }
 
-/* Eyebrow / badge */
 .tag {
   display: inline-flex;
   align-items: center;
@@ -67,7 +57,6 @@
   box-shadow: 0 0 8px rgba(60, 89, 128, 0.45);
 }
 
-/* Main heading */
 .heading {
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 5vw, 3.8rem);
@@ -79,7 +68,6 @@
   margin-bottom: 20px;
 }
 
-/* Supporting description */
 .description {
   font-family: var(--font-body);
   font-size: clamp(0.9rem, 1.6vw, 1.05rem);
@@ -88,124 +76,18 @@
   max-width: 480px;
 }
 
-/* ── Full-width image strip wrapper ── */
-/*
- * The image strip breaks out of the centred container to use the full
- * page width. It has no background of its own — it reveals the section
- * background through the animated fade masks on each edge.
- */
-.stripWrap {
-  width: 100%;
-  /* Intentionally no background — inherits section bg */
-}
 
-.tiltedHero {
-  width: 100%;
-  height: clamp(280px, 40vw, 440px);
-}
-
-/* ── Lightbox ── */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(10, 11, 14, 0.92);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  z-index: 2500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  animation: fadeIn 0.22s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.lightboxClose {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  color: #fff;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-  z-index: 2600;
-}
-
-.lightboxClose:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: scale(1.05);
-}
-
-.lightboxContent {
-  max-width: 900px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  animation: zoomIn 0.24s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes zoomIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-.lightboxImg {
-  max-width: 100%;
-  max-height: 75vh;
-  object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7);
-}
-
-.lightboxLabel {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
-  letter-spacing: 0.04em;
-}
-
-/* ── Responsive ── */
+/* ── Responsive ───────────────────────────────────────────────────── */
 @media (max-width: 960px) {
-  .section {
-    padding: 72px 0 64px;
-  }
-  .header {
-    margin-bottom: 40px;
-  }
-  .tiltedHero {
-    height: clamp(240px, 45vw, 360px);
-  }
+  .section { padding: 72px 0 0; }
+  .header  { margin-bottom: 28px; }
 }
 
 @media (max-width: 640px) {
-  .section {
-    padding: 56px 0 48px;
-  }
-  .container {
-    padding: 0 20px;
-  }
-  .header {
-    margin-bottom: 32px;
-  }
-  .heading {
-    font-size: 2rem;
-  }
-  .tiltedHero {
-    height: 260px;
-  }
+  .section { padding: 56px 0 0; }
+  .container { padding: 0 20px; }
+  .header { margin-bottom: 20px; }
+  .heading { font-size: 2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

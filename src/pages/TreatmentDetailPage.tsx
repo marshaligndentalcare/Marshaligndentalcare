@@ -29,17 +29,18 @@ const TreatmentDetailPage: React.FC = () => {
 
   return (
     <>
-      <Breadcrumbs
-        items={[
-          { label: 'Treatments', to: '/treatments' },
-          { label: treatment.name },
-        ]}
-      />
-
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroContainer}>
           <div className={styles.heroContent}>
+            <div className={styles.heroBreadcrumb}>
+              <Breadcrumbs
+                items={[
+                  { label: 'Treatments', to: '/treatments' },
+                  { label: treatment.name },
+                ]}
+              />
+            </div>
             <div className={styles.tag}>
               <span className={styles.tagDot} aria-hidden="true" />
               {treatment.specialty}
@@ -48,9 +49,10 @@ const TreatmentDetailPage: React.FC = () => {
             <p className={styles.heroSubtitle}>{treatment.heroSubtitle}</p>
             <div className={styles.heroCta}>
               <WhatsAppCTA
-                label={`Enquire about ${treatment.name}`}
+                label="Chat with us on WhatsApp"
                 size="lg"
                 context={{ type: 'service', serviceName: treatment.name }}
+                treatmentName={treatment.name}
               />
             </div>
           </div>
@@ -75,22 +77,15 @@ const TreatmentDetailPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Benefits */}
+      {/* Who it may help / Who Is It For */}
       <section className={styles.sectionAlt}>
         <div className={styles.container}>
-          <h2 className={styles.sectionTitle}>Benefits</h2>
-          <ul className={styles.benefitList}>
-            {treatment.benefits.map((benefit, i) => (
-              <li key={i} className={styles.benefitItem}>
-                <span className={styles.benefitIcon} aria-hidden="true">✓</span>
-                <span>{benefit}</span>
-              </li>
-            ))}
-          </ul>
+          <h2 className={styles.sectionTitle}>Who It May Help</h2>
+          <p className={styles.overview}>{treatment.whoIsItFor}</p>
         </div>
       </section>
 
-      {/* Procedure */}
+      {/* Procedure / What to Expect */}
       <section className={styles.section}>
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>What to Expect</h2>
@@ -105,13 +100,22 @@ const TreatmentDetailPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Who Is It For */}
-      <section className={styles.sectionAlt}>
-        <div className={styles.container}>
-          <h2 className={styles.sectionTitle}>Who Is This Treatment For?</h2>
-          <p className={styles.overview}>{treatment.whoIsItFor}</p>
-        </div>
-      </section>
+      {/* Benefits (if present) */}
+      {treatment.benefits && treatment.benefits.length > 0 && (
+        <section className={styles.sectionAlt}>
+          <div className={styles.container}>
+            <h2 className={styles.sectionTitle}>Key Considerations</h2>
+            <ul className={styles.benefitList}>
+              {treatment.benefits.map((benefit, i) => (
+                <li key={i} className={styles.benefitItem}>
+                  <span className={styles.benefitIcon} aria-hidden="true">✓</span>
+                  <span>{benefit}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* FAQ */}
       {treatment.faq.length > 0 && (
@@ -159,9 +163,10 @@ const TreatmentDetailPage: React.FC = () => {
               Send us an enquiry and our team will get back to you promptly.
             </p>
             <WhatsAppCTA
-              label={`Enquire about ${treatment.name}`}
+              label="Chat with us on WhatsApp"
               size="lg"
               context={{ type: 'service', serviceName: treatment.name }}
+              treatmentName={treatment.name}
             />
           </div>
         </div>
@@ -192,6 +197,15 @@ const TreatmentDetailPage: React.FC = () => {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* General Disclaimer */}
+      <section className={styles.disclaimerSection}>
+        <div className={styles.container}>
+          <p className={styles.disclaimerText}>
+            This is general information. Your dentist will advise on what is right for you after an examination.
+          </p>
         </div>
       </section>
     </>
