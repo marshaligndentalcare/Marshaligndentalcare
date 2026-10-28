@@ -15,6 +15,8 @@ export interface GalleryImageItem {
   category: string;
   caption: string;
   alt: string;
+  /** One factual sentence describing the visible content (no superlatives, no brand claims) */
+  description?: string;
   src: string;
   srcset?: string;
   sizes?: string;
@@ -30,6 +32,8 @@ export interface GalleryVideoItem {
   category: string;
   caption: string;
   alt: string;
+  /** One factual sentence describing the visible content */
+  description?: string;
   src: string;
   poster?: string | null;
   duration?: number | null;
@@ -37,9 +41,27 @@ export interface GalleryVideoItem {
   height: number;
   focus?: string;
   featured?: boolean;
+  /** Step number for sterilisation player (1-indexed) */
+  step?: number;
 }
 
 export type GalleryItem = GalleryImageItem | GalleryVideoItem;
+
+export interface StepItem {
+  id: string;
+  step: number;
+  caption: string;
+  description?: string;
+  src: string;
+  poster?: string | null;
+  duration?: number | null;
+  width: number;
+  height: number;
+}
+
+export interface StepManifest {
+  steps: StepItem[];
+}
 
 export interface GalleryManifest {
   categories: GalleryCategory[];
@@ -57,4 +79,10 @@ export function formatDuration(seconds: number | null | undefined): string {
 /** True if item is portrait (taller than wide) */
 export function isPortrait(item: GalleryItem): boolean {
   return item.height > item.width;
+}
+
+/** Clamp aspect ratio to [min, max] range */
+export function clampAR(w: number, h: number, min = 0.6, max = 2.0): number {
+  if (!w || !h) return 1;
+  return Math.min(max, Math.max(min, w / h));
 }

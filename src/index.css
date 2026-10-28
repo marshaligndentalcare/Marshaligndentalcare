@@ -130,6 +130,21 @@ input, textarea {
   }
 }
 
+/*
+  Scroll-margin-top: offset section anchors by the sticky navbar height (~84px)
+  so that #hash navigation and smooth-scroll do not hide content behind the header.
+*/
+[id] {
+  scroll-margin-top: 88px;
+}
+
+/* Focus-visible ring — keyboard-only, no outline on mouse clicks */
+:focus-visible {
+  outline: 2px solid var(--color-deep-ocean);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* Core Tailwind-compatible utility classes for shadcn components */
 .relative { position: relative; }
 .absolute { position: absolute; }

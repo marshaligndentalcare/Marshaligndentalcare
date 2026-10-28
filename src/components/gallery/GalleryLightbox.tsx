@@ -1,23 +1,36 @@
 /**
- * GalleryLightbox.tsx
- * Full-screen overlay lightbox for gallery items.
- * - brand-900 background + backdrop blur
- * - Images: object-fit contain
- * - Videos: native controls, autoplay on open (user-gesture safe via call site)
- * - Prev/next buttons, swipe, ArrowLeft/Right, Esc
- * - Focus trap, body scroll lock, focus restored on close
- * - Preloads neighbours
- * - No download button
+ * GalleryLightbox.tsx — Full-screen overlay lightbox with details panel.
+ *
+ * Media rules:
+ *  - Always object-fit: contain (full frame visible)
+ *  - Portrait images: height = min(70vh, 720px); width = auto
+ *  - Videos: same max-height, native controls, no scale() > 1
+ *  - Blurred copy of image as backdrop for portrait / letterbox scenarios
+ *
+ * Details panel (beside/below media):
+ *  - Caption (title), category label, description (one factual sentence), duration for videos
+ *
+ * Controls:
+ *  - Prev / next buttons, swipe (pointer events), ArrowLeft/Right, Esc
+ *  - Counter (01 / 12)
+ *  - Focus trap, body scroll lock, focus restored on close
+ *  - Preloads neighbours
+ *
+ * No download button.
  */
 import React, {
   useCallback, useEffect, useRef,
 } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import type { GalleryItem } from '../../data/galleryTypes';
-import { isPortrait } from '../../data/galleryTypes';
+import type { GalleryItem, GalleryManifest } from '../../data/galleryTypes';
+import { isPortrait, formatDuration } from '../../data/galleryTypes';
 import styles from './GalleryLightbox.module.css';
 
 const FOCUSABLE = 'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])';
+
+// Load the manifest to resolve category labels (used in details panel)
+import manifestData from '../../data/gallery.generated.json';
+const manifest = manifestData as GalleryManifest;
 
 interface Props {
   items: GalleryItem[];
@@ -47,7 +60,7 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
     return () => { document.body.style.overflow = prev; };
   }, []);
 
-  // Focus trap
+  // Focus trap + keyboard
   useEffect(() => {
     const raf = requestAnimationFrame(() => {
       const el = backdropRef.current?.querySelector<HTMLElement>(FOCUSABLE);
@@ -60,7 +73,7 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
       if (e.key === 'ArrowRight') { e.preventDefault(); onNavigate(Math.min(items.length - 1, activeIndex + 1)); }
       if (e.key !== 'Tab') return;
 
-      const dialog  = backdropRef.current;
+      const dialog = backdropRef.current;
       if (!dialog) return;
       const focusable = Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE));
       if (!focusable.length) return;
@@ -79,7 +92,7 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
     };
   }, [activeIndex, items.length, onClose, onNavigate]);
 
-  // Video autoplay on navigate
+  // Video: load + play on navigate
   useEffect(() => {
     const vid = videoRef.current;
     if (vid && item?.type === 'video') {
@@ -125,7 +138,8 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
 
   if (!item) return null;
 
-  const portrait = item.type === 'image' && isPortrait(item);
+  const portrait    = item.type === 'image' && isPortrait(item);
+  const catLabel    = manifest.categories.find((c) => c.slug === item.category)?.label ?? item.category;
 
   return (
     <div
@@ -154,58 +168,82 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
         </button>
       </div>
 
-      {/* Media */}
-      <div className={styles.media}>
-        {item.type === 'image' ? (
-          <img
-            key={item.id}
-            src={item.src}
-            srcSet={item.srcset}
-            sizes="100vw"
-            alt={item.alt}
-            className={styles.img}
-            style={portrait ? { height: '85vh', width: 'auto' } : {}}
-            draggable={false}
-          />
-        ) : (
-          <video
-            key={item.id}
-            ref={videoRef}
-            className={styles.video}
-            src={item.src}
-            poster={item.poster ?? undefined}
-            controls
-            playsInline
-            preload="metadata"
-            aria-label={item.alt}
-            style={{ maxHeight: '80vh' }}
-          />
-        )}
-      </div>
+      {/* Main content: [prev] media [details] [next] — buttons in flow, never overlapping */}
+      <div className={styles.content}>
+        {/* Prev button */}
+        <button
+          type="button"
+          className={styles.navBtn}
+          onClick={(e) => { e.stopPropagation(); onNavigate(Math.max(0, activeIndex - 1)); }}
+          disabled={activeIndex === 0}
+          aria-label="Previous"
+        >
+          <ChevronLeft size={24} aria-hidden="true" />
+        </button>
 
-      {/* Prev / next buttons */}
-      <button
-        type="button"
-        className={`${styles.navBtn} ${styles.navPrev}`}
-        onClick={(e) => { e.stopPropagation(); onNavigate(Math.max(0, activeIndex - 1)); }}
-        disabled={activeIndex === 0}
-        aria-label="Previous"
-      >
-        <ChevronLeft size={24} aria-hidden="true" />
-      </button>
-      <button
-        type="button"
-        className={`${styles.navBtn} ${styles.navNext}`}
-        onClick={(e) => { e.stopPropagation(); onNavigate(Math.min(items.length - 1, activeIndex + 1)); }}
-        disabled={activeIndex === items.length - 1}
-        aria-label="Next"
-      >
-        <ChevronRight size={24} aria-hidden="true" />
-      </button>
+        {/* Media */}
+        <div className={`${styles.media} ${portrait ? styles.mediaPortrait : ''}`}>
 
-      {/* Bottom caption */}
-      <div className={styles.bottomBar}>
-        <p className={styles.caption}>{item.caption}</p>
+          {item.type === 'image' ? (
+            <img
+              key={item.id}
+              src={item.src}
+              srcSet={item.srcset}
+              sizes="100vw"
+              alt={item.alt}
+              className={styles.img}
+              draggable={false}
+            />
+          ) : (
+            <video
+              key={item.id}
+              ref={videoRef}
+              className={styles.video}
+              src={item.src}
+              poster={item.poster ?? undefined}
+              controls
+              playsInline
+              preload="metadata"
+              aria-label={item.alt}
+            />
+          )}
+        </div>
+
+        {/* Details panel — white card */}
+        <aside className={styles.details} aria-label="Item details">
+          {item.type === 'video' && item.step !== undefined && item.step !== null && (
+            <p className={styles.detailsStepLabel}>
+              Step {String(item.step).padStart(2, '0')}
+            </p>
+          )}
+
+          <p className={styles.detailsCaption}>{item.caption}</p>
+
+          {catLabel && (
+            <span className={styles.detailsCategory}>{catLabel}</span>
+          )}
+
+          {item.description && (
+            <p className={styles.detailsDesc}>{item.description}</p>
+          )}
+
+          {item.type === 'video' && item.duration && (
+            <p className={styles.detailsDuration}>
+              Duration: {formatDuration(item.duration)}
+            </p>
+          )}
+        </aside>
+
+        {/* Next button */}
+        <button
+          type="button"
+          className={styles.navBtn}
+          onClick={(e) => { e.stopPropagation(); onNavigate(Math.min(items.length - 1, activeIndex + 1)); }}
+          disabled={activeIndex === items.length - 1}
+          aria-label="Next"
+        >
+          <ChevronRight size={24} aria-hidden="true" />
+        </button>
       </div>
     </div>
   );

@@ -28,13 +28,15 @@ import { execSync, spawnSync } from 'child_process';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = dirname(__filename);
 const ROOT       = join(__dirname, '..');
-const SRC        = join(ROOT, 'gallery-originals');
-const OUT_IMG    = join(ROOT, 'public', 'gallery');
-const MANIFEST   = join(ROOT, 'src', 'data', 'gallery.generated.json');
+const SRC              = join(ROOT, 'gallery-originals');
+const OUT_IMG          = join(ROOT, 'public', 'gallery');
+const MANIFEST         = join(ROOT, 'src', 'data', 'gallery.generated.json');
+const STEP_MANIFEST    = join(ROOT, 'src', 'data', 'sterilisation.generated.json');
+const STERILISATION_SLUG = 'sterilisation';
 
 const IMAGE_WIDTHS  = [480, 960, 1600];
 const VIDEO_EXTS    = new Set(['.mp4', '.mov', '.webm', '.mkv']);
-const IMAGE_EXTS    = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif']);
+const IMAGE_EXTS    = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif', '.jfif', '.heic', '.heif', '.bmp', '.tiff']);
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -79,14 +81,17 @@ async function processImage(src, outDir, slug, meta = {}) {
 
   let img;
   try {
-    img = sharp(src);
+    // .rotate() with no args applies EXIF auto-rotation
+    img = sharp(src).rotate();
   } catch (err) {
     console.warn(`  ⚠  Could not read image ${src}: ${err.message} — skipping`);
     return null;
   }
 
-  const metadata = await img.metadata();
-  const { width: origW, height: origH } = metadata;
+  // Get metadata AFTER auto-rotation so dimensions are correct
+  const rawMeta  = await img.metadata();
+  const origW    = rawMeta.width;
+  const origH    = rawMeta.height;
 
   const srcset = [];
 
@@ -98,6 +103,8 @@ async function processImage(src, outDir, slug, meta = {}) {
       await img
         .clone()
         .resize({ width: w, withoutEnlargement: true })
+        // Strip ALL metadata (GPS, EXIF, XMP, IPTC) from published variant
+        .withMetadata(false)
         .webp({ quality: 82, effort: 4 })
         .toFile(outPath);
       const outH = Math.round((origH / origW) * w);
@@ -108,11 +115,15 @@ async function processImage(src, outDir, slug, meta = {}) {
   }
 
   if (srcset.length === 0) {
-    // Fallback: just copy original as a single WebP
+    // Fallback: just copy original as a single WebP (still strip metadata)
     const outName = `${slug}.webp`;
     const outPath = join(outDir, outName);
     try {
-      await img.webp({ quality: 82 }).toFile(outPath);
+      await img
+        .clone()
+        .withMetadata(false)
+        .webp({ quality: 82 })
+        .toFile(outPath);
       srcset.push({ w: origW, url: `/gallery/${outName}`, width: origW, height: origH });
     } catch (err) {
       console.warn(`  ⚠  Fallback also failed for ${src}: ${err.message} — skipping`);
@@ -249,6 +260,19 @@ async function scanCategory(catDir, catSlug, meta, categoryLabels) {
     const metaKey  = `${catSlug}/${slug}`;
     const fileMeta = meta.items?.[metaKey] ?? {};
 
+    // Skip items flagged needs_review (consent pending — patient faces etc.)
+    if (fileMeta.needs_review === true) {
+      console.log(`  ⚑  SKIPPED (needs_review): ${catSlug}/${file}`);
+      continue;
+    }
+
+    // Skip items flagged hidden (person visible, policy exclusion etc.)
+    if (fileMeta.hidden === true) {
+      console.log(`  ⊘  SKIPPED (hidden): ${catSlug}/${file} — ${fileMeta.hidden_reason ?? 'no reason given'}`);
+      continue;
+    }
+
+
     const ext     = extname(file).toLowerCase();
     const isVideo = VIDEO_EXTS.has(ext);
 
@@ -262,35 +286,38 @@ async function scanCategory(catDir, catSlug, meta, categoryLabels) {
       result = await processVideo(filePath, outDir, outSlug, fileMeta);
       if (!result) continue;
       items.push({
-        id:       outSlug,
-        type:     'video',
-        category: catSlug,
-        caption:  fileMeta.caption ?? captionFromSlug(slug),
-        alt:      fileMeta.alt     ?? captionFromSlug(slug),
-        src:      result.src,
-        poster:   result.poster,
-        duration: result.duration,
-        width:    result.width,
-        height:   result.height,
-        focus:    fileMeta.focus   ?? '50% 50%',
-        featured: fileMeta.featured ?? false,
+        id:          outSlug,
+        type:        'video',
+        category:    catSlug,
+        caption:     fileMeta.caption     ?? captionFromSlug(slug),
+        alt:         fileMeta.alt         ?? captionFromSlug(slug),
+        description: fileMeta.description ?? null,
+        src:         result.src,
+        poster:      result.poster,
+        duration:    result.duration,
+        width:       result.width,
+        height:      result.height,
+        focus:       fileMeta.focus       ?? '50% 50%',
+        featured:    fileMeta.featured    ?? false,
+        step:        fileMeta.step        ?? null,
       });
     } else {
       result = await processImage(filePath, outDir, outSlug, fileMeta);
       if (!result) continue;
       items.push({
-        id:       outSlug,
-        type:     'image',
-        category: catSlug,
-        caption:  fileMeta.caption ?? captionFromSlug(slug),
-        alt:      fileMeta.alt     ?? captionFromSlug(slug),
-        src:      result.src,
-        srcset:   result.srcset,
-        sizes:    result.sizes,
-        width:    result.width,
-        height:   result.height,
-        focus:    fileMeta.focus   ?? '50% 50%',
-        featured: fileMeta.featured ?? false,
+        id:          outSlug,
+        type:        'image',
+        category:    catSlug,
+        caption:     fileMeta.caption     ?? captionFromSlug(slug),
+        alt:         fileMeta.alt         ?? captionFromSlug(slug),
+        description: fileMeta.description ?? null,
+        src:         result.src,
+        srcset:      result.srcset,
+        sizes:       result.sizes,
+        width:       result.width,
+        height:      result.height,
+        focus:       fileMeta.focus       ?? '50% 50%',
+        featured:    fileMeta.featured    ?? false,
       });
     }
   }
@@ -326,12 +353,15 @@ async function main() {
   await ensureDir(OUT_IMG);
 
   // Scan categories (top-level dirs in gallery-originals)
+  // NOTE: the 'sterilisation' folder is excluded from the main gallery manifest
+  //       and written as a separate step-player manifest.
   const entries   = await readdir(SRC, { withFileTypes: true });
   const catDirs   = entries.filter((e) => e.isDirectory()).map((e) => e.name).sort();
   const allItems  = [];
   const categories = [];
 
   for (const catSlug of catDirs) {
+    if (catSlug === STERILISATION_SLUG) continue; // handled separately below
     const catDir   = join(SRC, catSlug);
     const catLabel = meta.categoryLabels?.[catSlug] ?? titleCase(catSlug);
     console.log(`\n── Category: ${catLabel} (${catSlug}/) ──`);
@@ -342,9 +372,41 @@ async function main() {
     }
   }
 
-  // Write manifest
+  // Write main gallery manifest
   const manifest = { categories, items: allItems };
   await writeFile(MANIFEST, JSON.stringify(manifest, null, 2), 'utf8');
+
+  // ── Sterilisation step manifest ──────────────────────────────────────────
+  const sterilisationDir = join(SRC, STERILISATION_SLUG);
+  if (existsSync(sterilisationDir)) {
+    console.log(`\n── Sterilisation step videos ──`);
+    const stepItems = await scanCategory(sterilisationDir, STERILISATION_SLUG, meta, meta.categoryLabels ?? {});
+    // Include ALL videos: numeric-prefixed files in natural order first,
+    // then alphabetically-named files (no leading digits) after.
+    const allVideos = stepItems.filter((it) => it.type === 'video');
+    const numericVideos = allVideos
+      .filter((it) => /^sterilisation-\d+$/.test(it.id))
+      .sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
+    const namedVideos = allVideos
+      .filter((it) => !/^sterilisation-\d+$/.test(it.id))
+      .sort((a, b) => a.id.localeCompare(b.id));
+    const orderedVideos = [...numericVideos, ...namedVideos];
+    const steps = orderedVideos.map((it, idx) => ({
+      id:          it.id,
+      step:        idx + 1,
+      caption:     it.caption,
+      description: it.description ?? null,
+      src:         it.src,
+      poster:      it.poster,
+      duration:    it.duration,
+      width:       it.width,
+      height:      it.height,
+    }));
+    await writeFile(STEP_MANIFEST, JSON.stringify({ steps }, null, 2), 'utf8');
+    console.log(`  ✓  ${steps.length} steps → src/data/sterilisation.generated.json`);
+    console.log(`  Step order:`);
+    steps.forEach((s) => console.log(`    ${s.step}. ${s.id} — "${s.caption}"`));
+  }
 
   console.log(`\n\n═══════════════════════════════════════════════════`);
   console.log(`✅  Gallery build complete`);

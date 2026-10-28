@@ -47,6 +47,7 @@ const About: React.FC = () => {
                     className={styles.image}
                     loading="lazy"
                     decoding="async"
+                    style={{ objectPosition: '50% 40%' }}
                   />
                 </div>
                 <div className={styles.imageOverlay} aria-hidden="true" />
@@ -69,6 +70,7 @@ const About: React.FC = () => {
                   className={styles.accentImage}
                   loading="lazy"
                   decoding="async"
+                  style={{ objectPosition: '50% 35%' }}
                 />
                 <div className={styles.accentCaption}>Clinical Suite</div>
               </div>

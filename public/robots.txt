@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://marshaligndental.com/sitemap.xml
+Sitemap: https://marshaligndentalcare.in/sitemap.xml

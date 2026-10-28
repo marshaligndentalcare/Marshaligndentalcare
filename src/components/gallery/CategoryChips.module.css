@@ -50,7 +50,7 @@
   background: var(--brand-600);
   border-color: var(--brand-600);
   color: var(--color-white);
-  box-shadow: 0 2px 12px rgba(37, 99, 240, 0.25);
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--brand-600) 30%, transparent);
 }
 
 .chipActive:hover {

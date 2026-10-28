@@ -1,0 +1,48 @@
+{
+  "steps": [
+    {
+      "id": "sterilisation-001",
+      "step": 1,
+      "caption": "Pouch Sealing",
+      "description": "Dental instruments are placed into sterile pouches and sealed using a heat-sealing machine before autoclaving.",
+      "src": "/gallery/sterilisation-001.mp4",
+      "poster": "/gallery/sterilisation-001-poster.webp",
+      "duration": null,
+      "width": 720,
+      "height": 1280
+    },
+    {
+      "id": "sterilisation-002",
+      "step": 2,
+      "caption": "Autoclave Loading",
+      "description": "Sealed pouches are arranged and loaded into the autoclave chamber in preparation for the sterilisation cycle.",
+      "src": "/gallery/sterilisation-002.mp4",
+      "poster": "/gallery/sterilisation-002-poster.webp",
+      "duration": null,
+      "width": 720,
+      "height": 1280
+    },
+    {
+      "id": "sterilisation-003",
+      "step": 3,
+      "caption": "Sterilisation Cycle",
+      "description": "The autoclave runs a timed high-pressure steam cycle; the control panel displays cycle progress in real time.",
+      "src": "/gallery/sterilisation-003.mp4",
+      "poster": "/gallery/sterilisation-003-poster.webp",
+      "duration": null,
+      "width": 720,
+      "height": 1280
+    },
+    {
+      "id": "sterilisation-injection-disposal",
+      "step": 4,
+      "caption": "Sharps Disposal",
+      "description": "Used needles are immediately capped and deposited into a dedicated sharps container following each procedure.",
+      "src": "/gallery/sterilisation-injection-disposal.mp4",
+      "poster": "/gallery/sterilisation-injection-disposal-poster.webp",
+      "duration": null,
+      "width": 720,
+      "height": 1280
+    }
+  ]
+}

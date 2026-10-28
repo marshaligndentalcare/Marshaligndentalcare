@@ -3,16 +3,21 @@
 /* ── Section ─────────────────────────────────────────────────────── */
 .section {
   padding: 96px 0 0;
-  background: var(--color-bg);
+  background: var(--color-white);
   position: relative;
-  overflow: hidden;
+}
+
+/* ── Mosaic wrapper — full-bleed (controlled padding inside mosaic CSS) */
+.mosaicWrapper {
+  padding:    0 40px;
+  padding-bottom: 100px;  /* extra clearance for floating WhatsApp button */
 }
 
 /* ── Container ───────────────────────────────────────────────────── */
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 40px;
 }
 
 /* ── Animate-in helpers ───────────────────────────────────────────── */
@@ -54,7 +59,7 @@
   height: 6px;
   border-radius: 50%;
   background: var(--color-accent);
-  box-shadow: 0 0 8px rgba(60, 89, 128, 0.45);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--brand-600) 45%, transparent);
 }
 
 .heading {
@@ -76,6 +81,46 @@
   max-width: 480px;
 }
 
+
+/* ── CTA row (home mode only) ─────────────────────────────────────── */
+.ctaRow {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0 64px;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: var(--brand-600);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 100px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background 0.22s var(--transition-smooth),
+    transform  0.18s var(--transition-smooth),
+    box-shadow 0.22s var(--transition-smooth);
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--brand-600) 35%, transparent);
+}
+
+.ctaBtn:hover,
+.ctaBtn:focus-visible {
+  background: var(--brand-700);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--brand-600) 42%, transparent);
+}
+
+.ctaBtn:active {
+  transform: translateY(0);
+}
 
 /* ── Responsive ───────────────────────────────────────────────────── */
 @media (max-width: 960px) {

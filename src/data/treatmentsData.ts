@@ -137,8 +137,8 @@ export const TREATMENTS: TreatmentPageData[] = [
       'Replace missing teeth permanently with precision-placed dental implants. A long-term solution that looks, feels, and functions like your natural teeth.',
     pageTitle: 'Dental Implants in Trichy | Marshalign Dental Care',
     metaDescription:
-      'Dental implant treatment by Dr. Jose Olive A., MDS Prosthodontics & Implantology, at Marshalign Dental Care, Trichy. Permanent tooth replacement solutions.',
-    heroSubtitle: 'Specialist care by Dr. Jose Olive A.',
+      'Dental implant treatment at Marshalign Dental Care, Trichy. Permanent, natural-looking tooth replacement solutions by our specialist team.',
+    heroSubtitle: 'Specialist care at Marshalign Dental Care',
     overview:
       'A dental implant replaces the root of a missing tooth with a small titanium post placed in the jawbone, topped with a crown, so the replacement tooth is fixed in place and works like a natural tooth. Whether it suits you depends on your bone, gum health and general health, and is decided after an examination.',
     benefits: [
@@ -187,10 +187,10 @@ export const TREATMENTS: TreatmentPageData[] = [
       'Restore the function and aesthetics of your smile with expertly crafted crowns, bridges, dentures, and full-mouth rehabilitation by a specialist prosthodontist.',
     pageTitle: 'Prosthodontics & Smile Restoration in Trichy | Marshalign Dental Care',
     metaDescription:
-      'Prosthodontic treatment including crowns, bridges, dentures, and full-mouth rehabilitation by Dr. Jose Olive A. at Marshalign Dental Care, Trichy.',
-    heroSubtitle: 'Specialist prosthetic rehabilitation by Dr. Jose Olive A.',
+      'Prosthodontic treatment including crowns, bridges, dentures, and full-mouth rehabilitation at Marshalign Dental Care, Trichy.',
+    heroSubtitle: 'Specialist prosthetic rehabilitation at Marshalign Dental Care',
     overview:
-      'Prosthodontics is the dental specialty dedicated to restoring and replacing teeth through crowns, bridges, dentures, and comprehensive full-mouth rehabilitation. At Marshalign Dental Care, Dr. Jose Olive A. combines specialist MDS training in Prosthodontics & Implantology with modern restorative materials to provide durable, natural-looking results that restore both function and confidence.',
+      'Prosthodontics is the dental specialty dedicated to restoring and replacing teeth through crowns, bridges, dentures, and comprehensive full-mouth rehabilitation. At Marshalign Dental Care, prosthodontic treatment combines specialist clinical training with modern restorative materials to provide durable, natural-looking results that restore both function and confidence.',
     benefits: [
       'Restores chewing function, speech clarity, and facial aesthetics after tooth loss',
       'Custom-fabricated crowns, bridges, and dentures for a natural, comfortable fit',

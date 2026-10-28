@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
   useSEO({
     title: 'Marshalign Dental Care | Specialist Dental Clinic, Trichy',
     description:
-      'Marshalign Dental Care – specialist dental clinic in Trichy, Tamil Nadu. Expert Orthodontics, Prosthodontics & Dental Implants by Dr. Marshal Antony and Dr. Jose Olive.',
+      'Marshalign Dental Care – specialist dental clinic in Trichy, Tamil Nadu. Expert Orthodontics, Prosthodontics & Dental Implants by Dr. Marshal Antony M. and Dr. Jose Olive A. Your smile is precious to us.',
     canonical: '/',
   });
 
@@ -25,7 +25,7 @@ const HomePage: React.FC = () => {
       <Treatments />
       <Specialists />
       <WhyUs />
-      <Gallery />
+      <Gallery mode="home" />
       <FAQ />
       <TestimonialsMarquee />
       <Contact />

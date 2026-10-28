@@ -7,11 +7,17 @@ import WhatsAppCTA from './WhatsAppCTA';
 /**
  * Shared layout wrapper — renders Navbar, Footer, and floating WhatsApp FAB
  * around whichever page <Outlet /> is currently routed.
+ *
+ * FAB visibility logic:
+ * - Hidden when the hero CTA (#hero-whatsapp-btn) is on screen (to avoid duplication)
+ * - Hidden when the footer (#footer) is on screen (to avoid covering footer content)
  */
 const Layout: React.FC = () => {
   const location = useLocation();
   const [heroBtnInView, setHeroBtnInView] = useState(false);
+  const [footerInView, setFooterInView] = useState(false);
 
+  // Observe the hero WhatsApp button
   useEffect(() => {
     let observer: IntersectionObserver | null = null;
     let timer: number | null = null;
@@ -40,6 +46,21 @@ const Layout: React.FC = () => {
     };
   }, [location.pathname]);
 
+  // Observe the footer — hide FAB when footer is visible
+  useEffect(() => {
+    const footerEl = document.getElementById('footer');
+    if (!footerEl) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterInView(entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    observer.observe(footerEl);
+    return () => observer.disconnect();
+  }, [location.pathname]);
+
+  const fabHidden = heroBtnInView || footerInView;
+
   return (
     <>
       <a href="#main-content" className="sr-only" style={{ position: 'absolute', left: '-9999px' }}>
@@ -54,13 +75,13 @@ const Layout: React.FC = () => {
 
       <Footer />
 
-      {/* Floating WhatsApp FAB — visible on every page, hidden when hero CTA is in view */}
+      {/* Floating WhatsApp FAB — visible on every page, hidden when hero CTA or footer is in view */}
       <div
         style={{
-          opacity: heroBtnInView ? 0 : 1,
-          pointerEvents: heroBtnInView ? 'none' : 'auto',
+          opacity: fabHidden ? 0 : 1,
+          pointerEvents: fabHidden ? 'none' : 'auto',
           transition: 'opacity 0.25s ease, visibility 0.25s ease',
-          visibility: heroBtnInView ? 'hidden' : 'visible',
+          visibility: fabHidden ? 'hidden' : 'visible',
         }}
       >
         <WhatsAppCTA

@@ -1,61 +1,193 @@
 {
   "categoryLabels": {
-    "clinic":     "Clinic & Spaces",
-    "team":       "Our Specialists",
-    "treatments": "Treatments",
-    "equipment":  "Equipment"
+    "clinic":        "Clinic & Spaces",
+    "team":          "Our Specialists",
+    "treatments":    "Treatments",
+    "sterilisation": "Sterilisation"
   },
   "items": {
-    "clinic/001-reception": {
-      "caption": "Reception & Waiting Lounge",
-      "alt":     "Marshalign Dental Care reception area and patient waiting lounge, KK Nagar Trichy",
-      "featured": true
+    "clinic/001-clinic-exterior": {
+      "caption":     "Clinic Exterior & Signboard",
+      "alt":         "Front exterior of Marshalign Dental Care clinic in KK Nagar Trichy with the clinic signboard listing both specialists.",
+      "description": "The clinic building frontage on Rajaram Road, Trichy, with the Marshalign Dental Care signboard listing both specialist doctors.",
+      "focus":       "50% 50%",
+      "featured":    true
     },
-    "clinic/002-treatment-room": {
-      "caption": "Specialist Treatment Suite",
-      "alt":     "Modern clinical treatment suite at Marshalign Dental Care with advanced dental chair",
-      "featured": true
+    "clinic/002-operatory-suite": {
+      "caption":     "Specialist Operatory Suite",
+      "alt":         "Dental operatory room at Marshalign Dental Care with reclining chair, overhead light, monitor, and instrument cabinet.",
+      "description": "A clean operatory suite showing a reclining dental chair, overhead treatment light, ceiling-mounted monitor, and instrument cabinetry.",
+      "focus":       "55% 50%",
+      "featured":    true
+    },
+    "clinic/003-waiting-lounge": {
+      "caption":     "Patient Waiting Lounge",
+      "alt":         "Patient waiting area at Marshalign Dental Care with blue airport-style seating and dark wood flooring.",
+      "description": "The patient waiting area with padded blue seating, dark engineered wood flooring, and soft overhead lighting.",
+      "focus":       "50% 50%",
+      "featured":    false,
+      "published_note": "published, clinic to confirm"
+    },
+    "clinic/004-reception-desk": {
+      "caption":     "Reception & Consultation Area",
+      "alt":         "Reception desk at Marshalign Dental Care with green-wall display, framed certificates, clinic logo, and glass-partitioned operatory entrance.",
+      "description": "The front reception desk with framed specialist certificates on the green accent wall, clinic logo, and a glass partition leading to the operatories.",
+      "focus":       "50% 50%",
+      "featured":    true
+    },
+    "clinic/005-operatory-1": {
+      "caption":     "Orthodontics Operatory",
+      "alt":         "Empty orthodontic operatory at Marshalign Dental Care with yellow dental chair, overhead light arm, and geometric LED ceiling.",
+      "description": "An empty orthodontic operatory with a yellow dental chair, articulated overhead light arm, and geometric LED ceiling lighting.",
+      "focus":       "60% 50%",
+      "featured":    true
+    },
+    "clinic/006-operatory-2": {
+      "caption":     "Operatory Room 2",
+      "alt":         "Second operatory room at Marshalign Dental Care showing yellow dental chair and overhead treatment unit.",
+      "description": "A second operatory room showing the dental chair and overhead unit positioned for treatment.",
+      "focus":       "50% 40%",
+      "featured":    false
+    },
+    "clinic/007-clinical-suite-overview": {
+      "caption":     "Clinical Suite Overview",
+      "alt":         "Wide-angle view of the clinical suite at Marshalign Dental Care showing consultation desk and treatment area.",
+      "description": "A wide-angle view of the clinical suite showing the consultation desk, overhead LED lighting, and the treatment chair area.",
+      "focus":       "50% 45%",
+      "featured":    false,
+      "published_note": "published, clinic to confirm"
+    },
+    "clinic/008-treatment-corridor": {
+      "caption":     "Treatment Corridor",
+      "alt":         "View along the treatment corridor at Marshalign Dental Care with dental team and operatory signage.",
+      "description": "The treatment corridor with operatory signage and the dental team visible in the background.",
+      "focus":       "50% 40%",
+      "featured":    false,
+      "published_note": "published, clinic to confirm"
+    },
+    "clinic/009-operatory-consultation": {
+      "caption":     "Consultation & Treatment Room",
+      "alt":         "Combined consultation and treatment room at Marshalign Dental Care.",
+      "description": "A combined consultation and treatment room with a dental chair, consultation desk, and wall-mounted whiteboard.",
+      "focus":       "50% 40%",
+      "featured":    false,
+      "published_note": "published, clinic to confirm"
+    },
+    "clinic/010-clinical-suite-wide": {
+      "caption":     "Clinical Suite & X-Ray Area",
+      "alt":         "Wide view of clinical suite at Marshalign Dental Care showing dental team, X-ray unit, and sterilisation trolley.",
+      "description": "A wide view of the clinical suite showing the dental team at work, a wall-mounted X-ray viewer, and a sterilisation trolley.",
+      "focus":       "50% 45%",
+      "featured":    false,
+      "published_note": "published, clinic to confirm"
+    },
+    "clinic/011-sterilisation-sealing": {
+      "caption":     "Instrument Sterilisation",
+      "alt":         "Dental support staff sealing instruments in sterilisation pouches using heat-sealing equipment at Marshalign Dental Care.",
+      "description": "A dental support staff member, wearing gloves, sealing dental instruments into sterilisation pouches using a heat-sealer.",
+      "focus":       "50% 40%",
+      "featured":    false,
+      "published_note": "published, clinic to confirm"
+    },
+    "clinic/012-sterilisation-area": {
+      "caption":     "Sterilisation Area",
+      "alt":         "Dental support staff in scrub cap and mask processing sterilisation pouches at Marshalign Dental Care.",
+      "description": "A dental support staff member in scrub cap, mask, and gloves, processing sealed sterilisation pouches at the sterilisation bench.",
+      "focus":       "50% 35%",
+      "featured":    false,
+      "published_note": "published, clinic to confirm"
     },
     "team/001-dr-marshal-antony": {
-      "caption": "Dr. Marshal Antony M. — Orthodontist",
-      "alt":     "Dr. Marshal Antony M., MDS Orthodontics & Dentofacial Orthopedics, Marshalign Dental Care Trichy",
-      "focus":   "50% 18%",
-      "featured": true
+      "caption":     "Dr. Marshal Antony M.",
+      "alt":         "Dr. Marshal Antony M., MDS Orthodontics and Dentofacial Orthopedics, Marshalign Dental Care Trichy.",
+      "description": "Dr. Marshal Antony M., specialist in Orthodontics and Dentofacial Orthopedics, photographed in the clinic with dental equipment in the background.",
+      "focus":       "50% 18%",
+      "featured":    false,
+      "hidden":      true,
+      "hidden_reason": "Doctor photo — specialists section only; excluded from gallery/collage per policy."
     },
     "team/002-dr-jose-olive": {
-      "caption": "Dr. Jose Olive A. — Prosthodontist",
-      "alt":     "Dr. Jose Olive A., MDS Prosthodontics & Implantology, Marshalign Dental Care Trichy",
-      "focus":   "50% 18%",
-      "featured": true
+      "caption":     "Dr. Jose Olive A.",
+      "alt":         "Dr. Jose Olive A., MDS Prosthodontics and Implantology, Marshalign Dental Care Trichy.",
+      "description": "Dr. Jose Olive A., specialist in Prosthodontics and Implantology, photographed in the clinic.",
+      "focus":       "50% 18%",
+      "featured":    false,
+      "hidden":      true,
+      "hidden_reason": "Doctor photo — specialists section only; excluded from gallery/collage per policy."
     },
     "treatments/001-orthodontics-and-braces": {
-      "caption": "Orthodontics & Braces",
-      "alt":     "Orthodontist examining and adjusting braces on patient at Marshalign Dental Care",
-      "featured": true
+      "caption":     "Orthodontics & Braces",
+      "alt":         "Orthodontist placing and adjusting dental braces on a patient at Marshalign Dental Care.",
+      "description": "An orthodontist placing and adjusting dental braces on a patient's upper teeth.",
+      "featured":    false,
+      "hidden":      true,
+      "hidden_reason": "Treatment stock photo shows identifiable doctor and patient — excluded from gallery per people policy."
     },
     "treatments/002-dentofacial-orthopedics": {
-      "caption": "Dentofacial Orthopedics",
-      "alt":     "Dentofacial orthopedics consultation and facial growth guidance at Marshalign Dental Care"
+      "caption":     "Dentofacial Orthopedics",
+      "alt":         "Dentofacial orthopedics consultation showing facial growth assessment at Marshalign Dental Care.",
+      "description": "A dentofacial orthopedics consultation session showing facial and jaw assessment.",
+      "hidden":      true,
+      "hidden_reason": "Stock treatment photo shows people — excluded from gallery per policy."
     },
     "treatments/003-dental-implants": {
-      "caption": "Dental Implants",
-      "alt":     "Precision dental implant restoration planning in modern operatory at Marshalign Dental Care"
+      "caption":     "Dental Implants",
+      "alt":         "Dental implant placement procedure in modern operatory at Marshalign Dental Care.",
+      "description": "A dental implant placement procedure being performed in a modern operatory.",
+      "hidden":      true,
+      "hidden_reason": "Stock treatment photo shows people — excluded from gallery per policy."
     },
     "treatments/004-prosthodontics": {
-      "caption": "Prosthodontics & Smile Restoration",
-      "alt":     "Prosthodontist assessing custom ceramic dental restoration and crown at Marshalign Dental Care"
+      "caption":     "Prosthodontics",
+      "alt":         "Prosthodontist assessing ceramic dental restoration and crown at Marshalign Dental Care.",
+      "description": "A prosthodontist examining and assessing a ceramic dental crown restoration.",
+      "hidden":      true,
+      "hidden_reason": "Stock treatment photo shows people — excluded from gallery per policy."
     },
     "treatments/005-dental-examination": {
-      "caption": "General Dental Examination",
-      "alt":     "Dentist conducting comprehensive oral examination with mouth mirror at Marshalign Dental Care"
+      "caption":     "Dental Examination",
+      "alt":         "Dentist conducting comprehensive oral examination with mouth mirror at Marshalign Dental Care.",
+      "description": "A dentist conducting a comprehensive oral examination using a mouth mirror and probe.",
+      "hidden":      true,
+      "hidden_reason": "Stock treatment photo shows people — excluded from gallery per policy."
     },
     "treatments/006-teeth-cleaning": {
-      "caption": "Professional Teeth Cleaning",
-      "alt":     "Dental professional performing ultrasonic scaling and teeth cleaning at Marshalign Dental Care"
+      "caption":     "Teeth Cleaning",
+      "alt":         "Dental professional performing professional teeth cleaning and scaling at Marshalign Dental Care.",
+      "description": "A dental professional performing professional teeth cleaning and ultrasonic scaling.",
+      "hidden":      true,
+      "hidden_reason": "Stock treatment photo shows people — excluded from gallery per policy."
     },
     "treatments/007-restorative-dentistry": {
-      "caption": "Restorative Dentistry",
-      "alt":     "Dentist placing and light-curing tooth-colored composite restoration at Marshalign Dental Care"
+      "caption":     "Restorative Dentistry",
+      "alt":         "Dentist placing tooth-colored composite restoration under dental light at Marshalign Dental Care.",
+      "description": "A dentist placing a tooth-colored composite filling restoration under the dental overhead light.",
+      "hidden":      true,
+      "hidden_reason": "Stock treatment photo shows people — excluded from gallery per policy."
+    },
+    "sterilisation/001": {
+      "caption":     "Pouch Sealing",
+      "alt":         "Heat sealer machine used to seal sterilisation pouches at Marshalign Dental Care.",
+      "description": "A heat-sealing machine in operation, sealing dental instrument pouches for sterilisation.",
+      "step":        1
+    },
+    "sterilisation/002": {
+      "caption":     "Autoclave Loading",
+      "alt":         "Sealed sterilisation pouches being loaded into the autoclave at Marshalign Dental Care.",
+      "description": "Sealed instrument pouches are organised and loaded into the autoclave chamber.",
+      "step":        2
+    },
+    "sterilisation/003": {
+      "caption":     "Sterilisation Cycle",
+      "alt":         "Autoclave running a sterilisation cycle at Marshalign Dental Care.",
+      "description": "The autoclave running a complete sterilisation cycle; steam pressure visible on the control panel.",
+      "step":        3
+    },
+    "sterilisation/injection-disposal": {
+      "caption":     "Sharps Disposal",
+      "alt":         "Safe sharps disposal process at Marshalign Dental Care following clinical procedures.",
+      "description": "Used needles and sharp items are disposed of safely into a dedicated sharps container immediately after use.",
+      "step":        4
     }
   }
 }

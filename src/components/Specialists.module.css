@@ -196,6 +196,41 @@
   flex: 1;
 }
 
+/* Treatment links */
+.treatmentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.treatmentItem {
+  display: contents;
+}
+
+.treatmentLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: var(--brand-50);
+  color: var(--brand-600);
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-radius: 100px;
+  border: 1px solid var(--brand-100);
+  text-decoration: none;
+  transition: background 0.18s, color 0.18s;
+}
+
+.treatmentLink:hover {
+  background: var(--brand-100);
+  color: var(--brand-700);
+}
+
 .assetNote {
   display: flex;
   align-items: flex-start;

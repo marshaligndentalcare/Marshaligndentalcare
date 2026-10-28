@@ -8,7 +8,8 @@ const NotFoundPage: React.FC = () => {
   useSEO({
     title: '404 - Page Not Found | Marshalign Dental Care, Trichy',
     description: 'The page you are looking for does not exist or has been moved.',
-    canonical: '/404',
+    canonical: '/',
+    noindex: true,
   });
 
   return (

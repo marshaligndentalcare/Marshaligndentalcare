@@ -1,16 +1,27 @@
-/* GalleryLightbox.module.css */
+/* GalleryLightbox.module.css
+   ONE full-screen frosted-glass layer. No solid navy/black/blue backdrop.
+   Only existing design tokens used. */
 
+/* ── Backdrop — frosted glass, no hue ────────────────────────────────── */
 .backdrop {
   position: fixed;
   inset: 0;
-  background: var(--brand-900);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* Frosted glass: neutral tint + blur */
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(24px) saturate(1.05);
+  -webkit-backdrop-filter: blur(24px) saturate(1.05);
   z-index: 3000;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   animation: lbIn 0.22s ease-out both;
+  overflow: hidden;
+}
+
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(1px)) {
+  .backdrop {
+    background: rgba(255, 255, 255, 0.9);
+  }
 }
 
 @keyframes lbIn {
@@ -18,160 +29,258 @@
   to   { opacity: 1; }
 }
 
-/* Media area */
-.media {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 80px 100px;
+/* ── Top bar — counter + close btn ──────────────────────────────── */
+.topBar {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         12px 20px;
+  flex-shrink:     0;
+  position:        relative;
+  z-index:         10;
 }
 
+.counter {
+  font-family:    var(--font-body);
+  font-size:      0.82rem;
+  font-weight:    700;
+  color:          var(--color-text-muted);
+  letter-spacing: 0.06em;
+}
+
+.closeBtn {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           44px;
+  height:          44px;
+  border-radius:   50%;
+  background:      var(--color-white);
+  color:           var(--color-text);
+  border:          1px solid var(--color-border);
+  cursor:          pointer;
+  transition:      background 0.2s, transform 0.2s, box-shadow 0.2s;
+  flex-shrink:     0;
+  box-shadow:      0 2px 8px rgba(0,0,0,0.12);
+}
+
+.closeBtn:hover  {
+  background: var(--brand-50);
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+}
+.closeBtn:focus-visible { outline: 2px solid var(--brand-600); outline-offset: 2px; }
+
+/* ── Main content row: [prev] [media] [details] [next] ───────────── */
+.content {
+  flex:            1;
+  display:         flex;
+  align-items:     center;
+  min-height:      0;
+  overflow:        hidden;
+  gap:             0;
+  padding:         0 0 16px;  /* bottom breathing room */
+}
+
+/* ── Nav buttons — in flow, vertically centred ──────────────────────── */
+.navBtn {
+  flex-shrink:     0;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           52px;
+  height:          52px;
+  margin:          0 8px;
+  border-radius:   50%;
+  background:      var(--color-white);
+  color:           var(--color-text);
+  border:          1px solid var(--color-border);
+  cursor:          pointer;
+  transition:      background 0.2s, transform 0.18s, box-shadow 0.2s;
+  position:        static;
+  align-self:      center;
+  box-shadow:      0 2px 8px rgba(0,0,0,0.12);
+}
+
+.navBtn:hover {
+  background: var(--brand-50);
+  transform: scale(1.08);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+}
+.navBtn:focus-visible { outline: 2px solid var(--brand-600); outline-offset: 2px; }
+.navBtn:disabled { opacity: 0.3; cursor: default; transform: none; box-shadow: none; }
+
+/* ── Media pane ─────────────────────────────────────────────────── */
+.media {
+  position:        relative;
+  flex:            1;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  min-width:       0;
+  overflow:        hidden;
+  padding:         8px 0;  /* no horizontal padding — nav arrows handle spacing */
+}
+
+.mediaPortrait {
+  justify-content: center;
+}
+
+/* No blurBg layer — the full-page backdrop-filter IS the blur */
+
 .img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  border-radius: 8px;
-  animation: imgIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* Photo floats on frosted page at its own aspect ratio */
+  position:      relative;
+  z-index:       1;
+  object-fit:    contain;
+  /* Portrait: height-limited; landscape: limited by available width */
+  max-height:    min(80vh, 760px);
+  max-width:     100%;
+  width:         auto;
+  height:        auto;
+  display:       block;
+  border-radius: 12px;
+  box-shadow:    0 20px 60px rgba(0, 0, 0, 0.25);
+  animation:     imgIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes imgIn {
-  from { opacity: 0; transform: scale(0.96); }
+  from { opacity: 0; transform: scale(0.97); }
   to   { opacity: 1; transform: scale(1); }
 }
 
 .video {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 8px;
-  outline: none;
+  position:      relative;
+  z-index:       1;
+  object-fit:    contain;
+  max-height:    min(80vh, 760px);
+  max-width:     100%;
+  width:         auto;
+  height:        auto;
+  display:       block;
+  border-radius: 12px;
+  box-shadow:    0 20px 60px rgba(0, 0, 0, 0.25);
+  outline:       none;
 }
 
-/* Top bar */
-.topBar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(to bottom, rgba(26,47,106,0.7) 0%, transparent 100%);
-  pointer-events: none;
+/* Step label shown in details panel for video items */
+.detailsStepLabel {
+  font-family:    var(--font-body);
+  font-size:      0.72rem;
+  font-weight:    800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color:          var(--brand-600);
 }
 
-.counter {
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: rgba(255,255,255,0.8);
-  letter-spacing: 0.06em;
-  pointer-events: none;
+/* ── Details panel — white surface card ─────────────────────────────── */
+.details {
+  width:           360px;
+  flex-shrink:     0;
+  align-self:      center;
+  max-height:      min(80vh, 760px);
+  margin-right:    8px;
+  background:      var(--color-white);
+  border-radius:   12px;
+  padding:         24px 20px;
+  display:         flex;
+  flex-direction:  column;
+  gap:             14px;
+  overflow-y:      auto;
+  box-shadow:      0 4px 24px rgba(0,0,0,0.14);
+  border:          1px solid var(--color-border);
 }
 
-.closeBtn {
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.2);
-  cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
+.detailsCaption {
+  font-family:    var(--font-display);
+  font-size:      1.05rem;
+  font-weight:    700;
+  color:          var(--color-text);
+  line-height:    1.3;
 }
 
-.closeBtn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: scale(1.08);
+/* Category pill — brand-blue text on pale tint, sized to content */
+.detailsCategory {
+  display:        inline-block;
+  align-self:     flex-start;
+  font-family:    var(--font-body);
+  font-size:      0.68rem;
+  font-weight:    700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color:          var(--brand-600);
+  background:     var(--brand-50);
+  padding:        3px 10px;
+  border-radius:  100px;
+  border:         1px solid var(--brand-100);
 }
 
-.closeBtn:focus-visible {
-  outline: 2px solid var(--brand-100);
-  outline-offset: 2px;
+.detailsDesc {
+  font-family:  var(--font-body);
+  font-size:    0.88rem;
+  line-height:  1.65;
+  color:        var(--color-text-muted);
 }
 
-/* Bottom caption bar */
-.bottomBar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 20px 80px 24px;
-  background: linear-gradient(to top, rgba(26,47,106,0.75) 0%, transparent 100%);
-  pointer-events: none;
-  text-align: center;
+.detailsDuration {
+  font-family:  var(--font-body);
+  font-size:    0.8rem;
+  color:        var(--color-text-muted);
 }
 
-.caption {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: rgba(255,255,255,0.9);
-}
-
-/* Nav buttons */
-.navBtn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.2);
-  cursor: pointer;
-  transition: background 0.2s, transform 0.25s;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.navBtn:hover {
-  background: rgba(255,255,255,0.25);
-  transform: translateY(-50%) scale(1.08);
-}
-
-.navBtn:focus-visible {
-  outline: 2px solid var(--brand-100);
-  outline-offset: 2px;
-}
-
-.navBtn:disabled {
-  opacity: 0.25;
-  cursor: default;
-  transform: translateY(-50%);
-}
-
-.navPrev { left: 16px; }
-.navNext { right: 16px; }
-
-/* ── Mobile ───────────────────────────────────────────────────────── */
+/* ── Mobile: stack vertically ───────────────────────────────────── */
 @media (max-width: 768px) {
-  .media {
-    padding: 72px 16px 96px;
+  .backdrop {
+    /* Reduced blur on mobile for performance */
+    backdrop-filter: blur(16px) saturate(1.05);
+    -webkit-backdrop-filter: blur(16px) saturate(1.05);
+    background: rgba(255, 255, 255, 0.22);
   }
-  .bottomBar {
-    padding: 16px 20px 20px;
-    padding-bottom: max(20px, env(safe-area-inset-bottom));
+
+  .content {
+    flex-direction: column;
+    align-items:    stretch;
+    padding:        0 0 8px;
+    gap:            0;
+    overflow-y:     auto;
   }
+
   .navBtn {
-    width: 44px;
-    height: 44px;
+    display: none;  /* use swipe on mobile */
   }
-  .navPrev { left: 8px; }
-  .navNext { right: 8px; }
+
+  .media {
+    padding: 8px 16px 4px;
+    flex:    none;
+  }
+
+  .img,
+  .video {
+    max-height:    min(50vh, 480px);
+    border-radius: 10px;
+  }
+
+  .details {
+    width:        auto;
+    max-height:   none;
+    margin:       0 16px 16px;
+    align-self:   stretch;
+    padding:      16px;
+    gap:          10px;
+    border-radius: 10px;
+    box-shadow:   0 2px 12px rgba(0,0,0,0.10);
+  }
 }
 
-/* ── Reduced motion ───────────────────────────────────────────────── */
+/* ── Narrow tablet (no room for side panel beside photo) ─────────── */
+@media (max-width: 960px) and (min-width: 769px) {
+  .details {
+    width: 240px;
+    padding: 18px 16px;
+  }
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .backdrop, .img { animation: none !important; }
   .navBtn, .closeBtn { transition: none !important; }

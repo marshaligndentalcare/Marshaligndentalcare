@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { SITE_URL } from '../config';
 
 export interface SEOProps {
   title: string;
@@ -7,21 +8,31 @@ export interface SEOProps {
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
+  /** Set true for pages that should not be indexed (e.g. 404, admin, error pages) */
+  noindex?: boolean;
 }
 
-const BASE_URL = 'https://marshaligndental.com';
+const BASE_URL = SITE_URL;
 
 /**
  * Sets document <title>, meta description, canonical, and OG tags for each page.
  * On unmount, tags are NOT removed — the next page call overwrites them.
  */
-export function useSEO({ title, description, canonical, ogTitle, ogDescription, ogImage }: SEOProps) {
+export function useSEO({ title, description, canonical, ogTitle, ogDescription, ogImage, noindex }: SEOProps) {
   useEffect(() => {
     // Title
     document.title = title;
 
     // Meta description
     setMeta('description', description);
+
+    // Robots (noindex for special pages like 404)
+    if (noindex) {
+      setMeta('robots', 'noindex, follow');
+    } else {
+      // Restore default in case navigating back from a noindex page
+      setMeta('robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+    }
 
     // Canonical
     let link = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
@@ -43,7 +54,7 @@ export function useSEO({ title, description, canonical, ogTitle, ogDescription, 
     // Twitter
     setMeta('twitter:title', ogTitle || title);
     setMeta('twitter:description', ogDescription || description);
-  }, [title, description, canonical, ogTitle, ogDescription, ogImage]);
+  }, [title, description, canonical, ogTitle, ogDescription, ogImage, noindex]);
 }
 
 function setMeta(name: string, content: string) {

@@ -10,7 +10,7 @@ const GalleryPage: React.FC = () => {
     canonical: '/gallery',
   });
 
-  return <Gallery />;
+  return <Gallery mode="page" />;
 };
 
 export default GalleryPage;
