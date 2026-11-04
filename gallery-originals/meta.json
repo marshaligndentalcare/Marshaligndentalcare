@@ -1,11 +1,32 @@
 {
   "categoryLabels": {
     "clinic":        "Clinic & Spaces",
+    "inauguration":  "Inauguration",
     "team":          "Our Specialists",
     "treatments":    "Treatments",
     "sterilisation": "Sterilisation"
   },
   "items": {
+    "inauguration/inauguration-ribbon-cutting": {
+      "caption":      "Grand Opening",
+      "alt":          "Ribbon-cutting at the entrance during the opening of Marshalign Dental Care, with guests gathered behind.",
+      "description":  "The day our doors opened. Surrounded by family, friends and well-wishers, we cut the ribbon on Marshalign Dental Care. Thank you for the blessings, we are truly happy and grateful.",
+      "focus":        "50% 35%",
+      "featured":     true,
+      "allowPeople":  true,
+      "chip":         "INAUGURATION",
+      "privacy_note": "PRIVACY GATE: shown only in DEV or when consentConfirmed=true in src/data/inauguration.ts"
+    },
+    "inauguration/inauguration-group": {
+      "caption":      "Opening Day Celebration",
+      "alt":          "Clinic team, family and guests posing in the reception on opening day.",
+      "description":  "Smiles all around on our opening day, with our team, family and guests together in the reception. A day we will always remember.",
+      "focus":        "40% 30%",
+      "featured":     true,
+      "allowPeople":  true,
+      "chip":         "INAUGURATION",
+      "privacy_note": "PRIVACY GATE: shown only in DEV or when consentConfirmed=true in src/data/inauguration.ts"
+    },
     "clinic/001-clinic-exterior": {
       "caption":     "Clinic Exterior & Signboard",
       "alt":         "Front exterior of Marshalign Dental Care clinic in KK Nagar Trichy with the clinic signboard listing both specialists.",
@@ -26,7 +47,9 @@
       "description": "The patient waiting area with padded blue seating, dark engineered wood flooring, and soft overhead lighting.",
       "focus":       "50% 50%",
       "featured":    false,
-      "published_note": "published, clinic to confirm"
+      "hidden":      true,
+      "hidden_reason": "Patient privacy — two seated patients with identifiable faces are visible in the waiting lounge; hidden per medical privacy policy until consent is confirmed or empty lounge photo is provided.",
+      "published_note": "hidden per patient privacy review"
     },
     "clinic/004-reception-desk": {
       "caption":     "Reception & Consultation Area",

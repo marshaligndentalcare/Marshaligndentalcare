@@ -347,3 +347,251 @@
     transition: none !important;
   }
 }
+
+/* ── Our Story Section (inauguration photos, privacy-gated) ──────────────── */
+.storySection {
+  padding: 0 0 100px;
+  background: var(--color-bg);
+  position: relative;
+}
+
+.storyContainer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.storyHeader {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.storyEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--color-deep-ocean);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.storyEyebrowDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-deep-ocean);
+  box-shadow: 0 0 8px rgba(60, 89, 128, 0.45);
+}
+
+.storyHeading {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+  margin-bottom: 0;
+}
+
+/* Desktop grid: 7 cols ribbon + 5 cols info */
+.storyGrid {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Ribbon photo — large, clickable */
+.storyRibbonBtn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 20px 48px rgba(60, 89, 128, 0.14),
+    0 4px 16px rgba(60, 89, 128, 0.06);
+  transition: box-shadow 0.28s var(--transition-smooth), transform 0.28s var(--transition-smooth);
+}
+
+.storyRibbonBtn:hover,
+.storyRibbonBtn:focus-visible {
+  box-shadow:
+    0 28px 60px rgba(60, 89, 128, 0.20),
+    0 6px 20px rgba(60, 89, 128, 0.08);
+  transform: translateY(-3px);
+  outline: none;
+}
+
+.storyRibbonBtn:focus-visible {
+  outline: 3px solid var(--brand-600);
+  outline-offset: 3px;
+}
+
+.storyRibbonImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  object-position: 50% 35%;
+  border-radius: 18px;
+}
+
+/* Right info column */
+.storyInfoCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 8px;
+}
+
+.storyLabel {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-600);
+}
+
+.storyTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.storyDateChip {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--color-border);
+  align-self: flex-start;
+}
+
+.storyDesc {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--color-text-muted);
+}
+
+/* Group photo below / overlapping — slightly smaller, fade-up reveal */
+.storyGroupWrap {
+  margin-top: 32px;
+  position: relative;
+}
+
+.storyGroupBtn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 12px 32px rgba(60, 89, 128, 0.12),
+    0 2px 8px rgba(60, 89, 128, 0.06);
+  transition: box-shadow 0.28s var(--transition-smooth), transform 0.28s var(--transition-smooth);
+}
+
+.storyGroupBtn:hover,
+.storyGroupBtn:focus-visible {
+  box-shadow:
+    0 20px 48px rgba(60, 89, 128, 0.18),
+    0 4px 14px rgba(60, 89, 128, 0.08);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.storyGroupBtn:focus-visible {
+  outline: 3px solid var(--brand-600);
+  outline-offset: 3px;
+}
+
+.storyGroupImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  object-position: 40% 30%;
+  /* Intrinsic 16:10 ratio to bias left (group, person at extreme right may be cut) */
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+}
+
+/* Fade-up reveal for group photo */
+.storyGroupWrap[data-animate] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.52s var(--transition-smooth), transform 0.52s var(--transition-smooth);
+}
+
+.inStoryView .storyGroupWrap[data-animate] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Our Story responsive ─────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .storyGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .storyInfoCol {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .storySection {
+    padding: 0 0 72px;
+  }
+
+  .storyContainer {
+    padding: 0 20px;
+  }
+
+  .storyHeader {
+    margin-bottom: 36px;
+  }
+
+  .storyGroupWrap {
+    margin-top: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .storyRibbonBtn,
+  .storyGroupBtn {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .storyGroupWrap[data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+

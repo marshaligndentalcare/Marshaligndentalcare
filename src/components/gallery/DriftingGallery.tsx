@@ -284,6 +284,7 @@ function renderTileContent(
   tileH: number,
 ) {
   const focusVar = { '--focus': item.focus ?? '50% 50%' } as React.CSSProperties;
+  const isImage = item.type === 'image' || item.type === 'photo';
 
   if (isVideo) {
     const vid = item as GalleryVideoItem;
@@ -324,8 +325,8 @@ function renderTileContent(
           decoding="async"
         />
         <img
-          src={item.type === 'image' && item.srcset ? undefined : item.src}
-          srcSet={item.type === 'image' ? item.srcset : undefined}
+          src={isImage && item.srcset ? undefined : item.src}
+          srcSet={isImage ? item.srcset : undefined}
           sizes="480px"
           alt=""
           className={styles.tileImgContain}
@@ -342,8 +343,8 @@ function renderTileContent(
   return (
     <div className={styles.tileInner} style={{ height: tileH, ...focusVar }}>
       <img
-        src={item.type === 'image' && item.srcset ? undefined : item.src}
-        srcSet={item.type === 'image' ? item.srcset : undefined}
+        src={isImage && item.srcset ? undefined : item.src}
+        srcSet={isImage ? item.srcset : undefined}
         sizes="480px"
         alt=""
         className={styles.tileImg}

@@ -1,12 +1,51 @@
 {
   "categories": [
     {
+      "slug": "inauguration",
+      "label": "Inauguration",
+      "count": 2
+    },
+    {
       "slug": "clinic",
       "label": "Clinic & Spaces",
-      "count": 12
+      "count": 11
     }
   ],
   "items": [
+    {
+      "id": "inauguration-ribbon-cutting",
+      "type": "photo",
+      "category": "inauguration",
+      "caption": "Grand Opening",
+      "alt": "Ribbon-cutting at the entrance during the opening of Marshalign Dental Care, with guests gathered behind",
+      "description": "The day our doors opened. Surrounded by family, friends and well-wishers, we cut the ribbon on Marshalign Dental Care. Thank you for the blessings, we are truly happy and grateful.",
+      "src": "/gallery/inauguration/inauguration-ribbon-cutting-1600.webp",
+      "srcset": "/gallery/inauguration/inauguration-ribbon-cutting-400.webp 400w, /gallery/inauguration/inauguration-ribbon-cutting-800.webp 800w, /gallery/inauguration/inauguration-ribbon-cutting-1600.webp 1600w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 1600,
+      "height": 910,
+      "focus": "50% 35%",
+      "featured": true,
+      "allowPeople": true,
+      "chip": "INAUGURATION"
+    },
+    {
+      "id": "inauguration-group",
+      "type": "photo",
+      "category": "inauguration",
+      "caption": "Opening Day Celebration",
+      "alt": "Clinic team, family and guests posing in the reception on opening day",
+      "description": "Smiles all around on our opening day, with our team, family and guests together in the reception. A day we will always remember.",
+      "src": "/gallery/inauguration/inauguration-group-1600.webp",
+      "srcset": "/gallery/inauguration/inauguration-group-400.webp 400w, /gallery/inauguration/inauguration-group-800.webp 800w, /gallery/inauguration/inauguration-group-1600.webp 1600w",
+      "sizes": "(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px",
+      "width": 1600,
+      "height": 900,
+      "focus": "40% 30%",
+      "featured": true,
+      "allowPeople": true,
+      "chip": "INAUGURATION"
+    },
     {
       "id": "clinic-001-clinic-exterior",
       "type": "image",
@@ -50,7 +89,9 @@
       "width": 1600,
       "height": 1423,
       "focus": "50% 50%",
-      "featured": false
+      "featured": false,
+      "hidden": true,
+      "hidden_reason": "Patient privacy — two seated patients with identifiable faces are visible in the waiting lounge; hidden per medical privacy policy until consent is confirmed or empty lounge photo is provided."
     },
     {
       "id": "clinic-004-reception-desk",

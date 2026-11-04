@@ -11,7 +11,7 @@ export interface GalleryCategory {
 
 export interface GalleryImageItem {
   id: string;
-  type: 'image';
+  type: 'image' | 'photo';
   category: string;
   caption: string;
   alt: string;
@@ -24,6 +24,19 @@ export interface GalleryImageItem {
   height: number;
   focus?: string;  // CSS object-position, e.g. "50% 18%"
   featured?: boolean;
+  /** If true, photos with people are permitted for this item (e.g. inauguration category). */
+  allowPeople?: boolean;
+  /** If true, this item is hidden from the public gallery. */
+  hidden?: boolean;
+  /** Reason the item is hidden (for audit/editorial notes). */
+  hidden_reason?: string;
+  /**
+   * Chip label shown in the lightbox details panel.
+   * Defaults to the category label when absent.
+   */
+  chip?: string;
+  poster?: string | null;
+  duration?: number | null;
 }
 
 export interface GalleryVideoItem {
@@ -43,6 +56,12 @@ export interface GalleryVideoItem {
   featured?: boolean;
   /** Step number for sterilisation player (1-indexed) */
   step?: number;
+  /** If true, photos with people are permitted for this item. */
+  allowPeople?: boolean;
+  /** If true, this item is hidden from the public gallery. */
+  hidden?: boolean;
+  /** Chip label shown in the lightbox details panel. */
+  chip?: string;
 }
 
 export type GalleryItem = GalleryImageItem | GalleryVideoItem;

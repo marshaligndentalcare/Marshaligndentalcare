@@ -133,7 +133,7 @@ const MosaicGallery: React.FC<Props> = ({ items, onOpenLightbox }) => {
                 tabIndex={0}
               >
                 {/* Image / poster */}
-                {item.type === 'image' ? (
+                {item.type !== 'video' ? (
                   <img
                     src={item.src}
                     srcSet={item.srcset}

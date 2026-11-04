@@ -17,6 +17,7 @@
 | `treatments/005-dental-examination.webp` | Treatments | Stock treatment photo shows people — excluded per people policy. |
 | `treatments/006-teeth-cleaning.webp` | Treatments | Stock treatment photo shows people — excluded per people policy. |
 | `treatments/007-restorative-dentistry.webp` | Treatments | Stock treatment photo shows people — excluded per people policy. |
+| `clinic/003-waiting-lounge.jpeg` | Clinic & Spaces | Patient privacy — two seated patients with identifiable faces are visible in the waiting lounge; hidden per medical privacy policy until consent is confirmed or empty lounge photo is provided. |
 
 > **Note:** The "Our Specialists" and "Treatments" category chips are no longer shown in the gallery filter bar because all items in those categories are hidden (count = 0). They remain in the manifest source data and will reappear automatically if items are un-hidden.
 

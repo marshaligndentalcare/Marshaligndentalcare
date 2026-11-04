@@ -191,7 +191,7 @@ const CoverflowStage: React.FC<Props> = ({
 
         {/* Media content */}
         <div className={styles.cardMedia}>
-          {item.type === 'image' ? (
+          {item.type !== 'video' ? (
             portrait ? (
               /* Portrait: show fully with blurred bg */
               <div className={styles.mediaPortrait}>

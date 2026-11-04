@@ -1,22 +1,32 @@
 /**
  * GalleryLightbox.tsx — Full-screen overlay lightbox with details panel.
  *
- * Media rules:
- *  - Always object-fit: contain (full frame visible)
- *  - Portrait images: height = min(70vh, 720px); width = auto
- *  - Videos: same max-height, native controls, no scale() > 1
- *  - Blurred copy of image as backdrop for portrait / letterbox scenarios
+ * Layout (D fix):
+ *  - Photo + details card are ONE centered group, max-width ~1100px, gap 32px.
+ *  - Card vertically centered beside photo on desktop, below on mobile.
+ *  - Prev/Next arrows are fixed at the viewport edges (z-index above card).
+ *  - Frosted-blur backdrop (no black/blue). Counter "06 / 12" + close button.
+ *  - Card text uses --color-text / --color-text-muted (WCAG AA compliant).
+ *  - Portrait photos keep own aspect ratio (no forced 16:9, no blur on main media).
  *
- * Details panel (beside/below media):
- *  - Caption (title), category label, description (one factual sentence), duration for videos
+ * Keyboard:
+ *  - Esc closes, Left/Right navigate.
+ *  - Focus trapped inside. Focus returns to clicked tile on close.
+ *
+ * Inauguration chip: rendered from item.chip field if present (same style, only text differs).
+ *
+ * Media rules:
+ *  - Always object-fit: contain (full frame visible).
+ *  - Portrait images: height = min(70vh, 720px); width = auto.
+ *  - Videos: same max-height, native controls, no forced aspect ratio.
+ *  - No blurred copy on the main media — the full-page backdrop IS the blur.
  *
  * Controls:
- *  - Prev / next buttons, swipe (pointer events), ArrowLeft/Right, Esc
- *  - Counter (01 / 12)
- *  - Focus trap, body scroll lock, focus restored on close
- *  - Preloads neighbours
- *
- * No download button.
+ *  - Prev / next fixed at viewport edges, never clipped.
+ *  - Counter (01 / 12), close button in top bar.
+ *  - Swipe (pointer events, threshold 50px).
+ *  - Preloads neighbours.
+ *  - No download button.
  */
 import React, {
   useCallback, useEffect, useRef,
@@ -24,6 +34,7 @@ import React, {
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { GalleryItem, GalleryManifest } from '../../data/galleryTypes';
 import { isPortrait, formatDuration } from '../../data/galleryTypes';
+import { getRibbonDescription, inaugurationData } from '../../data/inauguration';
 import styles from './GalleryLightbox.module.css';
 
 const FOCUSABLE = 'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])';
@@ -109,7 +120,7 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
     for (const offset of [-1, 1]) {
       const n = items[activeIndex + offset];
       if (!n) continue;
-      if (n.type === 'image') {
+      if (n.type === 'image' || n.type === 'photo') {
         const img = new Image();
         img.src = n.src;
       }
@@ -138,8 +149,17 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
 
   if (!item) return null;
 
-  const portrait    = item.type === 'image' && isPortrait(item);
-  const catLabel    = manifest.categories.find((c) => c.slug === item.category)?.label ?? item.category;
+  const isPhotoOrImg = item.type === 'image' || item.type === 'photo';
+  const portrait = isPhotoOrImg && isPortrait(item);
+
+  // Chip label: use item.chip if set, otherwise fall back to category label
+  const chipLabel = ('chip' in item && item.chip)
+    ? item.chip
+    : manifest.categories.find((c) => c.slug === item.category)?.label ?? item.category;
+
+  const itemDesc = item.id === 'inauguration-ribbon-cutting'
+    ? getRibbonDescription(inaugurationData)
+    : item.description;
 
   return (
     <div
@@ -168,33 +188,22 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
         </button>
       </div>
 
-      {/* Main content: [prev] media [details] [next] — buttons in flow, never overlapping */}
-      <div className={styles.content}>
-        {/* Prev button */}
-        <button
-          type="button"
-          className={styles.navBtn}
-          onClick={(e) => { e.stopPropagation(); onNavigate(Math.max(0, activeIndex - 1)); }}
-          disabled={activeIndex === 0}
-          aria-label="Previous"
-        >
-          <ChevronLeft size={24} aria-hidden="true" />
-        </button>
+      {/* Fixed Prev button — viewport left edge */}
+      <button
+        type="button"
+        className={`${styles.navBtn} ${styles.navBtnPrev}`}
+        onClick={(e) => { e.stopPropagation(); onNavigate(Math.max(0, activeIndex - 1)); }}
+        disabled={activeIndex === 0}
+        aria-label="Previous"
+      >
+        <ChevronLeft size={24} aria-hidden="true" />
+      </button>
 
+      {/* Centered content group: media + details card */}
+      <div className={styles.contentGroup}>
         {/* Media */}
         <div className={`${styles.media} ${portrait ? styles.mediaPortrait : ''}`}>
-
-          {item.type === 'image' ? (
-            <img
-              key={item.id}
-              src={item.src}
-              srcSet={item.srcset}
-              sizes="100vw"
-              alt={item.alt}
-              className={styles.img}
-              draggable={false}
-            />
-          ) : (
+          {item.type === 'video' ? (
             <video
               key={item.id}
               ref={videoRef}
@@ -205,6 +214,16 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
               playsInline
               preload="metadata"
               aria-label={item.alt}
+            />
+          ) : (
+            <img
+              key={item.id}
+              src={item.src}
+              srcSet={item.srcset}
+              sizes="(max-width: 960px) 100vw, 65vw"
+              alt={item.alt}
+              className={styles.img}
+              draggable={false}
             />
           )}
         </div>
@@ -219,12 +238,12 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
 
           <p className={styles.detailsCaption}>{item.caption}</p>
 
-          {catLabel && (
-            <span className={styles.detailsCategory}>{catLabel}</span>
+          {chipLabel && (
+            <span className={styles.detailsCategory}>{chipLabel}</span>
           )}
 
-          {item.description && (
-            <p className={styles.detailsDesc}>{item.description}</p>
+          {itemDesc && (
+            <p className={styles.detailsDesc}>{itemDesc}</p>
           )}
 
           {item.type === 'video' && item.duration && (
@@ -233,18 +252,18 @@ const GalleryLightbox: React.FC<Props> = ({ items, activeIndex, onClose, onNavig
             </p>
           )}
         </aside>
-
-        {/* Next button */}
-        <button
-          type="button"
-          className={styles.navBtn}
-          onClick={(e) => { e.stopPropagation(); onNavigate(Math.min(items.length - 1, activeIndex + 1)); }}
-          disabled={activeIndex === items.length - 1}
-          aria-label="Next"
-        >
-          <ChevronRight size={24} aria-hidden="true" />
-        </button>
       </div>
+
+      {/* Fixed Next button — viewport right edge */}
+      <button
+        type="button"
+        className={`${styles.navBtn} ${styles.navBtnNext}`}
+        onClick={(e) => { e.stopPropagation(); onNavigate(Math.min(items.length - 1, activeIndex + 1)); }}
+        disabled={activeIndex === items.length - 1}
+        aria-label="Next"
+      >
+        <ChevronRight size={24} aria-hidden="true" />
+      </button>
     </div>
   );
 };

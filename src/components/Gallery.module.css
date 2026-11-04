@@ -2,15 +2,16 @@
 
 /* ── Section ─────────────────────────────────────────────────────── */
 .section {
-  padding: 96px 0 0;
+  /* Bottom padding ensures floating WhatsApp button (height ~54px + 28px offset + 16px clearance) never covers tiles */
+  padding: 96px 0 calc(54px + 16px + 28px);
   background: var(--color-white);
   position: relative;
 }
 
 /* ── Mosaic wrapper — full-bleed (controlled padding inside mosaic CSS) */
 .mosaicWrapper {
-  padding:    0 40px;
-  padding-bottom: 100px;  /* extra clearance for floating WhatsApp button */
+  padding: 0 40px;
+  padding-bottom: calc(54px + 16px + 28px);
 }
 
 /* ── Container ───────────────────────────────────────────────────── */
@@ -124,12 +125,12 @@
 
 /* ── Responsive ───────────────────────────────────────────────────── */
 @media (max-width: 960px) {
-  .section { padding: 72px 0 0; }
+  .section { padding: 72px 0 calc(54px + 16px + 28px); }
   .header  { margin-bottom: 28px; }
 }
 
 @media (max-width: 640px) {
-  .section { padding: 56px 0 0; }
+  .section { padding: 56px 0 calc(54px + 16px + 16px); }
   .container { padding: 0 20px; }
   .header { margin-bottom: 20px; }
   .heading { font-size: 2rem; }

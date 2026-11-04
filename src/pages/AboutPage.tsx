@@ -10,7 +10,7 @@ const AboutPage: React.FC = () => {
     canonical: '/about',
   });
 
-  return <About />;
+  return <About showStory={true} />;
 };
 
 export default AboutPage;

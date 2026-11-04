@@ -14,15 +14,21 @@
  *
  * mode="page"  — used ONLY on GalleryPage (/gallery):
  *   • Eyebrow + heading
- *   • CategoryChips (URL ?cat= state)
+ *   • CategoryChips (URL ?cat= state) — includes "Inauguration" chip
  *   • MosaicGallery (justified-rows collage, progressive "View more")
  *   • GalleryLightbox with details panel (caption, category, description, duration)
  *   • Sterilisation Process section (StepPlayer) below the mosaic
  *   • NO drifting rows, NO coverflow
  *
+ * PRIVACY GATE (inauguration photos):
+ *   Items with category "inauguration" (allowPeople: true) are shown only when
+ *   import.meta.env.DEV === true  OR  consentConfirmed === true in inauguration.ts.
+ *   When hidden, they are absent from every list, the manifest count is adjusted, and
+ *   the "Inauguration" chip is hidden from CategoryChips.
+ *
  * Uses only existing design tokens. Does NOT change anything outside the gallery section.
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import styles from './Gallery.module.css';
@@ -31,21 +37,33 @@ import DriftingGallery from './gallery/DriftingGallery';
 import GalleryLightbox from './gallery/GalleryLightbox';
 import MosaicGallery from './gallery/MosaicGallery';
 import StepPlayer from './gallery/StepPlayer';
-import type { GalleryItem, GalleryVideoItem, GalleryManifest, StepManifest } from '../data/galleryTypes';
+import type { GalleryItem, GalleryVideoItem, GalleryManifest, GalleryCategory, StepManifest } from '../data/galleryTypes';
 import manifestData from '../data/gallery.generated.json';
 import stepData from '../data/sterilisation.generated.json';
+import { inaugurationData, inaugurationsVisible } from '../data/inauguration';
 
 const manifest  = manifestData as GalleryManifest;
 const stepMani  = stepData    as StepManifest;
 
-// ── Config (document intent; actual routing is via mode prop) ─────────────────
+// ── Config (document intent; actual routing is via mode prop) ──────────────
+
 const HOME_STYLE         = 'drifting' as const;
 const GALLERY_PAGE_STYLE = 'mosaic'   as const;
 void HOME_STYLE; void GALLERY_PAGE_STYLE;
 
 const MAX_HOME_PER_ROW = 12;
 
-// ── Types ─────────────────────────────────────────────────────────────────────
+// ── Privacy gate helper ───────────────────────────────────────────────────
+
+function isInaugurationItem(item: GalleryItem): boolean {
+  return item.category === 'inauguration';
+}
+
+function isImageOrPhoto(item: GalleryItem): boolean {
+  return item.type === 'image' || item.type === 'photo';
+}
+
+// ── Types ──────────────────────────────────────────────────────────────────
 
 interface GalleryProps {
   /** 'home' → drifting rows only (no chips, no mosaic)
@@ -53,7 +71,7 @@ interface GalleryProps {
   mode: 'home' | 'page';
 }
 
-// ── Root component ────────────────────────────────────────────────────────────
+// ── Root component ─────────────────────────────────────────────────────────
 
 const Gallery: React.FC<GalleryProps> = ({ mode }) => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -88,20 +106,42 @@ const Gallery: React.FC<GalleryProps> = ({ mode }) => {
   return <GalleryPageSection sectionRef={sectionRef} />;
 };
 
-// ── Home Gallery Section (drifting rows only) ─────────────────────────────────
+// ── Home Gallery Section (drifting rows only) ─────────────────────────────
 
 interface HomeSectionProps {
   sectionRef: React.RefObject<HTMLElement | null>;
 }
 
 const HomeGallerySection: React.FC<HomeSectionProps> = ({ sectionRef }) => {
-  const featuredItems: GalleryItem[] = manifest.items
-    .filter((i) => i.featured && i.type === 'image')
-    .slice(0, MAX_HOME_PER_ROW * 2);
+  const showInauguration = inaugurationsVisible(inaugurationData);
 
-  const homeItems: GalleryItem[] = featuredItems.length >= 4
-    ? featuredItems
-    : manifest.items.filter((i) => i.type === 'image').slice(0, MAX_HOME_PER_ROW * 2);
+  // Build home items: featured items, inauguration photos placed early (not at end),
+  // spaced apart (not adjacent to each other).
+  const homeItems: GalleryItem[] = useMemo(() => {
+    // All featured image items (excluding inauguration if gated and hidden items)
+    const nonInaugFeatured = manifest.items
+      .filter((i) => !i.hidden && i.featured && isImageOrPhoto(i) && !isInaugurationItem(i));
+
+    const inaugFeatured = showInauguration
+      ? manifest.items.filter((i) => !i.hidden && i.featured && isImageOrPhoto(i) && isInaugurationItem(i))
+      : [];
+
+    // We want ribbon photo early (position 1) and group photo spaced apart (position 4-5)
+    // Insert them into the featured list, not adjacent.
+    const result: GalleryItem[] = [...nonInaugFeatured.slice(0, MAX_HOME_PER_ROW * 2)];
+
+    if (inaugFeatured.length >= 1) {
+      // Insert ribbon at index 1 (second position for visibility)
+      result.splice(1, 0, inaugFeatured[0]);
+    }
+    if (inaugFeatured.length >= 2) {
+      // Insert group at index 4 (spaced apart from ribbon)
+      const insertAt = Math.min(4, result.length);
+      result.splice(insertAt, 0, inaugFeatured[1]);
+    }
+
+    return result.slice(0, MAX_HOME_PER_ROW * 2);
+  }, [showInauguration]);
 
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const openLightbox  = useCallback((i: number) => setLightboxIndex(i), []);
@@ -115,28 +155,29 @@ const HomeGallerySection: React.FC<HomeSectionProps> = ({ sectionRef }) => {
       ref={sectionRef}
       aria-labelledby="gallery-heading"
     >
+      {/* Section header */}
       <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.tag} data-animate>
             <span className={styles.tagDot} aria-hidden="true" />
-            Clinic Gallery
+            Our Gallery
           </div>
           <h2 id="gallery-heading" className={styles.heading} data-animate>
-            Every frame,<br />brought into focus.
+            A glimpse inside<br />Marshalign Dental Care.
           </h2>
-          <p className={styles.description} data-animate>
-            A glimpse inside Marshalign Dental Care operatories &amp; specialist suites.
-          </p>
         </header>
       </div>
 
-      <DriftingGallery items={homeItems} onOpenLightbox={openLightbox} />
+      {/* Drifting rows — full width */}
+      <DriftingGallery
+        items={homeItems}
+        onOpenLightbox={openLightbox}
+      />
 
       <div className={styles.ctaRow}>
         <Link
           to="/gallery"
           className={styles.ctaBtn}
-          id="gallery-view-all-btn"
           aria-label="View the full clinic gallery"
         >
           View full gallery
@@ -156,7 +197,7 @@ const HomeGallerySection: React.FC<HomeSectionProps> = ({ sectionRef }) => {
   );
 };
 
-// ── Gallery Page Section (mosaic + chips + sterilisation player) ──────────────
+// ── Gallery Page Section (mosaic + chips + sterilisation player) ──────────
 
 interface PageSectionProps {
   sectionRef: React.RefObject<HTMLElement | null>;
@@ -171,13 +212,46 @@ const GalleryPageSection: React.FC<PageSectionProps> = ({ sectionRef }) => {
     setSearchParams(slug ? { cat: slug } : {}, { replace: true });
   }, [setSearchParams]);
 
-  // Filter — only image items in mosaic (videos go to step player)
-  const filteredItems: GalleryItem[] = (activeCat
-    ? manifest.items.filter((i) => i.category === activeCat)
-    : manifest.items
-  ).filter((i) => i.type === 'image' || i.type === 'video');
+  const showInauguration = inaugurationsVisible(inaugurationData);
 
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  // Filter manifest items — apply privacy gate for inauguration and hide hidden items
+  const visibleItems: GalleryItem[] = useMemo(() => {
+    return manifest.items.filter((i) => {
+      if (i.hidden) return false;
+      if (isInaugurationItem(i) && !showInauguration) return false;
+      return isImageOrPhoto(i) || i.type === 'video';
+    });
+  }, [showInauguration]);
+
+  // Build visible categories — only include inauguration if photos are visible
+  const visibleCategories: GalleryCategory[] = useMemo(() => {
+    return manifest.categories
+      .filter((cat) => {
+        if (cat.slug === 'inauguration' && !showInauguration) return false;
+        return true;
+      })
+      .map((cat) => {
+        // Recount items after privacy gate
+        const count = visibleItems.filter((i) => i.category === cat.slug).length;
+        return { ...cat, count };
+      })
+      .filter((cat) => cat.count > 0);
+  }, [visibleItems, showInauguration]);
+
+  // Total count across all visible items
+  const totalCount = visibleItems.length;
+
+  // Filter by active category
+  const filteredItems: GalleryItem[] = useMemo(() => {
+    if (!activeCat) return visibleItems;
+    return visibleItems.filter((i) => i.category === activeCat);
+  }, [visibleItems, activeCat]);
+
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(() => {
+    const lb = searchParams.get('lb');
+    if (lb !== null && !isNaN(Number(lb))) return Number(lb);
+    return null;
+  });
   const openLightbox  = useCallback((i: number) => setLightboxIndex(i), []);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
   const navigateLb    = useCallback((i: number) => setLightboxIndex(i), []);
@@ -234,9 +308,9 @@ const GalleryPageSection: React.FC<PageSectionProps> = ({ sectionRef }) => {
           {/* Category chips */}
           <div ref={chipsRef} style={{ scrollMarginTop: '88px' }}>
             <CategoryChips
-              categories={manifest.categories}
+              categories={visibleCategories}
               activeSlug={activeCat}
-              totalCount={manifest.items.length}
+              totalCount={totalCount}
               onChange={setActiveCat}
             />
           </div>
