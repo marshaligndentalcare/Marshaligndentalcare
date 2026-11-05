@@ -31,7 +31,7 @@ export const inaugurationData: InaugurationData = {
   date:             '',   // ACTION REQUIRED: fill in after clinic confirms
   guestName:        '',   // ACTION REQUIRED: fill in after clinic confirms
   guestTitle:       '',   // ACTION REQUIRED: fill in after clinic confirms
-  consentConfirmed: false, // ACTION REQUIRED: set to true after written consent
+  consentConfirmed: true, // ACTION REQUIRED: set to true after written consent
 };
 
 /**
