@@ -1,0 +1,205 @@
+.page {
+  padding: 80px 0 120px;
+  min-height: 60vh;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  margin-bottom: 48px;
+}
+
+.breadcrumb ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  flex-wrap: wrap;
+}
+
+.breadcrumb li + li::before {
+  content: '/';
+  margin-right: 8px;
+  color: var(--color-text-muted);
+}
+
+.breadcrumb a {
+  color: var(--color-deep-ocean);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+/* Profile grid */
+.profileGrid {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* Photo */
+.photoCol {
+  position: relative;
+}
+
+.photo {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 12px 48px rgba(60, 89, 128, 0.12);
+}
+
+.consultantBadge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-deep-ocean);
+  background: rgba(250, 248, 246, 0.94);
+  backdrop-filter: blur(8px);
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--color-clouds);
+}
+
+/* Info */
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.qualifications {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-deep-ocean);
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+.role {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.specialtyChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  background: var(--brand-50);
+  color: var(--brand-600);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 100px;
+  border: 1px solid var(--brand-100);
+  width: fit-content;
+}
+
+.bio {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.membershipsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionLabel {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.membershipList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.membershipChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: var(--brand-50);
+  color: var(--color-deep-ocean);
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  font-weight: 600;
+  border-radius: 100px;
+  border: 1px solid var(--brand-100);
+}
+
+.regNo {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.ctaRow {
+  margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .profileGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .photoCol {
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .page { padding: 60px 0 80px; }
+  .container { padding: 0 20px; }
+}

@@ -1,94 +1,105 @@
 /**
- * One-off image processing script for doctor photos.
- * Run with: node scripts/process-doctor-photos.mjs
- * NOT shipped in the bundle – devDependency only.
+ * scripts/process-doctor-photos.mjs
+ *
+ * Processes doctor portrait photos from gallery-originals/team/ into
+ * optimised WebP variants under public/doctors/<slug>/.
+ *
+ * Usage: node scripts/process-doctor-photos.mjs
+ *
+ * Outputs per doctor:
+ *   <slug>-900.webp       — 900×1200 (3:4) cover crop
+ *   <slug>-450.webp       — 450×600  (3:4) cover crop
+ *   <slug>-avatar.webp    — 320×320  square cover crop
+ *   <slug>-placeholder.webp — 24×32  blurred placeholder
+ *
+ * All EXIF is stripped (sharp default). No .withMetadata() call.
+ * Files are written synchronously to avoid EBUSY on Windows.
  */
 
-import sharp from 'sharp';
-import path from 'path';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import sharp from 'sharp';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(__dirname, '..');
-const PUBLIC = path.join(ROOT, 'public');
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const ROOT      = join(__dirname, '..');
 
-// Shared light-enhancement pipeline (no face retouching)
-function enhance(pipeline) {
-  return pipeline
-    .normalise()                          // auto-contrast / levels
-    .modulate({ saturation: 1.04 })       // slight saturation boost
-    .linear(1.03, -(0.03 * 128))          // contrast x1.03
-    .sharpen({ sigma: 1, m1: 0, m2: 3 }); // mild sharpening, radius ~1
-}
+// ── Doctor configuration ──────────────────────────────────────────────────────
 
-async function processDoctor({ name, srcFile, resize, cropRect, avatarCrop }) {
-  console.log(`\n── Processing ${name} ──`);
-
-  const src = path.join(PUBLIC, srcFile);
-
-  // Base pipeline: optional crop → resize to 900×1200 → enhance
-  const base = () => {
-    let p = sharp(src);
-    if (cropRect) {
-      p = p.extract({ left: cropRect.left, top: cropRect.top, width: cropRect.width, height: cropRect.height });
-    }
-    return enhance(p.resize(resize.w, resize.h, { fit: 'fill' }));
-  };
-
-  // 1. Full WebP 900×1200 q84
-  await base()
-    .webp({ quality: 84 })
-    .toFile(path.join(PUBLIC, `${name}.webp`));
-  console.log(`  ✓ ${name}.webp`);
-
-  // 2. Progressive JPEG 900×1200 q88
-  await base()
-    .jpeg({ quality: 88, progressive: true, mozjpeg: true })
-    .toFile(path.join(PUBLIC, `${name}.jpg`));
-  console.log(`  ✓ ${name}.jpg`);
-
-  // 3. Half-res WebP 450×600
-  await base()
-    .resize(450, 600, { fit: 'fill' })
-    .webp({ quality: 84 })
-    .toFile(path.join(PUBLIC, `${name}-450.webp`));
-  console.log(`  ✓ ${name}-450.webp`);
-
-  // 4. Avatar 320×320 square – crop from ORIGINAL (before main crop/resize)
-  const avatarPipeline = sharp(src)
-    .extract({
-      left: avatarCrop.left,
-      top: avatarCrop.top,
-      width: avatarCrop.width,
-      height: avatarCrop.height,
-    });
-  await enhance(avatarPipeline)
-    .resize(320, 320, { fit: 'fill' })
-    .webp({ quality: 84 })
-    .toFile(path.join(PUBLIC, `${name}-avatar.webp`));
-  console.log(`  ✓ ${name}-avatar.webp`);
-}
-
-// ── Marshal Antony – full frame 1086×1448 → 900×1200 ──────────────────────
-await processDoctor({
-  name: 'dr-marshal-antony',
-  srcFile: 'dr-marshal-antony.png',
-  cropRect: null,                    // full frame
-  resize: { w: 900, h: 1200 },
-  avatarCrop: {                      // x=280..800, y=80..600 of original
-    left: 280, top: 80, width: 520, height: 520,
+const DOCTORS = [
+  {
+    slug:     'dr-marshal-antony',
+    input:    'dr-marshal-antony.jpeg',
+    // centre crop for headshot with good framing
+    cropPos3x4: 'centre',
+    cropPosAvatar: 'centre',
   },
-});
-
-// ── Jose Olive – crop x=130..1070 (940w), full height 1254, → 900×1200 ────
-await processDoctor({
-  name: 'dr-jose-olive',
-  srcFile: 'dr-jose-olive.png',
-  cropRect: { left: 130, top: 0, width: 940, height: 1254 },
-  resize: { w: 900, h: 1200 },
-  avatarCrop: {                      // x=340..860, y=130..650 of original
-    left: 340, top: 130, width: 520, height: 520,
+  {
+    slug:     'dr-jose-olive',
+    input:    'dr-jose-olive.jpeg',
+    cropPos3x4: 'centre',
+    cropPosAvatar: 'centre',
   },
-});
+  {
+    slug:     'dr-meenakshi',
+    input:    'dr-meenakshi.jpeg',
+    // top crop to remove headroom (bias upward in physical photo)
+    cropPos3x4: 'top',
+    cropPosAvatar: 'top',
+  },
+  {
+    slug:     'dr-j-sowmiya',
+    input:    'dr-j-sowmiya.jpeg',
+    cropPos3x4: 'top',
+    cropPosAvatar: 'top',
+  },
+];
+
+// ── Main pipeline ─────────────────────────────────────────────────────────────
+
+for (const doc of DOCTORS) {
+  const inputPath = join(ROOT, 'gallery-originals', 'team', doc.input);
+  const outDir    = join(ROOT, 'public', 'doctors', doc.slug);
+
+  mkdirSync(outDir, { recursive: true });
+
+  console.log(`\nProcessing: ${doc.slug}`);
+
+  // Read original into buffer once to avoid EBUSY on Windows
+  const original = readFileSync(inputPath);
+
+  // ── 900×1200 (3:4) ────────────────────────────────────────────────────────
+  const buf900 = await sharp(original)
+    .resize(900, 1200, { fit: 'cover', position: doc.cropPos3x4 })
+    .webp({ quality: 85 })
+    .toBuffer();
+  writeFileSync(join(outDir, `${doc.slug}-900.webp`), buf900);
+  console.log(`  ✓ ${doc.slug}-900.webp  (${(buf900.length / 1024).toFixed(1)} KB)`);
+
+  // ── 450×600 (3:4) ─────────────────────────────────────────────────────────
+  const buf450 = await sharp(original)
+    .resize(450, 600, { fit: 'cover', position: doc.cropPos3x4 })
+    .webp({ quality: 82 })
+    .toBuffer();
+  writeFileSync(join(outDir, `${doc.slug}-450.webp`), buf450);
+  console.log(`  ✓ ${doc.slug}-450.webp  (${(buf450.length / 1024).toFixed(1)} KB)`);
+
+  // ── 320×320 avatar (square) ───────────────────────────────────────────────
+  const bufAvatar = await sharp(original)
+    .resize(320, 320, { fit: 'cover', position: doc.cropPosAvatar })
+    .webp({ quality: 82 })
+    .toBuffer();
+  writeFileSync(join(outDir, `${doc.slug}-avatar.webp`), bufAvatar);
+  console.log(`  ✓ ${doc.slug}-avatar.webp  (${(bufAvatar.length / 1024).toFixed(1)} KB)`);
+
+  // ── 24×32 blur placeholder ────────────────────────────────────────────────
+  const bufPlaceholder = await sharp(original)
+    .resize(24, 32, { fit: 'cover' })
+    .blur(20)
+    .webp({ quality: 50 })
+    .toBuffer();
+  writeFileSync(join(outDir, `${doc.slug}-placeholder.webp`), bufPlaceholder);
+  console.log(`  ✓ ${doc.slug}-placeholder.webp  (${(bufPlaceholder.length / 1024).toFixed(1)} KB)`);
+}
 
 console.log('\n✅ All doctor photos processed successfully.\n');

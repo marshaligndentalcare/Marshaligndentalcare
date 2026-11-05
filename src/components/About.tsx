@@ -178,7 +178,7 @@ const About: React.FC<AboutProps> = ({ showStory = false }) => {
               </h2>
 
               <p className={styles.body} data-animate>
-                Marshalign Dental Care is a specialist dental clinic in KK Nagar, Trichy, founded on the principle of focused medical expertise and calm, unhurried care. Led by Dr. Marshal Antony M. (Specialist in Orthodontics &amp; Dentofacial Orthopedics) and Dr. Jose Olive A. (Specialist in Prosthodontics &amp; Implantology), our practice unites advanced dental disciplines under one roof.
+                Marshalign Dental Care is a specialist dental clinic in KK Nagar, Trichy, founded on the principle of focused medical expertise and calm, unhurried care. The clinic is led by Dr. Marshal Antony M. (Specialist in Orthodontics &amp; Dentofacial Orthopedics) and Dr. Jose Olive A. (Specialist in Prosthodontics &amp; Implantology), with specialist consulting by Dr. Meenakshi (Consultant Endodontist) and Dr. J. Sowmiya (Consultant, MDS).
               </p>
 
               <p className={styles.body} data-animate>

@@ -8,6 +8,8 @@ import EnquiryModal from './components/EnquiryModal';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import DoctorsPage from './pages/DoctorsPage';
+import SpecialistsPage from './pages/SpecialistsPage';
+import SpecialistProfilePage from './pages/SpecialistProfilePage';
 import TreatmentsPage from './pages/TreatmentsPage';
 import TreatmentDetailPage from './pages/TreatmentDetailPage';
 import GalleryPage from './pages/GalleryPage';
@@ -27,6 +29,8 @@ const App: React.FC = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/doctors" element={<DoctorsPage />} />
+            <Route path="/specialists" element={<SpecialistsPage />} />
+            <Route path="/specialists/:slug" element={<SpecialistProfilePage />} />
             <Route path="/treatments" element={<TreatmentsPage />} />
             <Route path="/treatments/:slug" element={<TreatmentDetailPage />} />
             <Route path="/gallery" element={<GalleryPage />} />

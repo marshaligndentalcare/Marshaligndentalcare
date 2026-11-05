@@ -256,3 +256,98 @@
   .container { padding: 0 20px; }
   .info { padding: 20px; }
 }
+
+/* ── Consultant section header ────────────────────────────────────────────── */
+.consultantHeader {
+  text-align: center;
+  margin-top: 96px;
+  margin-bottom: 56px;
+}
+
+.headingConsultant {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin-bottom: 0;
+}
+
+/* ── Consultant grid (2-col on desktop, 1-col mobile) ────────────────────── */
+.gridConsultant {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 860px;
+  margin: 0 auto;
+  gap: 32px;
+}
+
+@media (max-width: 600px) {
+  .gridConsultant {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+}
+
+/* ── Compact card overrides ──────────────────────────────────────────────── */
+.cardCompact .imageWrapCompact {
+  aspect-ratio: 3/4;
+}
+
+.consultantBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-deep-ocean);
+  background: rgba(250, 248, 246, 0.94);
+  backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--color-clouds);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.roleLabel {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ── Membership chips ────────────────────────────────────────────────────── */
+.membershipList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.membershipChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: var(--brand-50);
+  color: var(--color-deep-ocean);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 100px;
+  border: 1px solid var(--brand-100);
+}
+
+/* ── Name link (removes underline, inherits colour) ─────────────────────── */
+.nameLink {
+  text-decoration: none;
+  color: inherit;
+}
+.nameLink:hover .name {
+  color: var(--color-deep-ocean);
+}

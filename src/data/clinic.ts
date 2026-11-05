@@ -70,6 +70,10 @@ export const CLINIC_HOURS: { label: string; value: string }[] = [
 
 // ── Doctors ───────────────────────────────────────────────────────────────────
 /**
+ * @deprecated Use `DOCTORS` from `src/data/doctors.ts` instead.
+ * This constant is kept for backward compatibility only.
+ * Do NOT add new fields here — update src/data/doctors.ts.
+ *
  * Doctors data — verified facts only.
  * BDS, MDS for Dr. Marshal is confirmed.
  * Dr. Jose's full qualifications pending CLIENT_CONFIRMATIONS item 1.
