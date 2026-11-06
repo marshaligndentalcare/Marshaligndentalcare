@@ -35,13 +35,13 @@ export function buildWhatsAppMessage(context?: WhatsAppEnquiryContext | string):
     }
 
     case 'doctor': {
-      return `Hi, I would like to enquire about an appointment with ${context.doctorName.trim()}.`;
+      return `Hello Marshalign Dental Care, I would like to book an appointment with ${context.doctorName.trim()}. Please share the available timing.`;
     }
 
     case 'section': {
       switch (context.sectionName.toLowerCase()) {
         case 'hero':
-          return 'Hi, I found your website and would like to enquire about booking a dental consultation at Marshalign Dental Care.';
+          return 'Hi, I found your website and would like to enquire about booking an appointment at Marshalign Dental Care.';
         case 'contact':
           return 'Hi, I would like to get in touch with Marshalign Dental Care to schedule a visit.';
         case 'navbar':

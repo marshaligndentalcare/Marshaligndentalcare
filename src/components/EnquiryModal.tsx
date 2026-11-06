@@ -219,8 +219,7 @@ const EnquiryModal: React.FC = () => {
               Request an Appointment
             </h2>
             <p id={id('subtitle')} className={styles.subtitle}>
-              Send a request to Marshalign Dental Care — we'll confirm your
-              slot on WhatsApp.
+              Send an appointment request directly to Marshalign Dental Care.
             </p>
           </div>
           <button
@@ -440,12 +439,6 @@ const EnquiryModal: React.FC = () => {
                 </span>
               )}
             </div>
-
-            {/* Privacy notice */}
-            <p className={styles.privacy}>
-              🔒 Your details are only used to prepare this WhatsApp message.
-              We don't store them on this website.
-            </p>
           </form>
         </div>
 
@@ -461,8 +454,7 @@ const EnquiryModal: React.FC = () => {
           </button>
 
           <p className={styles.disclaimer}>
-            This sends an appointment <strong>request</strong>. The clinic will
-            confirm your slot on WhatsApp.
+            This connects directly with our dental care team on WhatsApp.
           </p>
 
           {/* Fallback link after submit */}

@@ -1,4 +1,10 @@
 {
+  "redirects": [
+    { "source": "/specialists/dr-marshal-antony", "destination": "/specialists#dr-marshal-antony", "permanent": true },
+    { "source": "/specialists/dr-jose-olive", "destination": "/specialists#dr-jose-olive", "permanent": true },
+    { "source": "/specialists/dr-j-sowmiya", "destination": "/specialists#dr-j-sowmiya", "permanent": true },
+    { "source": "/specialists/dr-meenakshi", "destination": "/specialists#dr-meenakshi", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",

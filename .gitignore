@@ -71,3 +71,6 @@ SECURITY_SETUP.md
 *.sw?
 Thumbs.db
 ehthumbs.db
+
+gallery-originals/doctors/
+reports/

@@ -69,34 +69,12 @@
   </url>
   <url>
     <loc>https://marshaligndentalcare.in/specialists</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url>
-    <loc>https://marshaligndentalcare.in/specialists/dr-marshal-antony</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://marshaligndentalcare.in/specialists/dr-jose-olive</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://marshaligndentalcare.in/specialists/dr-meenakshi</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://marshaligndentalcare.in/specialists/dr-j-sowmiya</loc>
-    <lastmod>2026-11-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
+
+  <!-- Other pages -->
   <url>
     <loc>https://marshaligndentalcare.in/about</loc>
     <lastmod>2026-10-13</lastmod>

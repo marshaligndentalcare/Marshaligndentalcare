@@ -4,7 +4,7 @@ var WA_MESSAGE = encodeURIComponent(
   "Hello Marshalign Dental Care, I found your website and would like to enquire about your dental treatments. Could you please share more information?"
 );
 var WA_LINK = `https://wa.me/${WA_NUMBER}?text=${WA_MESSAGE}`;
-var CLINIC_WHATSAPP = "919025655627";
+var CLINIC_WHATSAPP = WA_NUMBER;
 
 // src/lib/enquiry.ts
 function normaliseIndianPhone(raw) {

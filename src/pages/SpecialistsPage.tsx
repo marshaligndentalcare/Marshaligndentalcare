@@ -4,13 +4,13 @@ import Specialists from '../components/Specialists';
 
 const SpecialistsPage: React.FC = () => {
   useSEO({
-    title: 'Our Specialists & Consultants | Marshalign Dental Care, Trichy',
+    title: 'Our Doctors | Marshalign Dental Care, Trichy',
     description:
-      'Meet the dental specialists and consultants at Marshalign Dental Care, Trichy — Dr. Marshal Antony M. (Orthodontics & Dentofacial Orthopedics), Dr. Jose Olive A. (Prosthodontics & Implantology), Dr. Meenakshi (Endodontics), and Dr. J. Sowmiya (Consultant, MDS).',
+      'Meet the doctors at Marshalign Dental Care, Trichy — Dr. Marshal Antony M. (Orthodontics & Dentofacial Orthopedics), Dr. Jose Olive A. (Prosthodontics & Implantology), Dr. J. Sowmiya (MDS), and Dr. Meenakshi (Specialist Endodontist).',
     canonical: '/specialists',
   });
 
-  return <Specialists />;
+  return <Specialists mode="page" />;
 };
 
 export default SpecialistsPage;

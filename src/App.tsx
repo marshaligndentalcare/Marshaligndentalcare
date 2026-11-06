@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import ScrollToTop from './components/ScrollToTop';
 import { EnquiryProvider } from './context/EnquiryContext';
@@ -9,7 +9,6 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import DoctorsPage from './pages/DoctorsPage';
 import SpecialistsPage from './pages/SpecialistsPage';
-import SpecialistProfilePage from './pages/SpecialistProfilePage';
 import TreatmentsPage from './pages/TreatmentsPage';
 import TreatmentDetailPage from './pages/TreatmentDetailPage';
 import GalleryPage from './pages/GalleryPage';
@@ -30,7 +29,7 @@ const App: React.FC = () => {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/doctors" element={<DoctorsPage />} />
             <Route path="/specialists" element={<SpecialistsPage />} />
-            <Route path="/specialists/:slug" element={<SpecialistProfilePage />} />
+            <Route path="/specialists/:slug" element={<Navigate to="/specialists" replace />} />
             <Route path="/treatments" element={<TreatmentsPage />} />
             <Route path="/treatments/:slug" element={<TreatmentDetailPage />} />
             <Route path="/gallery" element={<GalleryPage />} />

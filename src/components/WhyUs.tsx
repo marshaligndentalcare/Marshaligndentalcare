@@ -3,7 +3,7 @@ import styles from './WhyUs.module.css';
 
 const TICKER_ITEMS = [
   'Specialist Dental Care',
-  'Personalised Consultations',
+  'Personalised Care',
   'Clear Communication',
   'Patient-Focused Care',
   'Modern Clinical Environment',
@@ -19,7 +19,7 @@ const features = [
   },
   {
     number: '02',
-    title: 'Personalised Consultations',
+    title: 'Personalised Care',
     subtitle: 'Transparent, collaborative planning',
     desc: 'Every patient receives dedicated one-on-one time with the specialists. Diagnosis, imaging, and treatment timelines are thoroughly planned with you before beginning.',
   },
