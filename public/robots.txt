@@ -1,5 +1,2 @@
 User-agent: *
-Allow: /
-
-# Sitemaps
-Sitemap: https://marshaligndentalcare.in/sitemap.xml
+Disallow: /

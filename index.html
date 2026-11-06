@@ -15,7 +15,10 @@
     <meta name="theme-color" content="#1A3A5C" />
     <title>Marshalign Dental Care | Specialist Dental Clinic, Trichy</title>
     <meta name="description" content="Marshalign Dental Care – specialist dental clinic in Trichy, Tamil Nadu. Expert Orthodontics, Prosthodontics &amp; Dental Implants by Dr. Marshal Antony M. and Dr. Jose Olive A. Your smile is precious to us." />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <!-- robots: controlled by VITE_SITE_INDEXABLE env var at build time -->
+    <!-- VITE_SITE_INDEXABLE=true  → index,follow (production) -->
+    <!-- VITE_SITE_INDEXABLE=false → noindex,nofollow (staging/default) -->
+    <meta name="robots" content="%VITE_ROBOTS_META%" />
     <link rel="canonical" href="https://marshaligndentalcare.in/" />
 
     <!-- Open Graph / Facebook -->
