@@ -1,4 +1,4 @@
-﻿# Cloudflare Pages _redirects
+# Cloudflare Pages _redirects
 # https://developers.cloudflare.com/pages/configuration/redirects/
 #
 # Rule order: first matching rule wins. Static files in /dist are served BEFORE
