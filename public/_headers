@@ -1,14 +1,18 @@
-# Cloudflare Pages _headers
+﻿# Cloudflare Pages _headers
 # https://developers.cloudflare.com/pages/configuration/headers/
 #
 # Rule order: first match wins. More-specific patterns must come first.
 
-# ── Staging URL guard ──────────────────────────────────────────────────────────
-# Prevent *.pages.dev previews from being indexed by search engines.
+# -- Staging URL guard -------------------------------------------------------
+# Prevent *.pages.dev AND *.workers.dev staging URLs from being indexed.
+# Production domain (marshaligndentalcare.in) does NOT get X-Robots-Tag.
 https://:project.pages.dev/*
   X-Robots-Tag: noindex, nofollow
 
-# ── Long-lived immutable assets (hashed filenames) ────────────────────────────
+https://:project.:account.workers.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+# -- Long-lived immutable assets (hashed filenames) --------------------------
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
@@ -28,8 +32,8 @@ https://:project.pages.dev/*
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-# ── HTML pages — short cache, always revalidate ────────────────────────────────
-# Cloudflare Pages serves index.html for SPA routes; keep it fresh.
+# -- HTML pages -- short cache, always revalidate ----------------------------
+# Workers static assets serves index.html for SPA routes; keep it fresh.
 /*
   Cache-Control: public, max-age=0, must-revalidate
   X-Content-Type-Options: nosniff
@@ -38,4 +42,3 @@ https://:project.pages.dev/*
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://marshaligndentalcare.in; worker-src 'self' blob:; connect-src 'self'; frame-src https://www.google.com; object-src 'none'; frame-ancestors 'self'; base-uri 'self'
-

@@ -1,28 +1,43 @@
-# Cloudflare Pages — Deployment Guide
+# Cloudflare Workers Static Assets — Deployment Guide
 
 ## Overview
 
-This site is a **static Vite + React SPA** deployed on Cloudflare Pages. No
-Cloudflare Functions, no R2, no server-side rendering. The existing `vercel.json`
-remains in place until you confirm the cutover.
+This site is a **static Vite + React SPA** deployed with **Cloudflare Workers static assets**
+(`npx wrangler deploy`). No Cloudflare Functions, no R2, no server-side rendering.
+The existing `vercel.json` remains in place until you confirm the cutover.
+
+SPA routing (deep-link hard-refresh) is handled by `wrangler.jsonc`
+`not_found_handling: "single-page-application"` — **not** by a catch-all in `_redirects`.
 
 ---
 
-## Cloudflare Pages Dashboard Settings
+## Deploy Steps
 
-| Setting | Value |
-|---|---|
-| **Framework preset** | `None` (plain static site — do NOT select Vite, it overrides the build command) |
-| **Build command** | `npm run build` |
-| **Build output directory** | `dist` |
-| **Root directory** | *(leave blank — repo root)* |
-| **Node.js version** | `20.19.0` (set in `.node-version`; also set `NODE_VERSION=20` in CF env vars for safety) |
+```bash
+# 1. Build the site
+npm run build
+
+# 2. Deploy to Cloudflare Workers (requires CLOUDFLARE_API_TOKEN in env or wrangler login)
+npx wrangler deploy
+```
+
+`wrangler.jsonc` at the repo root tells Wrangler what to deploy:
+
+```jsonc
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "marshaligndentalcare",
+  "compatibility_date": "2026-11-07",
+  "assets": { "directory": "./dist", "not_found_handling": "single-page-application" }
+}
+```
 
 ---
 
-## Environment Variables (Cloudflare Pages → Settings → Environment Variables)
+## Environment Variables
 
-Set these for **Production** and **Preview** environments separately.
+Set these in Cloudflare dashboard → Workers & Pages → your worker → Settings → Variables,
+**or** via `wrangler secret put` / `wrangler deploy --var` for CI.
 
 ### Production (marshaligndentalcare.in)
 
@@ -33,7 +48,7 @@ Set these for **Production** and **Preview** environments separately.
 | `VITE_WA_PHONE` | `919025655627` | Plaintext |
 | `NODE_VERSION` | `20` | Plaintext |
 
-### Preview / Staging (*.pages.dev)
+### Staging / Preview (*.workers.dev)
 
 | Variable | Value |
 |---|---|
@@ -43,9 +58,16 @@ Set these for **Production** and **Preview** environments separately.
 | `NODE_VERSION` | `20` |
 
 > [!IMPORTANT]
-> **Never set `VITE_SITE_INDEXABLE=true` on the `*.pages.dev` domain.**
-> The `public/_headers` file already adds `X-Robots-Tag: noindex, nofollow` for
-> all `*.pages.dev` URLs as a belt-and-suspenders guard.
+> **Never set `VITE_SITE_INDEXABLE=true` on the staging domain.**
+> `public/_headers` already adds `X-Robots-Tag: noindex, nofollow` for both
+> `*.pages.dev` and `*.workers.dev` URLs as a belt-and-suspenders guard.
+
+---
+
+## Node Version
+
+Pinned to **20.19.0** via `.node-version` at the repo root. Also set
+`NODE_VERSION=20` in Cloudflare environment variables for safety.
 
 ---
 
@@ -61,24 +83,26 @@ The `VITE_SITE_INDEXABLE` env var is read at **build time** by `vite.config.ts`:
   - `index.html` → `<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">`
   - `public/robots.txt` → `Allow: /` + `Sitemap: https://marshaligndentalcare.in/sitemap.xml`
 
-To go live: set `VITE_SITE_INDEXABLE=true` in Cloudflare Pages production env vars,
-then trigger a new deploy (re-deploy the latest commit). The site instantly becomes
+To go live: set `VITE_SITE_INDEXABLE=true` in Cloudflare production env vars,
+then run `npm run build && npx wrangler deploy`. The site instantly becomes
 crawlable after that deploy.
 
 ---
 
 ## SPA Routing
 
-`public/_redirects` handles two things:
+`public/_redirects` handles **only** 301 permanent redirects:
 
-1. **301 redirects** — old individual doctor profile URLs redirect permanently to
-   `/specialists#<slug>` (matching the redirects already in `vercel.json`).
-2. **SPA fallback** — `/* /index.html 200` lets React Router handle all deep
-   links (e.g. `/gallery`, `/specialists`, `/treatments/orthodontics`) on hard
-   refresh.
+1. Old individual doctor profile URLs → `/specialists#<slug>`
 
-Cloudflare Pages serves real static files in `dist/` before consulting `_redirects`,
-so `robots.txt`, `sitemap.xml`, favicon files, and all assets are served correctly.
+The SPA fallback (deep-link hard-refresh) is handled by `wrangler.jsonc`:
+```jsonc
+"assets": { "not_found_handling": "single-page-application" }
+```
+
+> [!WARNING]
+> Do NOT add `/* /index.html 200` to `_redirects`. That line triggers Cloudflare
+> error code 100324 (infinite loop) when deploying with Workers static assets.
 
 ---
 
@@ -93,6 +117,7 @@ so `robots.txt`, `sitemap.xml`, favicon files, and all assets are served correct
 - **Permissions-Policy** — camera, microphone, geolocation blocked
 - **X-Frame-Options** — `SAMEORIGIN`
 - **Cache-Control** — immutable for `/assets/*`, `/models/*`, `/draco/*`; `no-store` for HTML
+- **X-Robots-Tag: noindex, nofollow** — applied to `*.pages.dev/*` and `*.workers.dev/*` staging URLs only
 
 ---
 
@@ -165,23 +190,27 @@ Open DevTools → Console on home, gallery, and specialists pages. Expected: 0 e
 
 Verify doctor photos, gallery, and OG image (`/clinic-reception.jpg`) load with 200.
 
-### 9. *.pages.dev Noindex Header
+### 9. Staging Noindex Header
 
 ```bash
-curl -sI https://<your-project>.pages.dev/ | grep -i x-robots
+# workers.dev staging
+curl -sI https://marshaligndentalcare.<account>.workers.dev/ | grep -i x-robots
+# pages.dev preview
+curl -sI https://marshaligndentalcare.pages.dev/ | grep -i x-robots
 ```
 
-Expected: `x-robots-tag: noindex, nofollow`.
+Expected: `x-robots-tag: noindex, nofollow` for both staging domains.
+Expected: NO `x-robots-tag` for `marshaligndentalcare.in` (production).
 
 ---
 
 ## Custom Domain Setup (at launch)
 
-1. Cloudflare Pages → **Custom domains** → Add `marshaligndentalcare.in`.
-2. Update DNS: Cloudflare will add a `CNAME` record pointing to your Pages project.
+1. Cloudflare Workers → your worker → **Triggers** → **Add Custom Domain** → `marshaligndentalcare.in`
+2. Update DNS: Cloudflare will add a `CNAME` record pointing to your Worker.
 3. SSL is provisioned automatically.
 4. Set `VITE_SITE_INDEXABLE=true` in production env vars.
-5. Trigger a new deploy.
+5. Run `npm run build && npx wrangler deploy`.
 6. Verify all checklist items above.
 7. Submit sitemap to Google Search Console.
 
@@ -191,14 +220,14 @@ Expected: `x-robots-tag: noindex, nofollow`.
 
 | File | Change |
 |---|---|
-| `public/_headers` | New — security headers + cache rules for Cloudflare Pages |
-| `public/_redirects` | New — SPA fallback + 301 redirects for old doctor profile URLs |
+| `public/_headers` | Security headers + cache rules + workers.dev noindex guard |
+| `public/_redirects` | 301 redirects for old doctor profile URLs only (no SPA catch-all) |
 | `public/robots.txt` | Generated at build time by `vite.config.ts` plugin |
-| `index.html` | `<meta name="robots">` now uses `%VITE_ROBOTS_META%` placeholder |
-| `vite.config.ts` | Added `generate-robots-txt` and `inject-robots-meta` build plugins |
-| `.node-version` | New — pins Node 20.19.0 for Cloudflare Pages builds |
-| `.env.example` | Fixed wrong domain (`marshaligndental.com` → `marshaligndentalcare.in`), added `VITE_SITE_INDEXABLE` |
+| `index.html` | `<meta name="robots">` uses `%VITE_ROBOTS_META%` placeholder |
+| `vite.config.ts` | `generate-robots-txt` and `inject-robots-meta` build plugins; `sourcemap: false` |
+| `.node-version` | Pins Node 20.19.0 for Cloudflare builds |
+| `.env.example` | Documents `VITE_SITE_URL`, `VITE_SITE_INDEXABLE`, `VITE_WA_PHONE` |
+| `wrangler.jsonc` | Workers static assets config: dist dir + SPA not_found_handling |
 | `docs/CLOUDFLARE-DEPLOY.md` | This file — deployment guide |
 
 `vercel.json` is **kept unchanged** until you confirm Vercel cutover.
-

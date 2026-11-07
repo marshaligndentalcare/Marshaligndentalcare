@@ -1,19 +1,15 @@
-# Cloudflare Pages _redirects
+﻿# Cloudflare Pages _redirects
 # https://developers.cloudflare.com/pages/configuration/redirects/
 #
 # Rule order: first matching rule wins. Static files in /dist are served BEFORE
 # these rules, so real assets (JS, CSS, images, sitemap.xml, robots.txt) are
 # never intercepted by the SPA fallback.
 
-# ── 301 redirects: old individual doctor profile URLs ────────────────────────
+# -- 301 redirects: old individual doctor profile URLs ------------------------
 # These were removed when profiles were merged into /specialists#<slug>.
 /specialists/dr-marshal-antony   /specialists#dr-marshal-antony  301
 /specialists/dr-jose-olive       /specialists#dr-jose-olive       301
 /specialists/dr-j-sowmiya        /specialists#dr-j-sowmiya        301
 /specialists/dr-meenakshi        /specialists#dr-meenakshi        301
 
-# ── SPA fallback ─────────────────────────────────────────────────────────────
-# Serve index.html for any path that does not match a real static file.
-# Cloudflare Pages checks the filesystem first; this only fires for misses.
-/*  /index.html  200
-
+# SPA fallback is handled by wrangler.jsonc not_found_handling; do not re-add a catch-all here.
