@@ -17,7 +17,6 @@
   /* Frosted glass: neutral tint + blur */
   background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(24px) saturate(1.05);
-  -webkit-backdrop-filter: blur(24px) saturate(1.05);
   z-index: 3000;
   display: flex;
   flex-direction: column;
@@ -254,7 +253,6 @@
   .backdrop {
     /* Reduced blur on mobile for performance */
     backdrop-filter: blur(16px) saturate(1.05);
-    -webkit-backdrop-filter: blur(16px) saturate(1.05);
     background: rgba(255, 255, 255, 0.22);
     overflow-y: auto;
   }
