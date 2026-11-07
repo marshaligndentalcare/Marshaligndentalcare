@@ -1,7 +1,9 @@
 # Cloudflare Pages _headers
 # https://developers.cloudflare.com/pages/configuration/headers/
 #
-# Rule order: first match wins. More-specific patterns must come first.
+# Cloudflare MERGES headers from every matching rule. Never put Cache-Control
+# in /* because it would be combined with the specific rules above. HTML gets
+# Workers' default max-age=0, must-revalidate.
 
 # -- Staging URL guard -------------------------------------------------------
 # Prevent *.pages.dev AND *.workers.dev staging URLs from being indexed.
@@ -32,10 +34,11 @@ https://:project.:account.workers.dev/*
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-# -- HTML pages -- short cache, always revalidate ----------------------------
-# Workers static assets serves index.html for SPA routes; keep it fresh.
+# -- Security headers for all responses --------------------------------------
+# Cache-Control intentionally omitted: Cloudflare merges rules, so putting
+# it here would corrupt the immutable cache on /assets/*, /models/*, etc.
+# HTML revalidation is handled by Workers' default caching behaviour.
 /*
-  Cache-Control: public, max-age=0, must-revalidate
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
